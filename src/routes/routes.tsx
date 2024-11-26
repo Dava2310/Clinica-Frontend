@@ -12,7 +12,7 @@ import TemplatePatients from "../components/modules/patients";
 import EditPatients from "../components/modules/patients/modules/EditPatients";
 import CreateCita from "../components/modules/patients/modules/CreateCita";
 
-import { childrenTypeUsers, typeUsers } from "../config";
+import { prefixUrlsTypeUsers, typeUsers } from "../config";
 
 const tUser = "paciente";
 
@@ -26,11 +26,15 @@ const ProtectedRoute = ({ children, userRole }) => {
     return <Navigate to={"/login"}/>
   }
 
-  //Extraemos el prefijo de urls que las que puede acceder el usuario con su rol asignado
-  const correspondingModule = childrenTypeUsers.filter(e => e.type == userRole)[0];
+  //Extraemos el prefijo de urls que puede acceder el usuario con su rol asignado
+  const correspondingModule = prefixUrlsTypeUsers.filter(e => e.type == userRole)[0];
+
+  //Si tiene sesion activa e intenta redirigir al login redireccionamos al home de su respectivo modulo
+  if(location.pathname.includes('/login')){
+    return <Navigate to={correspondingModule.url}/>;
+  }
   
   // Si no cumple con los requerimientos para acceder, se redirige al home del usuario correspondiente
- 
   if (userRole === typeUsers.doctor && location.pathname.includes(correspondingModule.url)) {
     return children; // Permite acceso a rutas de doctores
   } else if (userRole === typeUsers.paciente && location.pathname.includes(correspondingModule.url)) {
@@ -40,7 +44,6 @@ const ProtectedRoute = ({ children, userRole }) => {
   return <Navigate to={correspondingModule.url}/>;
 };
 
-
 export const routes = [
   {
     loader: () => {
@@ -49,7 +52,11 @@ export const routes = [
       // }
   },
     path:'/',
-    element:<Main/>,
+    element:(
+      <ProtectedRoute userRole={tUser}>
+        <Main />
+      </ProtectedRoute>
+    ),
     errorElement:'Ha ocurrido un error',
     children: [
       {
