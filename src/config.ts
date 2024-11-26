@@ -35,18 +35,37 @@ export const urlsAdministrator = [
       icon: HiUser,
       name:"Administrador",
       urls:[
-          {url:"users/create",name:"Crear Usuario"}, 
-          {url:"users/modify",name:"Modificar Usuario"},
-          {url:"users/delete",name:"Eliminar Usuario"},
-          {url:"users/view",name:"Ver Usuarios"},
+          {url:"admin/create",name:"Crear Usuario"}, 
+          {url:"admin/modify",name:"Modificar Usuario"},
+          {url:"admin/view",name:"Ver Administradores"},
       ]
   },
+  {
+    icon: HiUser,
+    name:"Doctor",
+    urls:[
+        {url:"admin/create/doctor",name:"Crear Doctor"}, 
+        {url:"admin/modify/:id/doctor",name:"Modificar Usuario"},
+        {url:"admin/view/doctor",name:"Ver Usuarios"},
+    ]
+  },
+  {
+    icon: HiUser,
+    name:"Doctor",
+    urls:[
+        {url:"users/create",name:"Crear Usuario"}, 
+        {url:"users/modify",name:"Modificar Usuario"},
+        {url:"users/delete",name:"Eliminar Usuario"},
+        {url:"users/view",name:"Ver Usuarios"},
+    ]
+  },
+
  
 ]
 
 export const nameCookieSessionApp = 'cookie_clinica_backend'
 
-export const childrenTypeUsers = [
+export const prefixUrlsTypeUsers = [
   {
     type: "doctor",
     url:"/doctors/"

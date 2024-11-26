@@ -1,7 +1,7 @@
 import flowbite from "flowbite-react/tailwind";
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content(),],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content()],
   darkMode: 'class',
   theme: {
     extend: {
@@ -27,7 +27,7 @@ export default {
     'Segoe UI Symbol', 
     'Noto Color Emoji'
   ],
-      'sans': [
+    'sans': [
     'Inter', 
     'ui-sans-serif', 
     'system-ui', 
