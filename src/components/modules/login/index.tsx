@@ -1,27 +1,34 @@
 import React from 'react'
-import { evaluateEmail, evaluatePassword } from '../../../utils/validators';
+import { useForm } from 'react-hook-form';
+import client from '../../../api/client';
+
+type Inputs = {
+  email: string
+  password: string
+}
 
 const Login = () => {
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const apiClient = client();
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors, } 
+  } =  useForm<Inputs>();
 
-    //Validamos la infomacion
-    if(!evaluateEmail(e.target.email.value)) {
-      alert('Email invalido')
-      return;
-    }
+  const onSubmit = handleSubmit( async (data) => {
+    // console.log(data)
 
-    if(!evaluatePassword(e.target.password.value)){
-      alert('Passwod invalido')
-      return;
-    }
+    const formData = new FormData();
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('tipoUsuario', "administrador")
 
-    const formData = new FormData(e.currentTarget);
-    formData.append('email', e.target.email.value);
-    formData.append('password', e.target.password.value);
+    // console.log(formData.getAll('correo'), formData.getAll('password'), formData.getAll('tipoUsuario'))
 
-  }
+    const res = await apiClient.post('/api/auth/login',formData);
+    console.log(res);
+  })
 
 
   return (
@@ -38,26 +45,43 @@ const Login = () => {
                       <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Inicia sesión en tu cuenta
                       </h1>
-                      <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                      <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
                           <div>
                               <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu correo electrónico</label>
                               <input 
-                                type="email" 
-                                name="email" 
-                                id="email" 
+                                type="email"    
                                 className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="name@company.com" 
-                                required/>
+                                { ...register("email",{
+                                  required:{
+                                    value: true,
+                                    message: "El correo electrónico es requerido",
+                                  }, 
+                                  pattern: {
+                                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                    message: "El correo no cumple con el formato requerido.",
+                                  }
+                                })}
+                               />
+                               {errors?.email && <span className=' w-full text-red-500 text-sm'>{errors.email?.message}</span>}
                           </div>
                           <div>
                               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
                               <input 
                                 type="password" 
-                                name="password" 
-                                id="password" 
-                                placeholder="••••••••" 
+                                { ...register("password",{
+                                  required:{
+                                    value: true,
+                                    message: "La contraseña es requerida",
+                                  }, 
+                                  pattern: {
+                                    value: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+                                    message: "El contraseña no cumple con el formato requerido.",
+                                  },
+                                  min:8
+                                })}  
                                 className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                required/>
+                              />
+                              {errors?.password && <span className=' w-full text-red-500 text-sm'>{errors.password?.message}</span>}
                           </div>
                           <div className="flex items-center justify-between">
                               <div className="flex items-start">
