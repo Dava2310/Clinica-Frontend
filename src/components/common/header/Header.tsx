@@ -4,8 +4,8 @@ function Header() {
   return (
     <Navbar fluid rounded>
       <Navbar.Brand href="https://flowbite-react.com">
-        <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
+        <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/>         
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Clinica Frontend</span>
       </Navbar.Brand>
       <div className="flex md:order-2">
         <Dropdown

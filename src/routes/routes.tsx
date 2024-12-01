@@ -1,37 +1,66 @@
 import Login from "../components/modules/login";
-import Citas from "../components/modules/doctors/modules/Citas"
 import Main from "../components/main/Main";
-import ViewDoctors from "../components/modules/doctors/modules/ViewDoctors";
-import EditDoctor from "../components/modules/doctors/modules/EditDoctor";
-import TemplateDoctors from "../components/modules/doctors";
-import TemplatePatients from "../components/modules/patients";
-import EditPatients from "../components/modules/patients/modules/EditPatients";
-import CreateCita from "../components/modules/patients/modules/CreateCita";
 import ProtectedRoute from "./ProtectedRoute";
+import TemplateAdministrator from "../components/modules/administrator";
 
-const tUser = "paciente";
 
-export const routes = [
-  {
-    path:'/',
-    element:(
-      <ProtectedRoute userRole={tUser}>
-        <Main />
-      </ProtectedRoute>
-    ),
-    errorElement:'Ha ocurrido un error',
-    children: [
+import ProtectedLogin from "./ProtectedLogin";
+import CreateDoctor from "../components/modules/administrator/modules/doctors/CreateDoctor";
+import ModifyDoctor from "../components/modules/administrator/modules/doctors/ModifyDoctor";
+import SeeDoctor from "../components/modules/administrator/modules/doctors/SeeDoctor";
+
+const routes = [
+  {   
+    path: "/",
+    element:(<ProtectedRoute><Main/></ProtectedRoute>),
+    errorElement:"Ha ocurrido un error",
+    children:[
       {
-        path:'/doctors/',
+        path:'/administrador/',
+        element:<TemplateAdministrator/>,
+        children:[
+          {
+            path:"crear_doctor", 
+            element:<CreateDoctor/>
+          },
+          {
+            path:"modificar_doctor",
+            element:<ModifyDoctor/>
+          },
+          {
+            path:"ver_doctores",
+            element:<SeeDoctor/>
+          },
+        ]
+      }
+    ]
+  },
+  {
+    path:'/login',
+    element:(
+      <ProtectedLogin><Login /></ProtectedLogin>
+    )
+  },
+]
+
+export default routes
+
+
+
+
+
+
+
+/*  path:'/doctors/',
         element:(
-          <ProtectedRoute userRole={tUser}>
+          <ProtectedRoute>
             <TemplateDoctors />
           </ProtectedRoute>
         ),
         children : [
-          {
-              path:"citas_pendientes",
-          },
+          // {
+          //     path:"citas_pendientes",
+          // },
           {
             path:"modify",
             element:<EditDoctor/>
@@ -45,8 +74,30 @@ export const routes = [
       {
         path:'/patients/',
         element:(
-          <ProtectedRoute userRole={tUser}>
+          <ProtectedRoute>
             <TemplatePatients />
+          </ProtectedRoute>
+        ),
+        children:[
+          {
+            path:"quotes", 
+            element:<TemplatePatients />
+          },
+          {
+            path:"modify",
+            element:<EditPatients/>
+          },
+          {
+            path:"create_quotes",
+            element:<CreateCita/>
+          }
+        ]
+      },
+      {
+        path:'/administrator/',
+        element:(
+          <ProtectedRoute>
+            <TemplateAdministrator />
           </ProtectedRoute>
         ),
         children:[
@@ -62,12 +113,4 @@ export const routes = [
             path:"create_quotes",
             element:<CreateCita/>
           }
-        ]
-      }
-    ]
-  },
-  {
-    path:'/login',
-    element:<Login/>
-  },
-];
+        ]*/

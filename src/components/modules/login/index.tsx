@@ -1,6 +1,8 @@
-import React from 'react'
 import { useForm } from 'react-hook-form';
 import client from '../../../api/client';
+import { setCookie } from '../../../utils/cookies';
+import { nameCookieSessionApp, prefixUrlsTypeUsers } from '../../../config';
+import { useNavigate } from 'react-router-dom';
 
 type Inputs = {
   email: string
@@ -8,8 +10,9 @@ type Inputs = {
 }
 
 const Login = () => {
-
   const apiClient = client();
+  const navigate = useNavigate();
+
   const { 
     register, 
     handleSubmit, 
@@ -17,19 +20,27 @@ const Login = () => {
   } =  useForm<Inputs>();
 
   const onSubmit = handleSubmit( async (data) => {
-    // console.log(data)
+     console.log(data.email, data.password)
 
     const formData = new FormData();
     formData.append('email', data.email);
     formData.append('password', data.password);
-    formData.append('tipoUsuario', "administrador")
+   
+    try {
+      const res = await apiClient.post('/api/auth/login',formData);
+      //Guardamos la cookie del usuario
+      setCookie(nameCookieSessionApp,JSON.stringify(res.data.body.data),1000);
+     
+      //Extraemos el prefijo de urls que puede acceder el usuario con su rol asignado
+      const correspondingModule = prefixUrlsTypeUsers.filter(e => e.type == res.data.body.data.tipoUsuario)[0];
+      
+      navigate(`${correspondingModule.url}`)
+      
+    } catch (error) {
+      console.log(error)
+    }
 
-    // console.log(formData.getAll('correo'), formData.getAll('password'), formData.getAll('tipoUsuario'))
-
-    const res = await apiClient.post('/api/auth/login',formData);
-    console.log(res);
-  })
-
+  });
 
   return (
     <>
@@ -49,7 +60,8 @@ const Login = () => {
                           <div>
                               <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu correo electrónico</label>
                               <input 
-                                type="email"    
+                                type="email"
+                                placeholder='micorreo@gmail.com'    
                                 className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                 { ...register("email",{
                                   required:{
@@ -67,7 +79,8 @@ const Login = () => {
                           <div>
                               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
                               <input 
-                                type="password" 
+                                type="password"
+                                placeholder='********' 
                                 { ...register("password",{
                                   required:{
                                     value: true,

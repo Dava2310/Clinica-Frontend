@@ -5,7 +5,7 @@ import { nameCookieSessionApp } from "../config";
 // import { readError } from "../utils/readErrors";
 
 const instance = axios.create({
-    baseURL: 'http://127.0.0.1:4000/',
+    baseURL: 'http://127.0.0.1:4000',
 });
 
 instance.interceptors.request.use((request) => {

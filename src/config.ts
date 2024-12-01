@@ -23,9 +23,9 @@ export const urlsPatients = [
       icon: HiUser,
       name:"Pacientes",
       urls:[
-          {url:"patients/create_quotes",name:"Crear cita"}, 
-          {url:"patients/modify",name:"Modificar datos"},
-          {url:"patients/quotes",name:"Ver citas"},
+          {url:"create_quotes",name:"Crear cita"}, 
+          {url:"modify",name:"Modificar datos"},
+          {url:"quotes",name:"Ver citas"},
       ]
   },
 ]
@@ -44,19 +44,9 @@ export const urlsAdministrator = [
     icon: HiUser,
     name:"Doctor",
     urls:[
-        {url:"admin/create/doctor",name:"Crear Doctor"}, 
-        {url:"admin/modify/:id/doctor",name:"Modificar Usuario"},
-        {url:"admin/view/doctor",name:"Ver Usuarios"},
-    ]
-  },
-  {
-    icon: HiUser,
-    name:"Doctor",
-    urls:[
-        {url:"users/create",name:"Crear Usuario"}, 
-        {url:"users/modify",name:"Modificar Usuario"},
-        {url:"users/delete",name:"Eliminar Usuario"},
-        {url:"users/view",name:"Ver Usuarios"},
+        {url:"administrador/crear_doctor",name:"Crear Doctor"}, 
+        {url:"administrador/modificar_doctor",name:"Modificar Doctor"},
+        {url:"administrador/ver_doctores",name:"Ver Doctores"},
     ]
   },
 
@@ -64,19 +54,26 @@ export const urlsAdministrator = [
 ]
 
 export const nameCookieSessionApp = 'cookie_clinica_backend'
+export const nameRefrehshCookieSessionApp = 'refresh_cookie_clinica_backend'
+export const dataUserToken = 'data_user'
 
 export const prefixUrlsTypeUsers = [
   {
     type: "doctor",
-    url:"/doctors/"
+    url:"/doctor/",
   },
   {
     type:"paciente",
-    url:"/patients/"
+    url:"/paciente/",
+  },
+  {
+    type:"administrador",
+    url:"/administrador/",
   },
 ]
 
 export const typeUsers = { 
   doctor: "doctor", 
-  paciente: "paciente" 
+  paciente: "paciente",
+  administrador: "administrador" 
 }

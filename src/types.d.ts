@@ -15,3 +15,11 @@ export type ErrForActions = {
     status:number,
     statusText:string
 }
+
+export type PropsToken = {
+    accessToken: string,
+    refreshToken: string,
+    nombre: string,
+    apellido:string,
+    tipoUsuario:string
+  }
