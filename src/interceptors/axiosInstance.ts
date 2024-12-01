@@ -12,7 +12,7 @@ instance.interceptors.request.use((request) => {
     if (request.url?.includes('login') || request.url?.includes('signUp')) return request;
 
     const token = getCookie(nameCookieSessionApp);
-    request.headers.Authorization = `Bearer ${token}`;
+    request.headers.Authorization = `Bearer ${token?.accessToken}`;
     return request;
 });
 
