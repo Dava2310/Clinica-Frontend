@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import client from '../../../../../api/client';
 import { useForm } from 'react-hook-form';
+import { toaster } from '../../../../../utils/toaster'
+import Alert from '../../../../common/alert/Alert';
+
 
 type Inputs = {
   name:string,
@@ -14,17 +17,20 @@ type Inputs = {
 
 const CreateDoctor = () => {
 
+  const [errorP,setErrorP] = useState<string | undefined>();
   const apiClient = client();
-  
+  const {ToastContainer, messageToast} = toaster();
+
+ 
   const { 
     register, 
-    handleSubmit, 
-    formState: { errors, } 
+    handleSubmit,
+    reset, 
+    formState: { errors,} 
   } =  useForm<Inputs>();
 
   const onSubmit = handleSubmit( async (data) => {
-    console.log(data)
-
+    
    const formData = new FormData();
    formData.append('nombre', data.name);
    formData.append('apellido', data.lastname);
@@ -36,18 +42,30 @@ const CreateDoctor = () => {
    formData.append('tipoUsuario','doctor');
   
    try {
-     const res = await apiClient.post('/api/auth/register',formData);
-     console.log(res)
-    
-   } catch (error) {
-     console.log(error)
+    const res = await apiClient.post('/api/auth/register',formData); 
+    if(res.status === 201) {
+      reset()
+      messageToast({
+        message:res.data.body.message,
+        position:'bottom-right',
+        theme:'colored',
+        type:'success'
+      });
+      setErrorP('')
+    }
+   } catch (err) {
+     console.log(err)
+     const message = err?.response.data.body.message;
+     setErrorP(message)
    }
-
  });
 
   return (
     // Container
-    <div className='w-full h-full p-4'>
+    <>
+      {errorP && <Alert message={errorP} type={'error'}/>}
+
+      <div className='w-full h-full p-4'>
       {/* Formulario */}
       <form action="" onSubmit={onSubmit} className='border-2 border-gray-300 rounded-md p-4 bg-gray-50 h-full overflow-hidden'>
         
@@ -116,7 +134,8 @@ const CreateDoctor = () => {
                   min:{
                     value: 8,
                     message:"La cédula debe tener minimo 8 dígitos"
-                  }
+                  },
+                  
                 })}  
                 className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
               />
@@ -210,7 +229,8 @@ const CreateDoctor = () => {
                   min:{
                     value: 11,
                     message:"El número debe tener minimo 11 dígitos"
-                  }
+                  },
+                  
                 })}  
                 className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
               />
@@ -225,7 +245,9 @@ const CreateDoctor = () => {
         </div>
 
       </form>
-    </div>
+     <ToastContainer/>
+     </div>
+    </>
   )
 }
 
