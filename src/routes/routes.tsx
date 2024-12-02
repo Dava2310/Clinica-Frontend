@@ -24,7 +24,7 @@ const routes = [
             element:<CreateDoctor/>
           },
           {
-            path:"modificar_doctor",
+            path:"modificar_doctor/:id",
             element:<ModifyDoctor/>
           },
           {
@@ -38,7 +38,7 @@ const routes = [
   {
     path:'/login',
     element:(
-      <ProtectedLogin><Login /></ProtectedLogin>
+      <ProtectedLogin><Login/></ProtectedLogin>
     )
   },
 ]

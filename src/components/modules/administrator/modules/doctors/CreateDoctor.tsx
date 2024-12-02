@@ -128,7 +128,7 @@ const CreateDoctor = () => {
                     message: "La cédula es requerida",
                   }, 
                   pattern: {
-                    value: /^[0-9]+$/,
+                    value: /^\d{8}$/,
                     message: "La cédula no cumple con el formato requerido.",
                   }, 
                   min:{
@@ -223,7 +223,7 @@ const CreateDoctor = () => {
                     message: "El número es requerido",
                   }, 
                   pattern: {
-                    value: /^[0-9]+$/,
+                    value: /^\d{11}$/,
                     message: "El número no cumple con el formato requerido.",
                   }, 
                   min:{
