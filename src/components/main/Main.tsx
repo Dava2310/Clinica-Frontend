@@ -18,7 +18,7 @@ function Main() {
             <div className="border-r-2 border-t-2 border-gray-200">
                 <MySideBar />
             </div>
-            <div className="w-full max-h-full overflow-auto">
+            <div className="w-full">
               <Outlet/>
             </div>
           </div>
