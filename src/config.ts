@@ -31,21 +31,21 @@ export const urlsPatients = [
 ]
 
 export const urlsAdministrator = [
-  {
-      icon: HiUser,
-      name:"Administrador",
-      urls:[
-          {url:"admin/create",name:"Crear Usuario"}, 
-          {url:"admin/modify",name:"Modificar Usuario"},
-          {url:"admin/view",name:"Ver Administradores"},
-      ]
-  },
+  // {
+  //     icon: HiUser,
+  //     name:"Administrador",
+  //     urls:[
+  //         {url:"admin/create",name:"Crear Usuario"}, 
+  //         {url:"admin/modify",name:"Modificar Usuario"},
+  //         {url:"admin/view",name:"Ver Administradores"},
+  //     ]
+  // },
   {
     icon: HiUser,
     name:"Doctor",
     urls:[
-        {url:"administrador/crear_doctor",name:"Crear Doctor"}, 
-        {url:"administrador/modificar_doctor",name:"Modificar Doctor"},
+        // {url:"administrador/crear_doctor",name:"Crear Doctor"}, 
+        // {url:"administrador/modificar_doctor",name:"Modificar Doctor"},
         {url:"administrador/ver_doctores",name:"Ver Doctores"},
     ]
   },
