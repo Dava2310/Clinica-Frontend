@@ -14,7 +14,7 @@ const SeeDoctor = () => {
 
   const fetchDoctors = async () => {
     try {
-      const res = await apiClient.get('api/users/doctor');
+      const res = await apiClient.get('api/users/tipo/doctor');
       if(res.status === 200){
         setDoctors(res.data.body.data)
       }

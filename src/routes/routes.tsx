@@ -24,7 +24,7 @@ const routes = [
             element:<CreateDoctor/>
           },
           {
-            path:"modificar_doctor/:id",
+            path:"modificar_doctor/:userId",
             element:<ModifyDoctor/>
           },
           {

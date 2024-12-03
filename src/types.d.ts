@@ -3,7 +3,8 @@ export type RoutesApp = '/'
     | '/signup'
     | '/profile';
 
-export type users = 'administrador' | 'doctor' | 'paciente'
+    export type idUser = number;
+    export type users = 'administrador' | 'doctor' | 'paciente' | idUser
 
 export type EndPointApi = '/api/auth/login'
     |'/api/auth/register'
@@ -12,7 +13,8 @@ export type EndPointApi = '/api/auth/login'
     |'/api/auth/refresh-token'
     |'/api/auth/logout'
     |'/api/auth/changePassword'
-    | `api/users/${users}`
+    |`api/users/tipo/${users}`
+    |`api/users/${string}`
 
 export type ErrForActions = {
     status:number,
