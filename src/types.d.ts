@@ -13,8 +13,10 @@ export type EndPointApi = '/api/auth/login'
     |'/api/auth/refresh-token'
     |'/api/auth/logout'
     |'/api/auth/changePassword'
-    |`api/users/tipo/${users}`
-    |`api/users/${string}`
+    |`/api/users/tipo/${users}`
+    |`/api/users/${string}`
+    |'/api/doctores/'
+    |`/api/doctores/${string}`
 
 export type ErrForActions = {
     status:number,
