@@ -14,11 +14,15 @@ const client = () => {
         return axiosInstance.put(endPoint, body, { signal });
     };
 
+    const patch = async (endPoint: EndPointApi, body?: FormData, signal?: AbortSignal) => {
+        return axiosInstance.patch(endPoint, body, { signal });
+    };
+
     const del = async (endPoint: EndPointApi, signal?: AbortSignal) => {
         return axiosInstance.delete(endPoint, { signal });
     };
 
-    return { get, post, put, del };
+    return { get, post, put, del, patch };
 };
 
 export default client;
