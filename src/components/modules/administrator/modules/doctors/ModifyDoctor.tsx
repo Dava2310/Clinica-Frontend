@@ -3,7 +3,7 @@ import client from '../../../../../api/client';
 import { useForm } from 'react-hook-form';
 import { toaster } from '../../../../../utils/toaster'
 import Alert from '../../../../common/alert/Alert';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 type Inputs = {
@@ -22,6 +22,7 @@ const ModifyDoctor = () => {
   const apiClient = client();
   const {ToastContainer, messageToast} = toaster();
   const params = useParams();
+  const navigate = useNavigate();
 
   console.log(params.userId)
 
@@ -46,17 +47,18 @@ const ModifyDoctor = () => {
    formData.append('tipoUsuario','doctor');
   
    try {
-    const res = await apiClient.post('/api/auth/register',formData); 
-    if(res.status === 201) {
-      reset()
-      messageToast({
-        message:res.data.body.message,
-        position:'bottom-right',
-        theme:'colored',
-        type:'success'
-      });
-      setErrorP('')
-    }
+    const res = await apiClient.patch(`/api/users/${params.userId}`,formData); 
+    console.log(res)
+    // if(res.status === 201) {
+    //   reset()
+    //   messageToast({
+    //     message:res.data.body.message,
+    //     position:'bottom-right',
+    //     theme:'colored',
+    //     type:'success'
+    //   });
+    //   setErrorP('')
+    // }
    } catch (err) {
      console.log(err)
      const message = err?.response.data.body.message;
@@ -66,16 +68,29 @@ const ModifyDoctor = () => {
 
   const fetchDoctor = async () => {
     try {
-      const res = await apiClient.get(`api/users/${params.userId}`);
+      const res = await apiClient.get(`api/doctores/${params.userId}`);
       if(res.status === 200){
         const dataDoctor = {...res?.data.body.data};
-        console.log(dataDoctor)
-
-        // setValue("name",)
+        setValue("name",dataDoctor.nombre)
+        setValue("lastname",dataDoctor.apellido)
+        setValue("cedula",dataDoctor.cedula)
+        setValue("email",dataDoctor.email)
+        setValue("especialidad",dataDoctor.especialidad)
+        setValue("numero_telefono",dataDoctor.numeroTelefono)
       }
-      
     } catch (error) {
-      console.log(error)
+      if(error.response.data.statusCode === 404){
+        messageToast({
+          message:error.response.data.body.message,
+          position:'bottom-right',
+          theme:'colored',
+          type:'error'
+        });
+
+        setTimeout(() => {
+          navigate('/administrador/ver_doctores')
+        },3000)
+      }
     }
   }
 
