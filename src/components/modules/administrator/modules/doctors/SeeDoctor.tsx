@@ -3,14 +3,16 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Table } from "flowbite-react";
 import client from '../../../../../api/client';
 import MyModal from '../../../../common/alert/Modal';
+import { toaster } from '../../../../../utils/toaster';
 
 const SeeDoctor = () => {
 
   const [doctors, setDoctors] = useState();
-  const [doctor, setDoctor] = useState();
+  const [doctorABorrar, setDoctorABorrar] = useState<number>()
   const [openModal, setOpenModal] = useState(false);
   const apiClient = client();
   const navigate = useNavigate();
+  const {ToastContainer, messageToast} = toaster();
 
   const redirecToCreateADoctor = () => navigate('/administrador/crear_doctor')
   const fetchDoctors = async () => {
@@ -21,27 +23,44 @@ const SeeDoctor = () => {
       }
       
     } catch (error) {
-      console.log(error)
+      //Redireccionamos por no estar autenticado
+      if(error?.response?.data.statusCode === 401){
+        navigate('/login');
+      }
     }
   }
-  const onChange = (e) => {
-    const data = e.target.value;
-
-    //Colocar debounce 
-
-    // const doctoresFiltrados = doctors.map(e => e).filter(d => {
-    //   const nombre = `${d.nombre} ${d.apellido}`
-
+  
+  const deleteUser = async() => {
+    try {
+      const res = await apiClient.del(`/api/users/${doctorABorrar}`);
+      if(res.status === 200){
+        messageToast({
+          message:res.data.body.message,
+          position:'bottom-right',
+          theme:'colored',
+          type:'success'
+        });
+        setDoctorABorrar(undefined)
+        closeModal();
+      }
       
-    // });
+    } catch (error) {
+      //Redireccionamos por no estar autenticado
+      if(error?.response?.data.statusCode === 401){
+        navigate('/login');
+      }
 
-    //console.log(doctoresFiltrados)
-    //setDoctor(data);
+
+    }
+
   }
 
-  const deleteUser = () => {}
+
   const closeModal = () => setOpenModal(false);
-  const modalOpen = () => setOpenModal(true)
+  const modalOpen = (e) => {
+    setDoctorABorrar(e)
+    setOpenModal(true)
+  }
   
   useEffect(() => {
     const fetch = async() => {
@@ -64,7 +83,6 @@ const SeeDoctor = () => {
           <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
           <input 
             type="text"
-            onChange={onChange}
             placeholder='Ingresa un nombre'    
             className="bg-gray-100 border border-gray-500 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"    
           />         
@@ -103,7 +121,9 @@ const SeeDoctor = () => {
                       <Link to={`/administrador/modificar_doctor/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
                       <button 
                         type="button"
-                        onClick={modalOpen}
+                        onClick={() => {
+                          modalOpen(e.id) 
+                        }}
                         className="w-24  text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                           Eliminar
                       </button>

@@ -128,7 +128,7 @@ const ModifyDoctor = () => {
                     message: "El nombre es requerido",
                   }, 
                   pattern: {
-                    value: /^[A-Za-z]+$/,
+                    value: /^[A-Za-z ]+$/,
                     message: "El nombre no cumple con el formato requerido.",
                   }
                 })}
@@ -147,7 +147,7 @@ const ModifyDoctor = () => {
                     message: "El apellido es requerido",
                   }, 
                   pattern: {
-                    value: /^[A-Za-z]+$/,
+                    value: /^[A-Za-z ]+$/,
                     message: "El apellido no cumple con el formato requerido.",
                   }
                 })}  

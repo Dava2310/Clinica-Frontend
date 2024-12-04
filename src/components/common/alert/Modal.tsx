@@ -14,8 +14,7 @@ function MyModal({title, textButton, openModal, closeModal, deleteUser}:PropsMod
   
   return (
     <>
-      <Button onClick={() => closeModal}>Toggle modal</Button>
-      <Modal show={openModal} size="md" onClose={() => closeModal} popup>
+      <Modal show={openModal} size="md" onClose={closeModal} popup>
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
@@ -24,10 +23,10 @@ function MyModal({title, textButton, openModal, closeModal, deleteUser}:PropsMod
               {title}
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={() => deleteUser}>
+              <Button color="failure" onClick={deleteUser}>
                 {textButton}
               </Button>
-              <Button color="gray" onClick={() => closeModal}>
+              <Button color="gray" onClick={closeModal}>
                 No
               </Button>
             </div>
