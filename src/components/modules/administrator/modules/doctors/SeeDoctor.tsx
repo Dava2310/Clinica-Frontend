@@ -2,19 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Table } from "flowbite-react";
 import client from '../../../../../api/client';
+import MyModal from '../../../../common/alert/Modal';
 
 const SeeDoctor = () => {
 
   const [doctors, setDoctors] = useState();
   const [doctor, setDoctor] = useState();
-  const navigate = useNavigate();
-  const redirecToCreateADoctor = () => navigate('/administrador/crear_doctor')
-  const redirecToModifyADoctor = (id:number) => navigate(`/administrador/modify/${id}`)
+  const [openModal, setOpenModal] = useState(false);
   const apiClient = client();
+  const navigate = useNavigate();
 
+  const redirecToCreateADoctor = () => navigate('/administrador/crear_doctor')
   const fetchDoctors = async () => {
     try {
-      const res = await apiClient.get('api/users/tipo/doctor');
+      const res = await apiClient.get('/api/doctores/');
       if(res.status === 200){
         setDoctors(res.data.body.data)
       }
@@ -23,7 +24,6 @@ const SeeDoctor = () => {
       console.log(error)
     }
   }
-
   const onChange = (e) => {
     const data = e.target.value;
 
@@ -39,14 +39,15 @@ const SeeDoctor = () => {
     //setDoctor(data);
   }
 
+  const deleteUser = () => {}
+  const closeModal = () => setOpenModal(false);
+  const modalOpen = () => setOpenModal(true)
+  
   useEffect(() => {
-
     const fetch = async() => {
       await fetchDoctors();
     }
-
     fetch();
-
   },[])
    
   return (
@@ -99,15 +100,20 @@ const SeeDoctor = () => {
                     <Table.Cell>{e.especialidad}</Table.Cell>
                     <Table.Cell>{e.numeroTelefono}</Table.Cell>
                     <Table.Cell className='flex gap-x-2'>
-                    <Link to={`/administrador/modificar_doctor/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
-                    <button type="button" className="w-24  text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Eliminar</button>
+                      <Link to={`/administrador/modificar_doctor/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
+                      <button 
+                        type="button"
+                        onClick={modalOpen}
+                        className="w-24  text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                          Eliminar
+                      </button>
                     </Table.Cell>
                   </Table.Row>
-                  
                 })
             }
           </Table.Body>
         </Table>
+        <MyModal closeModal={closeModal} deleteUser={deleteUser} openModal={openModal} title='¿Está seguro de eliminar el usuario?' textButton='Eliminar'/>
       </div>
     </div>
   )
