@@ -5,33 +5,35 @@ import client from '../../../../../api/client';
 import MyModal from '../../../../common/alert/Modal';
 import { toaster } from '../../../../../utils/toaster';
 
-type Doctor = {
+type Patient = {
   id:number,
   userId:number,
   nombre:string,
   apellido:string,
   cedula:string,
   email:string,
-  especialidad:string,
   numeroTelefono:string
+  tipoSangre: string,
+  direccion: string,
+  seguroMedico:string
 }
-const SeeDoctor = () => {
+const SeePatient = () => {
 
   // States
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [filteredDoctors, setFilteredDoctors] = useState<Doctor[]>([]);
+  const [patients, setpatients] = useState<Patient[]>([]);
+  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
   const [openModal, setOpenModal] = useState(false);
-  const [doctorABorrar, setDoctorABorrar] = useState<number>()
+  const [patientABorrar, setPatientABorrar] = useState<number>()
  
   const navigate = useNavigate();
   const apiClient = client();
   const {ToastContainer, messageToast} = toaster();
 
-  const filterDoctors = (e) => {
+  const filterPatients = (e) => {
     const param = e.target.value;
 
-    let filter = doctors.filter((doctor) => {
-      const doc = `${doctor.nombre} ${doctor.apellido}`;
+    let filter = patients.filter((patient) => {
+      const doc = `${patient.nombre} ${patient.apellido}`;
       return doc.
         toLowerCase()
         .split(' ')
@@ -41,30 +43,30 @@ const SeeDoctor = () => {
 
     if(e.target.value === "") filter = [];
     
-    setFilteredDoctors(filter)
+    setFilteredPatients(filter)
   }
 
-  const redirecToCreateADoctor = () => navigate('/administrador/crear_doctor')
+  const redirecToCreateAPatient = () => navigate('/administrador/crear_paciente')
   
   const modalOpen = (e) => {
     //Seteamos el doctor a borrar
-    setDoctorABorrar(e);
+    setPatientABorrar(e);
     //Abrimos el modal
     setOpenModal(true)
   };
 
   const closeModal = () => {
     //Limpiamos el estado del doctor a borrar
-    setDoctorABorrar(undefined)
+    setPatientABorrar(undefined)
     //Cerramos el modal
     setOpenModal(false)
   };
 
-  const fetchDoctors = async () => {
+  const fetchPatients = async () => {
     try {
-      const res = await apiClient.get('/api/doctores/');
+      const res = await apiClient.get('/api/pacientes/');
       if(res.status === 200){
-        setDoctors(res.data.body.data)
+        setpatients(res.data.body.data)
       }
       
     } catch (error) {
@@ -77,7 +79,7 @@ const SeeDoctor = () => {
   
   const deleteUser = async() => {
     try {
-      const res = await apiClient.del(`/api/doctores/${doctorABorrar}`);
+      const res = await apiClient.del(`/api/doctores/${patientABorrar}`);
       if(res.status === 200){
         messageToast({
           message:res.data.body.message,
@@ -87,10 +89,10 @@ const SeeDoctor = () => {
         });
 
         //Eliminamos el doctor borrado del estado
-        const d = doctors.filter(e => e.id !== doctorABorrar);
-        setDoctors(d)
+        const d = patients.filter(e => e.id !== patientABorrar);
+        setpatients(d)
         //Limpiamos el estado del doctor a borrar
-        setDoctorABorrar(undefined)
+        setPatientABorrar(undefined)
         closeModal();
       }
       
@@ -104,7 +106,7 @@ const SeeDoctor = () => {
 
   useEffect(() => {
     const fetch = async() => {
-      await fetchDoctors();
+      await fetchPatients();
     }
     fetch();
   },[]);
@@ -116,14 +118,14 @@ const SeeDoctor = () => {
       <div className='w-full flex justify-between items-center gap-x-4 border-2 border-gray-300 rounded-md p-2 bg-gray-50'>
         
         {/* Button */}
-        <button type="button" onClick={redirecToCreateADoctor} className="w-44 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Registrar doctor</button>
+        <button type="button" onClick={redirecToCreateAPatient} className="w-44 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Registrar paciente</button>
         
         {/* Buscador */}
         <div className='sm:w-full lg:w-[30%]'>
           <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
           <input 
             type="text"
-            onChange={filterDoctors}
+            onChange={filterPatients}
             placeholder='Ingresa un nombre'    
             className="bg-gray-100 border border-gray-500 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"    
           />         
@@ -138,7 +140,7 @@ const SeeDoctor = () => {
             <Table.HeadCell>Nombre</Table.HeadCell>
             <Table.HeadCell>Cédula</Table.HeadCell>
             <Table.HeadCell>Email</Table.HeadCell>
-            <Table.HeadCell>Especialidad</Table.HeadCell>
+            <Table.HeadCell>Seguro médico</Table.HeadCell>
             <Table.HeadCell>Teléfono</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
@@ -147,16 +149,16 @@ const SeeDoctor = () => {
       
           <Table.Body className="divide-y">
             {
-              filteredDoctors.length > 0
+              filteredPatients.length > 0
                 ?
-                  filteredDoctors.map(e => {
+                  filteredPatients.map(e => {
                     return <Table.Row key={e.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {e.nombre} {e.apellido}
                       </Table.Cell>
                       <Table.Cell>{e.cedula}</Table.Cell>
                       <Table.Cell>{e.email}</Table.Cell>
-                      <Table.Cell>{e.especialidad}</Table.Cell>
+                      <Table.Cell>{e.seguroMedico}</Table.Cell>
                       <Table.Cell>{e.numeroTelefono}</Table.Cell>
                       <Table.Cell className='flex gap-x-2'>
                         <Link to={`/administrador/modificar_doctor/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
@@ -172,14 +174,14 @@ const SeeDoctor = () => {
                     </Table.Row>
                   })
                 :
-                  doctors.map(e => {
+                  patients.map(e => {
                     return <Table.Row key={e.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {e.nombre} {e.apellido}
                       </Table.Cell>
                       <Table.Cell>{e.cedula}</Table.Cell>
                       <Table.Cell>{e.email}</Table.Cell>
-                      <Table.Cell>{e.especialidad}</Table.Cell>
+                      <Table.Cell>{e.seguroMedico}</Table.Cell>
                       <Table.Cell>{e.numeroTelefono}</Table.Cell>
                       <Table.Cell className='flex gap-x-2'>
                         <Link to={`/administrador/modificar_doctor/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
@@ -210,4 +212,4 @@ const SeeDoctor = () => {
   )
 }
 
-export default SeeDoctor
+export default SeePatient

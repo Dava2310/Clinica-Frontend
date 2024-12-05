@@ -3,6 +3,7 @@ import client from '../../../../../api/client';
 import { useForm } from 'react-hook-form';
 import { toaster } from '../../../../../utils/toaster'
 import Alert from '../../../../common/alert/Alert';
+import { regexName_lastname } from '../../../../../utils/validators';
 
 
 type Inputs = {
@@ -89,7 +90,7 @@ const CreateDoctor = () => {
                     message: "El nombre es requerido",
                   }, 
                   pattern: {
-                    value: /^[A-Za-z ]+$/,
+                    value: regexName_lastname,
                     message: "El nombre no cumple con el formato requerido.",
                   }
                 })}
@@ -108,7 +109,7 @@ const CreateDoctor = () => {
                     message: "El apellido es requerido",
                   }, 
                   pattern: {
-                    value: /^[A-Za-z ]+$/,
+                    value: regexName_lastname,
                     message: "El apellido no cumple con el formato requerido.",
                   }
                 })}  

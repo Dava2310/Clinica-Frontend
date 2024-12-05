@@ -1,12 +1,7 @@
-export const evaluatePassword = (password:string):boolean => {
-  const regexContrasenia = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-  return regexContrasenia.test(password);
-}
-
-export const evaluateEmail = (email:string):boolean => {
-  const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return regexEmail.test(email);
-}
+export const regexContrasenia = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+export const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+export const regexName_lastname = /^[A-Za-záéíóúÁÉÍÓÚñÑ ]+$/;
+ 
 
 
 

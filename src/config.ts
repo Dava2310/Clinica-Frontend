@@ -44,9 +44,14 @@ export const urlsAdministrator = [
     icon: HiUser,
     name:"Doctor",
     urls:[
-        // {url:"administrador/crear_doctor",name:"Crear Doctor"}, 
-        // {url:"administrador/modificar_doctor",name:"Modificar Doctor"},
         {url:"administrador/ver_doctores",name:"Ver Doctores"},
+    ]
+  },
+  {
+    icon: HiUser,
+    name:"Paciente",
+    urls:[
+        {url:"administrador/ver_pacientes",name:"Ver Pacientes"},
     ]
   },
 

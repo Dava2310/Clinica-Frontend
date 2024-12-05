@@ -8,6 +8,9 @@ import ProtectedLogin from "./ProtectedLogin";
 import CreateDoctor from "../components/modules/administrator/modules/doctors/CreateDoctor";
 import ModifyDoctor from "../components/modules/administrator/modules/doctors/ModifyDoctor";
 import SeeDoctor from "../components/modules/administrator/modules/doctors/SeeDoctor";
+import CreatePatient from "../components/modules/administrator/modules/patients/CreatePatient";
+import ModifyPatient from "../components/modules/administrator/modules/patients/ModifyPatient";
+import SeePatient from "../components/modules/administrator/modules/patients/SeePatient";
 
 const routes = [
   {   
@@ -30,6 +33,18 @@ const routes = [
           {
             path:"ver_doctores",
             element:<SeeDoctor/>
+          },
+          {
+            path:"crear_paciente", 
+            element:<CreatePatient/>
+          },
+          {
+            path:"modificar_paciente/:userId",
+            element:<ModifyPatient/>
+          },
+          {
+            path:"ver_pacientes",
+            element:<SeePatient/>
           },
         ]
       }
