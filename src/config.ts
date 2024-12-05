@@ -54,6 +54,13 @@ export const urlsAdministrator = [
         {url:"administrador/ver_pacientes",name:"Ver Pacientes"},
     ]
   },
+  {
+    icon: HiUser,
+    name:"Administrador",
+    urls:[
+        {url:"administrador/ver_administradores",name:"Ver Pacientes"},
+    ]
+  },
 
  
 ]
