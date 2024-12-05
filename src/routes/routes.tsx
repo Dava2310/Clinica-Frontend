@@ -11,6 +11,9 @@ import SeeDoctor from "../components/modules/administrator/modules/doctors/SeeDo
 import CreatePatient from "../components/modules/administrator/modules/patients/CreatePatient";
 import ModifyPatient from "../components/modules/administrator/modules/patients/ModifyPatient";
 import SeePatient from "../components/modules/administrator/modules/patients/SeePatient";
+import SeeAdmin from "../components/modules/administrator/modules/adminitrators/SeeAdmin";
+import CreateAdmin from "../components/modules/administrator/modules/adminitrators/CreateAdmin";
+import ModifyAdmin from "../components/modules/administrator/modules/adminitrators/ModifyAdmin";
 
 const routes = [
   {   
@@ -45,6 +48,18 @@ const routes = [
           {
             path:"ver_pacientes",
             element:<SeePatient/>
+          },
+          {
+            path:"crear_administrador", 
+            element:<CreateAdmin/>
+          },
+          {
+            path:"modificar_administrador/:userId",
+            element:<ModifyAdmin/>
+          },
+          {
+            path:"ver_administradores",
+            element:<SeeAdmin/>
           },
         ]
       }
