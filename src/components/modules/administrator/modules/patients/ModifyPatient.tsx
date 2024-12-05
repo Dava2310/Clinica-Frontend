@@ -42,17 +42,15 @@ const ModifyPatient = () => {
    formData.append('nombre', data.name);
    formData.append('apellido', data.lastname);
    formData.append('cedula', data.cedula);
-   formData.append('password', data.password);
    formData.append('email', data.email);
    formData.append('numeroTelefono', data.numeroTelefono);
    formData.append('tipoSangre', data.tipoSangre);
    formData.append('direccion', data.direccion);
    formData.append('seguroMedico', data.seguroMedico);
-   formData.append('tipoUsuario','paciente');
   
    try {
-    const res = await apiClient.post('/api/auth/register',formData); 
-    if(res.status === 201) {
+    const res = await apiClient.patch(`/api/pacientes/${params.userId}`,formData); 
+    if(res.status === 200) {
       reset()
       messageToast({
         message:res.data.body.message,
@@ -80,15 +78,16 @@ const ModifyPatient = () => {
   try {
     const res = await apiClient.get(`api/pacientes/${params.userId}`);
     if(res.status === 200){
-      const dataDoctor = {...res?.data.body.data};
-      setValue("name",dataDoctor.nombre)
-      setValue("lastname",dataDoctor.apellido)
-      setValue("cedula",dataDoctor.cedula)
-      setValue("email",dataDoctor.email)
-      setValue("seguroMedico",dataDoctor.seguroMedido)
-      setValue("direccion",dataDoctor.direccion)
-      setValue("tipoSangre",dataDoctor.tipoSangre)
-      setValue("numeroTelefono",dataDoctor.numeroTelefono)
+      const dataPaciente = {...res?.data.body.data};
+      console.log(dataPaciente)
+      setValue("name",dataPaciente.nombre)
+      setValue("lastname",dataPaciente.apellido)
+      setValue("cedula",dataPaciente.cedula)
+      setValue("email",dataPaciente.email)
+      setValue("seguroMedico",dataPaciente.seguroMedico)
+      setValue("direccion",dataPaciente.direccion)
+      setValue("tipoSangre",dataPaciente.tipoSangre)
+      setValue("numeroTelefono",dataPaciente.numeroTelefono)
     }
   } catch (error) {
     if(error.response.data.statusCode === 404){
@@ -218,27 +217,7 @@ useEffect(() => {
                 />
                 {errors?.email && <span className=' w-full text-red-500 text-sm'>{errors.email?.message}</span>}
             </div>
-            {/* password */}
-            <div className='sm:w-full lg:w-[45%]'>
-              <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
-              <input 
-                type="password"
-                placeholder='********' 
-                { ...register("password",{
-                  required:{
-                    value: true,
-                    message: "La contraseña es requerida",
-                  }, 
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-                    message: "El contraseña no cumple con el formato requerido.",
-                  },
-                  min:8
-                })}  
-                className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-              />
-              {errors?.password && <span className=' w-full text-red-500 text-sm'>{errors.password?.message}</span>}
-            </div>
+            
           </div>
         </div>
                           

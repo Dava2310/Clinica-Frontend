@@ -79,7 +79,7 @@ const SeePatient = () => {
   
   const deleteUser = async() => {
     try {
-      const res = await apiClient.del(`/api/doctores/${patientABorrar}`);
+      const res = await apiClient.del(`/api/pacientes/${patientABorrar}`);
       if(res.status === 200){
         messageToast({
           message:res.data.body.message,
@@ -184,7 +184,7 @@ const SeePatient = () => {
                       <Table.Cell>{e.seguroMedico}</Table.Cell>
                       <Table.Cell>{e.numeroTelefono}</Table.Cell>
                       <Table.Cell className='flex gap-x-2'>
-                        <Link to={`/administrador/modificar_doctor/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
+                        <Link to={`/administrador/modificar_paciente/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
                         <button 
                           type="button"
                           onClick={() => {
