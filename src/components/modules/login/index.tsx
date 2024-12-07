@@ -3,6 +3,8 @@ import client from '../../../api/client';
 import { setCookie } from '../../../utils/cookies';
 import { nameCookieSessionApp, prefixUrlsTypeUsers } from '../../../config';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Alert from '../../common/alert/Alert';
 
 type Inputs = {
   email: string
@@ -10,6 +12,7 @@ type Inputs = {
 }
 
 const Login = () => {
+  const [errorP,setErrorP] = useState<string | undefined>();
   const apiClient = client();
   const navigate = useNavigate();
 
@@ -33,11 +36,13 @@ const Login = () => {
      
       //Extraemos el prefijo de urls que puede acceder el usuario con su rol asignado
       const correspondingModule = prefixUrlsTypeUsers.filter(e => e.type == res.data.body.data.tipoUsuario)[0];
-      
+      setErrorP('')
       navigate(`${correspondingModule.url}`)
       
     } catch (error) {
       console.log(error)
+      const message = error?.response.data.body.message;
+      setErrorP(message)
     }
 
   });
@@ -51,6 +56,7 @@ const Login = () => {
                   <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/>
                   Clinica Frontend    
               </a>
+              {errorP && <Alert message={errorP} type={'error'}/>}
               <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                   <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                       <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

@@ -204,7 +204,7 @@ const CreateDoctor = () => {
                     message: "La especialidad es requerida",
                   }, 
                   pattern: {
-                    value: /^[A-Za-z]+$/,
+                    value: regexName_lastname,
                     message: "La especialidad no cumple con el formato requerido.",
                   }
                 })}  

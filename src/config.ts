@@ -1,4 +1,5 @@
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser } from "react-icons/hi"
+import { IoMdCreate } from "react-icons/io";
 
 export const urlsDoctors = [
     {
@@ -20,26 +21,15 @@ export const urlsDoctors = [
 
 export const urlsPatients = [
   {
-      icon: HiUser,
-      name:"Pacientes",
+      icon: IoMdCreate,
+      name:"Solicitar cita",
       urls:[
-          {url:"create_quotes",name:"Crear cita"}, 
-          {url:"modify",name:"Modificar datos"},
-          {url:"quotes",name:"Ver citas"},
+          {url:"paciente/solicitar_cita",name:"Solicitar cita"}, 
       ]
   },
 ]
 
-export const urlsAdministrator = [
-  // {
-  //     icon: HiUser,
-  //     name:"Administrador",
-  //     urls:[
-  //         {url:"admin/create",name:"Crear Usuario"}, 
-  //         {url:"admin/modify",name:"Modificar Usuario"},
-  //         {url:"admin/view",name:"Ver Administradores"},
-  //     ]
-  // },
+export const urlsAdministrator = [ 
   {
     icon: HiUser,
     name:"Doctor",
@@ -61,13 +51,9 @@ export const urlsAdministrator = [
         {url:"administrador/ver_administradores",name:"Ver Pacientes"},
     ]
   },
-
- 
 ]
 
 export const nameCookieSessionApp = 'cookie_clinica_backend'
-export const nameRefrehshCookieSessionApp = 'refresh_cookie_clinica_backend'
-export const dataUserToken = 'data_user'
 
 export const prefixUrlsTypeUsers = [
   {
@@ -89,3 +75,57 @@ export const typeUsers = {
   paciente: "paciente",
   administrador: "administrador" 
 }
+
+export const arrTipoSangre = [
+  {
+    type:"A+",
+  },
+  {
+    type:"A-", 
+  },
+  {
+    type:"B+",
+  },
+  {
+    type:"B-",
+  },
+  {
+    type:"AB+",
+  },
+  {
+    type:"AB-",
+  },
+  {
+    type:"O+",
+  },
+  {
+    type:"O-",
+  } 
+]
+
+export const arrEspecialidades = [
+  {
+    type:"Cardiología",
+  },
+  {
+    type:"Gastroenterología",
+  },
+  {
+    type:"Neurología",
+  },
+  {
+    type:"Oncología",
+  },
+  {
+    type:"Pediatría",
+  },
+  {
+    type:"Psiquiatría",
+  },
+  {
+    type:"Urología",
+  },
+  {
+    type:"Traumatología",
+  }
+]

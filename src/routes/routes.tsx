@@ -14,6 +14,8 @@ import SeePatient from "../components/modules/administrator/modules/patients/See
 import SeeAdmin from "../components/modules/administrator/modules/adminitrators/SeeAdmin";
 import CreateAdmin from "../components/modules/administrator/modules/adminitrators/CreateAdmin";
 import ModifyAdmin from "../components/modules/administrator/modules/adminitrators/ModifyAdmin";
+import TemplatePatients from "../components/modules/patients";
+import CreateCita from "../components/modules/patients/modules/CreateCita";
 
 const routes = [
   {   
@@ -60,6 +62,16 @@ const routes = [
           {
             path:"ver_administradores",
             element:<SeeAdmin/>
+          },
+        ]
+      },
+      {
+        path:'/paciente/',
+        element:<TemplatePatients/>,
+        children:[
+          {
+            path:"solicitar_cita",
+            element:<CreateCita/>
           },
         ]
       }
