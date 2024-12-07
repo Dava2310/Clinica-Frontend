@@ -25,11 +25,22 @@ export type ErrForActions = {
     statusText:string
 }
 
-
 export type PropsToken = {
     accessToken: string,
     refreshToken: string,
     nombre: string,
     apellido:string,
-    tipoUsuario:string
-  }
+    tipoUsuario:string,
+    email:string
+}
+
+export type Panel = 1 | 2;
+
+export type PropsToaster = {
+    theme: 'colored' | 'dark' | 'light',
+    message: string,
+    autoClose?:number,
+    type: 'success' | 'error' | 'info' | 'warning'
+    position: 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-center' | 'top-left' | 'top-right' 
+};
+
