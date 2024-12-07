@@ -1,13 +1,6 @@
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-type PropsToaster = {
-    theme: 'colored' | 'dark' | 'light',
-    message: string,
-    autoClose?:number,
-    type: 'success' | 'error' | 'info' | 'warning'
-    position: 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-center' | 'top-left' | 'top-right' 
-};
+import { PropsToaster } from '../types';
 
 export const toaster = () => {
 

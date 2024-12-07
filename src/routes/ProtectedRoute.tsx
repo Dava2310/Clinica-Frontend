@@ -2,15 +2,9 @@ import React, { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { getCookie } from "../utils/cookies";
 import { nameCookieSessionApp, prefixUrlsTypeUsers, typeUsers } from "../config";
+import { PropsToken } from "../types";
 
 type PropsProtectedRoute = { children: ReactNode }
-type PropsToken = {
-  accessToken: string,
-  refreshToken: string,
-  nombre: string,
-  apellido:string,
-  tipoUsuario:string
-}
 
 // Componente que verifica el rol del usuario
 const ProtectedRoute = ({ children } : PropsProtectedRoute) => {
