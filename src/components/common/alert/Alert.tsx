@@ -36,7 +36,7 @@ const Alert = ({
 
 
   return (
-    <div className={`flex items-center min-w-sm w-fit max-w-md mx-auto gap-x-1 py-4 px-6 mt-4 text-base font-medium rounded-md ${filter(type)}`}>
+    <div className={`flex items-center min-w-sm w-fit max-w-md mx-auto gap-x-1 py-4 px-6 mt-4 mb-4 text-base font-medium rounded-md ${filter(type)}`}>
         <MdError /> {message}
     </div>
   )
