@@ -1,5 +1,5 @@
 import { Sidebar } from "flowbite-react";
-import { urlsDoctors, urlsPatients, urlsAdministrator, dataUserToken, typeUsers, nameCookieSessionApp } from "../../../config";
+import { urlsDoctors, urlsPatients, urlsAdministrator, typeUsers, nameCookieSessionApp } from "../../../config";
 import ItemCollapse from "./ItemCollapse";
 import Item from "./Item";
 import { getCookie } from "../../../utils/cookies";
@@ -13,6 +13,8 @@ export function MySideBar() {
     <Sidebar aria-label="Sidebar with multi-level dropdown example">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
+
+          {/* Navegacion para doctores */}
           {
             
             data_user.tipoUsuario === typeUsers.doctor &&
@@ -28,6 +30,7 @@ export function MySideBar() {
             
           }
 
+          {/* Navegacion para pacientes */}
           {
             data_user.tipoUsuario === typeUsers.paciente &&
             urlsPatients.map((e,i) => {
@@ -39,6 +42,7 @@ export function MySideBar() {
             })
           }
 
+          {/* Navegacion para administradores */}
           {
             data_user.tipoUsuario === typeUsers.administrador &&
             urlsAdministrator.map((e,i) => {
