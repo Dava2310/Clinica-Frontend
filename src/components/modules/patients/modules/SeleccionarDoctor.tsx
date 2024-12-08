@@ -4,6 +4,7 @@ import { arrEspecialidades } from '../../../../config'
 import { useNavigate } from 'react-router-dom'
 import client from '../../../../api/client'
 import { Panel, PropsToaster } from '../../../../types'
+import { FaCheckCircle } from "react-icons/fa";
 
 type Doctor = {
   id:number,
@@ -19,12 +20,16 @@ type Doctor = {
 type PropsSeleccionarDoctor = {
   onSelectedPanel: (p: Panel) => void,
   messageToast: (p:PropsToaster) => void,
+  setDoctor: (e:number) => void,
+  doctor:number|undefined,
   panel:Panel
 }
 
 const SeleccionarDoctor = ({
   onSelectedPanel,
   messageToast,
+  setDoctor,
+  doctor,
   panel
 }:PropsSeleccionarDoctor) => {
 
@@ -32,10 +37,24 @@ const SeleccionarDoctor = ({
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [especialidad, setEspecialidad] = useState<string>("");
   const [filteredDoctors, setFilteredDoctors] = useState<Doctor[]>([]);
+  
   const navigate = useNavigate();
   const apiClient = client();
 
+  //Functions
   const selectedPanel = () => {
+
+    if(doctor == undefined){
+      messageToast({
+        message:"¡Seleccione un doctor!",
+        position:'bottom-right',
+        theme:'colored',
+        type:'error',
+        autoClose:1000
+      });
+
+      return;
+    }
     
     if(panel === 1){
       messageToast({
@@ -43,14 +62,14 @@ const SeleccionarDoctor = ({
         position:'bottom-right',
         theme:'colored',
         type:'success',
-        autoClose:1000
+        autoClose:800
       });
     }
 
     //Cambiamos el panel
     setTimeout(() => {
       onSelectedPanel(2)
-    }, 1500);
+    }, 1200);
   };
 
   const onSelectedEspecialidad = (e) => {
@@ -108,6 +127,10 @@ const SeleccionarDoctor = ({
     }
   };
 
+  const selectedDoctor = (e) => {
+    setDoctor(e)
+  }
+
   useEffect(() => {
     const fetch = async() => {
       await fetchDoctors();
@@ -120,7 +143,7 @@ const SeleccionarDoctor = ({
        {/* Contenedor Button y buscador */}
      <div className='w-full flex justify-between items-center gap-x-4 border-2 border-gray-300 rounded-md p-2 bg-gray-50'>
         
-        {/* tipo de sangre */}
+        {/* especialidad */}
         <div className='sm:w-full lg:w-[45%]'>
             <label htmlFor="tipoSangre" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Especialidad</label>
             <select
@@ -130,7 +153,7 @@ const SeleccionarDoctor = ({
               <option value="">Seleccione una especialidad:</option>
               {
                 arrEspecialidades.map(t => {
-                  return <option value={t.type}>{t.type}</option>
+                  return <option key={t.type} value={t.type}>{t.type}</option>
                 })
               }
             </select>
@@ -159,6 +182,9 @@ const SeleccionarDoctor = ({
             <Table.HeadCell>Email</Table.HeadCell>
             <Table.HeadCell>Especialidad</Table.HeadCell>
             <Table.HeadCell>Teléfono</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Edit</span>
+            </Table.HeadCell>
           </Table.Head>
       
           <Table.Body className="divide-y">
@@ -166,7 +192,7 @@ const SeleccionarDoctor = ({
               filteredDoctors.length > 0
                 ?
                   filteredDoctors.map(e => {
-                    return <Table.Row key={e.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    return <Table.Row key={e.id} className={`bg-white dark:border-gray-700 dark:bg-gray-800`}  onClick={() => { selectedDoctor(e.id) }}>
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {e.nombre} {e.apellido}
                       </Table.Cell>
@@ -174,12 +200,12 @@ const SeleccionarDoctor = ({
                       <Table.Cell>{e.email}</Table.Cell>
                       <Table.Cell>{e.especialidad}</Table.Cell>
                       <Table.Cell>{e.numeroTelefono}</Table.Cell>
-                      
+                      <Table.Cell className='text-green-300 h-8 w-8'>{ e.id === doctor &&  <FaCheckCircle className='w-6 h-6'/>}</Table.Cell>
                     </Table.Row>
                   })
                 :
                   doctors.map(e => {
-                    return <Table.Row key={e.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                    return <Table.Row key={e.id} className={`bg-white dark:border-gray-700 dark:bg-gray-800`} onClick={() => { selectedDoctor(e.id) }}>
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {e.nombre} {e.apellido}
                       </Table.Cell>
@@ -187,6 +213,7 @@ const SeleccionarDoctor = ({
                       <Table.Cell>{e.email}</Table.Cell>
                       <Table.Cell>{e.especialidad}</Table.Cell>
                       <Table.Cell>{e.numeroTelefono}</Table.Cell>
+                      <Table.Cell className='text-green-300 h-8 w-8'>{ e.id === doctor &&  <FaCheckCircle className='w-6 h-6' /> }</Table.Cell>
                     </Table.Row>
                   })
             }
