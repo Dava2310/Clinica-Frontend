@@ -26,7 +26,6 @@ const CreatePatient = () => {
   const {ToastContainer, messageToast} = toaster();
   const navigate = useNavigate();
 
- 
   const { 
     register, 
     handleSubmit,

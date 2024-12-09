@@ -4,6 +4,7 @@ import SeleccionarDoctor from './SeleccionarDoctor';
 import FormCita from './FormCita';
 import { Panel } from '../../../../types';
 import { useForm } from 'react-hook-form';
+import Step from '../../../common/step/Step';
 
 type Inputs = {
   tipoServicio:string,
@@ -32,7 +33,8 @@ const CreateCita = () => {
 
   return (
     <>
-      <div className='w-full h-full flex flex-col gap-y-4 p-4'>
+      <div className='w-full h-full flex flex-col gap-y-4 px-4 py-2'>
+        <Step panelCurrent={panel}/>
         {
           panel === 1 
             ?
