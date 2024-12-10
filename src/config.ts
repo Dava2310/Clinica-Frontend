@@ -1,5 +1,6 @@
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser } from "react-icons/hi"
 import { IoMdCreate } from "react-icons/io";
+import { FaClipboardList } from "react-icons/fa";
 
 export const urlsDoctors = [
     {
@@ -24,8 +25,15 @@ export const urlsPatients = [
       icon: IoMdCreate,
       name:"Solicitar cita",
       urls:[
-          {url:"paciente/solicitar_cita",name:"Solicitar cita"}, 
+          {url:"paciente/solicitar_cita",name:"Solicitar cita"},
       ]
+  },
+  {
+    icon: FaClipboardList,
+    name:"Ver citas",
+    urls:[
+        {url:"paciente/ver_citas",name:"Ver citas"},
+    ]
   },
 ]
 

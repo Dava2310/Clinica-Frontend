@@ -16,6 +16,7 @@ import CreateAdmin from "../components/modules/administrator/modules/adminitrato
 import ModifyAdmin from "../components/modules/administrator/modules/adminitrators/ModifyAdmin";
 import TemplatePatients from "../components/modules/patients";
 import CreateCita from "../components/modules/patients/modules/CreateCita";
+import ViewCitas from "../components/modules/patients/modules/ViewCitas";
 
 const routes = [
   {   
@@ -72,6 +73,10 @@ const routes = [
           {
             path:"solicitar_cita",
             element:<CreateCita/>
+          },
+          {
+            path:"ver_citas",
+            element:<ViewCitas/>
           },
         ]
       }

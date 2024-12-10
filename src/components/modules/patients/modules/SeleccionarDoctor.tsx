@@ -192,7 +192,7 @@ const SeleccionarDoctor = ({
               filteredDoctors.length > 0
                 ?
                   filteredDoctors.map(e => {
-                    return <Table.Row key={e.id} className={`bg-white dark:border-gray-700 dark:bg-gray-800`}  onClick={() => { selectedDoctor(e.id) }}>
+                    return <Table.Row key={e.id} className={`bg-white dark:border-gray-700 dark:bg-gray-800 hover:cursor-pointer`}  onClick={() => { selectedDoctor(e.id) }}>
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {e.nombre} {e.apellido}
                       </Table.Cell>
@@ -205,7 +205,7 @@ const SeleccionarDoctor = ({
                   })
                 :
                   doctors.map(e => {
-                    return <Table.Row key={e.id} className={`bg-white dark:border-gray-700 dark:bg-gray-800`} onClick={() => { selectedDoctor(e.id) }}>
+                    return <Table.Row key={e.id} className={`bg-white dark:border-gray-700 dark:bg-gray-800 hover:cursor-pointer`} onClick={() => { selectedDoctor(e.id) }}>
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {e.nombre} {e.apellido}
                       </Table.Cell>

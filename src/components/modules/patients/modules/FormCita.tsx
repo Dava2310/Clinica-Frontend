@@ -31,7 +31,7 @@ const FormCita = ({
         <button className='' 
           onClick={selectedPanel}
           >
-          <IoArrowBackCircleSharp className='w-9 h-10'/>
+          <IoArrowBackCircleSharp className='w-9 h-10'color={'bg-blue-500'}/>
         </button>
       </div>
       {/* {errorP && <Alert message={errorP} type={'error'}/>} */}

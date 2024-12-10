@@ -19,6 +19,7 @@ export type EndPointApi = '/api/auth/login'
     |`/api/doctores/${string}`
     |'/api/pacientes/'
     |`/api/pacientes/${string}`
+    |'/api/citas/'
 
 export type ErrForActions = {
     status:number,
