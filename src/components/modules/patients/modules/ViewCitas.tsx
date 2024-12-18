@@ -41,13 +41,27 @@ const ViewCitas = () => {
     try {
       const res = await apiClient.get('/api/citas/');
       if(res.status === 200){
+        console.log(res.data.body.data)
+        if(res.data.body.data.length === 0){
+          messageToast({
+            message:res.data.body.message,
+            position:'bottom-right',
+            theme:'colored',
+            type:'info'
+          });
+        }
         setCitas(res.data.body.data)
       }
       
     } catch (error) {
+      console.log(error)
       //Redireccionamos por no estar autenticado
       if(error?.response?.data.statusCode === 401){
         navigate('/login');
+      }
+
+      if(error?.response?.status == 404){
+        navigate('/error');
       }
     }
   }
