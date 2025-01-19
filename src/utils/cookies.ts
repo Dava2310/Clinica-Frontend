@@ -9,9 +9,12 @@ export const getCookie = (name:string): string|undefined  => {
 }
 
 export const deleteCookie = (name:string): void =>  {
-    cookie.remove(name)
+    console.log(name)
+    cookie.remove(name,{ path: '/' })
+    console.log(getCookie(name))
+
 }
 
 export const setCookie = (nameCookie:string, token:string, maxAge:number) :void => { 
-    cookie.set(nameCookie, token, { maxAge : maxAge }); 
+    cookie.set(nameCookie, token, { maxAge : maxAge, path: '/' }); 
 }

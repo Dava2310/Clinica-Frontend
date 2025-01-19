@@ -21,6 +21,8 @@ import CreateCitas from "../components/modules/patients/modules/CreateCitas";
 import SeeCitas from "../components/modules/administrator/modules/citas";
 import ProgramarCita from "../components/modules/administrator/modules/citas/ProgramarCita";
 import AprobarCita from "../components/modules/patients/modules/AprobarCita";
+import VerCita from "../components/modules/administrator/modules/citas/VerCita";
+import TemplateDoctors from "../components/modules/doctors";
 
 const routes = [
   {   
@@ -79,6 +81,10 @@ const routes = [
           {
             path:"programar_cita/:citaId",
             element:<ProgramarCita/>
+          },
+          {
+            path:"ver_cita/:citaId",
+            element:<VerCita/>
           }
         ]
       },
@@ -99,6 +105,10 @@ const routes = [
             element:<AprobarCita/>
           },
         ]
+      },
+      {
+        path:'/doctor/',
+        element:<TemplateDoctors/>
       }
     ]
   },

@@ -79,23 +79,26 @@ const SeePatient = () => {
   
   const deleteUser = async() => {
     try {
-      const res = await apiClient.del(`/api/pacientes/${patientABorrar}`);
-      if(res.status === 200){
-        messageToast({
-          message:res.data.body.message,
-          position:'bottom-right',
-          theme:'colored',
-          type:'success'
-        });
+      const res = await apiClient.get(`/api/pacientes/${patientABorrar}`);
+        if(res?.data?.body?.data?.id != undefined){
+          const resDelete = await apiClient.del(`/api/pacientes/${res?.data?.body.data.id}`)
+          if(resDelete.status === 200){
+            messageToast({
+              message:resDelete.data.body.message,
+              position:'bottom-right',
+              theme:'colored',
+              type:'success'
+            });
+            
+            //Eliminamos el doctor borrado del estado
+            const d = patients.filter(e => e.id !== patientABorrar);
+            setpatients(d)
+            //Limpiamos el estado del doctor a borrar
+            setPatientABorrar(undefined)
+            closeModal();
 
-        //Eliminamos el doctor borrado del estado
-        const d = patients.filter(e => e.id !== patientABorrar);
-        setpatients(d)
-        //Limpiamos el estado del doctor a borrar
-        setPatientABorrar(undefined)
-        closeModal();
-      }
-      
+          }
+        }
     } catch (error) {
       //Redireccionamos por no estar autenticado
       if(error?.response?.data.statusCode === 401){

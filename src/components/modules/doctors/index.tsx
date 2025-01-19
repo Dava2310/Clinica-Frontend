@@ -1,6 +1,4 @@
 import { Outlet, useLocation } from 'react-router-dom'
-import ViewDoctors from './modules/ViewDoctors';
-import Main from '../../main/Main';
 
 const TemplateDoctors = () => {
 
@@ -10,16 +8,9 @@ const location = useLocation();
 
   return (
     <>
-        <Main>
-          {
-              location.pathname.includes('citas_pendientes') ||
-              location.pathname.includes('modify')
-              ?   
-                  <Outlet/>
-              :
-              <   ViewDoctors/> 
-          }
-        </Main>
+     <div className='w-full h-full'>
+        <Outlet/>
+     </div>
     </>
   )
 }

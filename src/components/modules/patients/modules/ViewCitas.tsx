@@ -100,17 +100,9 @@ const ViewCitas = () => {
 
   const fetchCitas = async () => {
     try {
-      const res = await apiClient.get(`/api/citas/`);
+      const res = await apiClient.get(`/api/citas/paciente/${token?.id}`);
       console.log(res)
       if(res.status === 200){
-        if(res.data.body.data.length === 0){
-          messageToast({
-            message:res.data.body.message,
-            position:'bottom-right',
-            theme:'colored',
-            type:'info'
-          });
-        }
         setCitas(res.data.body.data)
       }
       

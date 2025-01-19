@@ -75,21 +75,23 @@ const SeeAdmin = () => {
   
   const deleteUser = async() => {
     try {
-      const res = await apiClient.del(`/api/users/${AdminABorrar}`);
-      if(res.status === 200){
-        messageToast({
-          message:res.data.body.message,
-          position:'bottom-right',
-          theme:'colored',
-          type:'success'
-        });
-
-        //Eliminamos el doctor borrado del estado
-        const d = admins.filter(e => e.id !== AdminABorrar);
-        setAdmins(d)
-        //Limpiamos el estado del doctor a borrar
-        setAdminABorrar(undefined)
-        closeModal();
+      const res = await apiClient.get(`/api/users/${AdminABorrar}`);
+      if(res?.data?.body?.data?.id != undefined){
+        const resDelete = await apiClient.del(`/api/users/${res?.data?.body.data.id}`)
+        if(resDelete.status === 200){
+          messageToast({
+            message:res.data.body.message,
+            position:'bottom-right',
+            theme:'colored',
+            type:'success'
+          });
+          //Eliminamos el doctor borrado del estado
+          const d = admins.filter(e => e.id !== AdminABorrar);
+          setAdmins(d)
+          //Limpiamos el estado del doctor a borrar
+          setAdminABorrar(undefined)
+          closeModal();
+        }
       }
       
     } catch (error) {

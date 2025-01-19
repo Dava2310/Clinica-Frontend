@@ -5,6 +5,7 @@ import client from '../../../../../api/client';
 import { nameCookieSessionApp } from '../../../../../config';
 import { deleteCookie } from '../../../../../utils/cookies';
 import { toaster } from '../../../../../utils/toaster';
+import { formatDate } from '../../../../../utils/utilidades';
 
 
 const ProgramarCita = () => {
@@ -23,19 +24,6 @@ const ProgramarCita = () => {
     //Functions
     const handleSetCantidadFechas = (e) => setCantidaFecha(Number(e.target.value));
     const setDoctor = (e:number) => setDoctorSelected(e);
-    
-    const formatDate = (date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
-      const milliseconds = String(date.getMilliseconds()).padStart(3, '0'); // Milisegundos
-  
-      // Formato ISO-8601: YYYY-MM-DDTHH:mm:ss.SSS
-      return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
-    };
     
     const seleccionarFecha = (e) => {
       e.preventDefault();
@@ -73,6 +61,8 @@ const ProgramarCita = () => {
               theme:'colored',
               type:'success'
             });
+
+            setTimeout(() => {navigate('/administrador/ver_citas')},2000)
           }
           
         } catch (error) {

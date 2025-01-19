@@ -77,21 +77,24 @@ const SeeDoctor = () => {
   
   const deleteUser = async() => {
     try {
-      const res = await apiClient.del(`/api/doctores/${doctorABorrar}`);
-      if(res.status === 200){
-        messageToast({
-          message:res.data.body.message,
-          position:'bottom-right',
-          theme:'colored',
-          type:'success'
-        });
-
-        //Eliminamos el doctor borrado del estado
-        const d = doctors.filter(e => e.id !== doctorABorrar);
-        setDoctors(d)
-        //Limpiamos el estado del doctor a borrar
-        setDoctorABorrar(undefined)
-        closeModal();
+      const res = await apiClient.get(`/api/doctores/${doctorABorrar}`);
+      if(res?.data?.body?.data?.id != undefined){
+        const resDelete = await apiClient.del(`/api/doctores/${res?.data?.body.data.id}`)
+        if(resDelete.status === 200){
+          messageToast({
+            message:resDelete.data.body.message,
+            position:'bottom-right',
+            theme:'colored',
+            type:'success'
+          });
+        
+          //Eliminamos el doctor borrado del estado
+          const d = doctors.filter(e => e.id !== doctorABorrar);
+          setDoctors(d)
+          //Limpiamos el estado del doctor a borrar
+          setDoctorABorrar(undefined)
+          closeModal();
+        }
       }
       
     } catch (error) {

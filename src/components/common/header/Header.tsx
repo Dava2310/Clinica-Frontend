@@ -4,11 +4,13 @@ import { getCookie, deleteCookie } from "../../../utils/cookies";
 import { PropsToken } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import client from "../../../api/client";
+import { useEffect, useState } from "react";
 
 function Header() {
+  //States
+  const [token, setToken] = useState<PropsToken>();
   const navigate = useNavigate();
   const apiClient = client();
-  const token:PropsToken = getCookie(nameCookieSessionApp);
 
   const logout = async () => {
 
@@ -16,12 +18,17 @@ function Header() {
     try {
       const res = await apiClient.get('/api/auth/logout'); 
       console.log(res)
-      if(res.status == 204) {
+      if(res.status === 204) {
         console.log('logoutt')
+
         //Eliminamos la cookie
-        deleteCookie(nameCookieSessionApp);
+        if(token !== undefined) deleteCookie(nameCookieSessionApp);
+
+        const t = getCookie(nameCookieSessionApp);
+
         //Redireccionamos al login
-        navigate('/login');
+        if(t===undefined)
+          navigate('/login');
       }
      } catch (err) {
        console.log(err)
@@ -32,6 +39,14 @@ function Header() {
       }
      }
   }
+
+  //Effects
+  useEffect(() => {
+      const t:PropsToken = getCookie(nameCookieSessionApp)
+      if(t !== undefined){
+        setToken(t);
+      }
+  },[]);
 
   return (
     <Navbar fluid rounded>
