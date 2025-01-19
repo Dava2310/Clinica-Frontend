@@ -17,6 +17,10 @@ import ModifyAdmin from "../components/modules/administrator/modules/adminitrato
 import TemplatePatients from "../components/modules/patients";
 import CreateCita from "../components/modules/patients/modules/CreateCita";
 import ViewCitas from "../components/modules/patients/modules/ViewCitas";
+import CreateCitas from "../components/modules/patients/modules/CreateCitas";
+import SeeCitas from "../components/modules/administrator/modules/citas";
+import ProgramarCita from "../components/modules/administrator/modules/citas/ProgramarCita";
+import AprobarCita from "../components/modules/patients/modules/AprobarCita";
 
 const routes = [
   {   
@@ -28,6 +32,7 @@ const routes = [
         path:'/administrador/',
         element:<TemplateAdministrator/>,
         children:[
+          // Doctores
           {
             path:"crear_doctor", 
             element:<CreateDoctor/>
@@ -40,6 +45,7 @@ const routes = [
             path:"ver_doctores",
             element:<SeeDoctor/>
           },
+          //Pacientes
           {
             path:"crear_paciente", 
             element:<CreatePatient/>
@@ -52,6 +58,7 @@ const routes = [
             path:"ver_pacientes",
             element:<SeePatient/>
           },
+          //Administradores
           {
             path:"crear_administrador", 
             element:<CreateAdmin/>
@@ -64,6 +71,15 @@ const routes = [
             path:"ver_administradores",
             element:<SeeAdmin/>
           },
+          //Citas
+          {
+            path:"ver_citas",
+            element:<SeeCitas/>
+          },
+          {
+            path:"programar_cita/:citaId",
+            element:<ProgramarCita/>
+          }
         ]
       },
       {
@@ -72,11 +88,15 @@ const routes = [
         children:[
           {
             path:"solicitar_cita",
-            element:<CreateCita/>
+            element:<CreateCitas/>
           },
           {
             path:"ver_citas",
             element:<ViewCitas/>
+          },
+          {
+            path:"aprobar_cita/:citaId",
+            element:<AprobarCita/>
           },
         ]
       }

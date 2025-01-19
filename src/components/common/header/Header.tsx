@@ -16,7 +16,8 @@ function Header() {
     try {
       const res = await apiClient.get('/api/auth/logout'); 
       console.log(res)
-      if(res.status === 204) {
+      if(res.status == 204) {
+        console.log('logoutt')
         //Eliminamos la cookie
         deleteCookie(nameCookieSessionApp);
         //Redireccionamos al login
@@ -26,6 +27,7 @@ function Header() {
        console.log(err)
        //Redireccionamos por no estar autenticado
        if(err?.response?.data.statusCode === 401){
+        deleteCookie(nameCookieSessionApp);
         navigate('/login');
       }
      }

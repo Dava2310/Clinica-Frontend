@@ -31,9 +31,9 @@ const ProtectedRoute = ({ children } : PropsProtectedRoute) => {
   }
   
  // Si no cumple con los requerimientos para acceder, se redirige al home del usuario correspondiente
-  if (token.tipoUsuario=== typeUsers.doctor && location.pathname.includes(correspondingModule.url)) {
+  if (token.tipoUsuario === typeUsers.doctor && location.pathname.includes(correspondingModule.url)) {
     return children; // Permite acceso a rutas de doctores
-  } else if (token.tipoUsuario=== typeUsers.paciente && location.pathname.includes(correspondingModule.url)) {
+  } else if (token.tipoUsuario === typeUsers.paciente && location.pathname.includes(correspondingModule.url)) {
     return children // Redirige a home si es paciente
   } else if (token.tipoUsuario === typeUsers.administrador && location.pathname.includes(correspondingModule.url)) {
     return children // Redirige a home si es paciente

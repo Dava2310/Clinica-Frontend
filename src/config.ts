@@ -59,6 +59,13 @@ export const urlsAdministrator = [
         {url:"administrador/ver_administradores",name:"Ver Pacientes"},
     ]
   },
+  {
+    icon: HiUser,
+    name:"Citas",
+    urls:[
+        {url:"administrador/ver_citas",name:"Ver citas"},
+    ]
+  },
 ]
 
 export const nameCookieSessionApp = 'cookie_clinica_backend'

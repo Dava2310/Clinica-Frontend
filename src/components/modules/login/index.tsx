@@ -32,7 +32,7 @@ const Login = () => {
     try {
       const res = await apiClient.post('/api/auth/login',formData);
       //Guardamos la cookie del usuario
-      setCookie(nameCookieSessionApp,JSON.stringify(res.data.body.data),1000);
+      setCookie(nameCookieSessionApp,JSON.stringify(res.data.body.data),1000000);
      
       //Extraemos el prefijo de urls que puede acceder el usuario con su rol asignado
       const correspondingModule = prefixUrlsTypeUsers.filter(e => e.type == res.data.body.data.tipoUsuario)[0];

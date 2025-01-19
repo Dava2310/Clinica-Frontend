@@ -20,6 +20,8 @@ export type EndPointApi = '/api/auth/login'
     |'/api/pacientes/'
     |`/api/pacientes/${string}`
     |'/api/citas/'
+    |`/api/citas/cancelar/${string}`
+    |'/api/citas/opciones/'
 
 export type ErrForActions = {
     status:number,
@@ -32,7 +34,8 @@ export type PropsToken = {
     nombre: string,
     apellido:string,
     tipoUsuario:string,
-    email:string
+    email:string,
+    id:number
 }
 
 export type Panel = 1 | 2;
