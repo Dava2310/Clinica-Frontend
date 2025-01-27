@@ -9,4 +9,18 @@ export const formatDate = (date) => {
 
     // Formato ISO-8601: YYYY-MM-DDTHH:mm:ss.SSS
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
-  };
+};
+
+export const mostrarFecha = (date:string) => {
+
+  // Convertir la cadena a un objeto Date
+  const fecha = new Date(date);
+
+  // Formatear la fecha para obtener solo el año, mes y día
+  const year = fecha.getFullYear();
+  const month = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
+  const day = String(fecha.getDate()).padStart(2, '0');
+
+  // Combinar en formato 'YYYY-MM-DD'
+  return `${year}-${month}-${day}`;
+}

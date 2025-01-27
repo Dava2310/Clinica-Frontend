@@ -5,7 +5,8 @@ import { toaster } from '../../../../../utils/toaster'
 import Alert from '../../../../common/alert/Alert';
 import { regexName_lastname } from '../../../../../utils/validators';
 import { useNavigate, useParams } from 'react-router-dom';
-import { arrTipoSangre } from '../../../../../config';
+import { arrTipoSangre, nameCookieSessionApp } from '../../../../../config';
+import { deleteCookie } from '../../../../../utils/cookies';
 
 
 type Inputs = {
@@ -70,6 +71,7 @@ const ModifyPatient = () => {
      setErrorP(message)
      //Redireccionamos por no estar autenticado
      if(err?.response?.data.statusCode === 401){
+      deleteCookie(nameCookieSessionApp);
       navigate('/login');
     }
    }
@@ -106,6 +108,7 @@ const ModifyPatient = () => {
 
      //Redireccionamos por no estar autenticado
      if(error?.response?.data.statusCode === 401){
+      deleteCookie(nameCookieSessionApp);
       navigate('/login');
     }
   }

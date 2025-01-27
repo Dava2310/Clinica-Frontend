@@ -3,7 +3,6 @@ import Main from "../components/main/Main";
 import ProtectedRoute from "./ProtectedRoute";
 import TemplateAdministrator from "../components/modules/administrator";
 
-
 import ProtectedLogin from "./ProtectedLogin";
 import CreateDoctor from "../components/modules/administrator/modules/doctors/CreateDoctor";
 import ModifyDoctor from "../components/modules/administrator/modules/doctors/ModifyDoctor";
@@ -15,7 +14,6 @@ import SeeAdmin from "../components/modules/administrator/modules/adminitrators/
 import CreateAdmin from "../components/modules/administrator/modules/adminitrators/CreateAdmin";
 import ModifyAdmin from "../components/modules/administrator/modules/adminitrators/ModifyAdmin";
 import TemplatePatients from "../components/modules/patients";
-import CreateCita from "../components/modules/patients/modules/CreateCita";
 import ViewCitas from "../components/modules/patients/modules/ViewCitas";
 import CreateCitas from "../components/modules/patients/modules/CreateCitas";
 import SeeCitas from "../components/modules/administrator/modules/citas";
@@ -23,110 +21,141 @@ import ProgramarCita from "../components/modules/administrator/modules/citas/Pro
 import AprobarCita from "../components/modules/patients/modules/AprobarCita";
 import VerCita from "../components/modules/administrator/modules/citas/VerCita";
 import TemplateDoctors from "../components/modules/doctors";
+import Citas from "../components/modules/doctors/modules/Citas";
+import FinalizarCita from "../components/modules/doctors/modules/FinalizarCita";
+import ResumenesMedicos from "../components/modules/doctors/modules/ResumenesMedicos";
+import ListadoResumenes from "../components/modules/doctors/modules/ListadoResumenes";
+import VerResumen from "../components/modules/doctors/modules/VerResumen";
 
 const routes = [
-  {   
+  {
     path: "/",
-    element:(<ProtectedRoute><Main/></ProtectedRoute>),
-    errorElement:"Ha ocurrido un error",
-    children:[
+    element: (
+      <ProtectedRoute>
+        <Main />
+      </ProtectedRoute>
+    ),
+    errorElement: "Ha ocurrido un error",
+    children: [
       {
-        path:'/administrador/',
-        element:<TemplateAdministrator/>,
-        children:[
+        path: "/administrador/",
+        element: <TemplateAdministrator />,
+        children: [
           // Doctores
           {
-            path:"crear_doctor", 
-            element:<CreateDoctor/>
+            path: "crear_doctor",
+            element: <CreateDoctor />,
           },
           {
-            path:"modificar_doctor/:userId",
-            element:<ModifyDoctor/>
+            path: "modificar_doctor/:userId",
+            element: <ModifyDoctor />,
           },
           {
-            path:"ver_doctores",
-            element:<SeeDoctor/>
+            path: "ver_doctores",
+            element: <SeeDoctor />,
           },
           //Pacientes
           {
-            path:"crear_paciente", 
-            element:<CreatePatient/>
+            path: "crear_paciente",
+            element: <CreatePatient />,
           },
           {
-            path:"modificar_paciente/:userId",
-            element:<ModifyPatient/>
+            path: "modificar_paciente/:userId",
+            element: <ModifyPatient />,
           },
           {
-            path:"ver_pacientes",
-            element:<SeePatient/>
+            path: "ver_pacientes",
+            element: <SeePatient />,
           },
           //Administradores
           {
-            path:"crear_administrador", 
-            element:<CreateAdmin/>
+            path: "crear_administrador",
+            element: <CreateAdmin />,
           },
           {
-            path:"modificar_administrador/:userId",
-            element:<ModifyAdmin/>
+            path: "modificar_administrador/:userId",
+            element: <ModifyAdmin />,
           },
           {
-            path:"ver_administradores",
-            element:<SeeAdmin/>
+            path: "ver_administradores",
+            element: <SeeAdmin />,
           },
           //Citas
           {
-            path:"ver_citas",
-            element:<SeeCitas/>
+            path: "ver_citas",
+            element: <SeeCitas />,
           },
           {
-            path:"programar_cita/:citaId",
-            element:<ProgramarCita/>
+            path: "programar_cita/:citaId",
+            element: <ProgramarCita />,
           },
           {
-            path:"ver_cita/:citaId",
-            element:<VerCita/>
-          }
-        ]
+            path: "ver_cita/:citaId",
+            element: <VerCita />,
+          },
+        ],
       },
       {
-        path:'/paciente/',
-        element:<TemplatePatients/>,
-        children:[
+        path: "/paciente/",
+        element: <TemplatePatients />,
+        children: [
           {
-            path:"solicitar_cita",
-            element:<CreateCitas/>
+            path: "solicitar_cita",
+            element: <CreateCitas />,
           },
           {
-            path:"ver_citas",
-            element:<ViewCitas/>
+            path: "ver_citas",
+            element: <ViewCitas />,
           },
           {
-            path:"aprobar_cita/:citaId",
-            element:<AprobarCita/>
+            path: "aprobar_cita/:citaId",
+            element: <AprobarCita />,
           },
-        ]
+          {
+            path: "ver_cita/:citaId",
+            element: <VerCita />,
+          },
+        ],
       },
       {
-        path:'/doctor/',
-        element:<TemplateDoctors/>
-      }
-    ]
+        path: "/doctor/",
+        element: <TemplateDoctors />,
+        children: [
+          {
+            path: "ver_citas",
+            element: <Citas />,
+          },
+          {
+            path: "finalizar_cita/:citaId",
+            element: <FinalizarCita />,
+          },
+          {
+            path: "ver_resumenes",
+            element: <ResumenesMedicos />,
+          },
+          {
+            path: "listado_resumenes/:resumenId",
+            element: <ListadoResumenes />,
+          },
+          {
+            path: "ver_resumen/:resumenId",
+            element: <VerResumen />,
+          },
+        ],
+      },
+    ],
   },
   {
-    path:'/login',
-    element:(
-      <ProtectedLogin><Login/></ProtectedLogin>
-    )
+    path: "/login",
+    element: (
+      <ProtectedLogin>
+        <Login />
+      </ProtectedLogin>
+    ),
   },
-]
+];
 
-export default routes
-
-
-
-
-
-
+export default routes;
 
 /*  path:'/doctors/',
         element:(

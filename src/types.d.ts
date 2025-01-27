@@ -1,3 +1,12 @@
+interface ErrorResponse {
+    response?: {
+        data?: {
+            statusCode?: number;
+            message?: string;
+        };
+        status?: number;
+    };
+}
 export type RoutesApp = '/'
     | '/login'
     | '/signup'
@@ -22,6 +31,9 @@ export type EndPointApi = '/api/auth/login'
     |'/api/citas/'
     |`/api/citas/cancelar/${string}`
     |'/api/citas/opciones/'
+    |`/api/historiales/`
+    |`/api/historiales/${string}`
+    |`/api/resumenes/${string}`
 
 export type ErrForActions = {
     status:number,

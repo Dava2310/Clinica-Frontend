@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import { toaster } from '../../../../../utils/toaster'
 import Alert from '../../../../common/alert/Alert';
 import { regexName_lastname } from '../../../../../utils/validators';
+import { nameCookieSessionApp } from '../../../../../config';
+import { deleteCookie } from '../../../../../utils/cookies';
+import { useNavigate } from 'react-router-dom';
 
 
 type Inputs = {
@@ -20,8 +23,8 @@ const CreateDoctor = () => {
 
   const [errorP,setErrorP] = useState<string | undefined>();
   const apiClient = client();
+  const navigate = useNavigate();
   const {ToastContainer, messageToast} = toaster();
-
  
   const { 
     register, 
@@ -55,6 +58,12 @@ const CreateDoctor = () => {
       setErrorP('')
     }
    } catch (err) {
+    //Redireccionamos por no estar autenticado
+      if(err?.response?.data.statusCode === 401){
+        deleteCookie(nameCookieSessionApp);
+        navigate('/login');
+      }
+
      console.log(err)
      const message = err?.response.data.body.message;
      setErrorP(message)

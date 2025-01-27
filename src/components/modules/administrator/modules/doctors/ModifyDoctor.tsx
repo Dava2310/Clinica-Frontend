@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { toaster } from '../../../../../utils/toaster'
 import Alert from '../../../../common/alert/Alert';
 import { useNavigate, useParams } from 'react-router-dom';
+import { nameCookieSessionApp } from '../../../../../config';
+import { deleteCookie } from '../../../../../utils/cookies';
 
 
 type Inputs = {
@@ -61,6 +63,7 @@ const ModifyDoctor = () => {
      setErrorP(message)
      //Redireccionamos por no estar autenticado
      if(err?.response?.data.statusCode === 401){
+      deleteCookie(nameCookieSessionApp);
       navigate('/login');
     }
    }
@@ -79,6 +82,12 @@ const ModifyDoctor = () => {
         setValue("numero_telefono",dataDoctor.numeroTelefono)
       }
     } catch (error) {
+      //Redireccionamos por no estar autenticado
+      if(error?.response?.data.statusCode === 401){
+        deleteCookie(nameCookieSessionApp);
+        navigate('/login');
+      }
+
       if(error.response.data.statusCode === 404){
         messageToast({
           message:error.response.data.body.message,

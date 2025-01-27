@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { regexName_lastname } from '../../../../utils/validators';
-import { arrEspecialidades } from '../../../../config';
+import { arrEspecialidades, nameCookieSessionApp } from '../../../../config';
 import client from '../../../../api/client';
 import { useNavigate } from 'react-router-dom';
 import { toaster } from '../../../../utils/toaster';
 import Alert from '../../../common/alert/Alert';
+import { deleteCookie } from '../../../../utils/cookies';
 
 type Cita = {
   tipoServicio:string,
@@ -52,7 +53,8 @@ const CreateCitas = () => {
       setErrorP(message)
       //Redireccionamos por no estar autenticado
       if(err?.response?.data.statusCode === 401){
-       navigate('/login');
+        deleteCookie(nameCookieSessionApp);
+        navigate('/login');
      }
     }
   });

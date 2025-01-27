@@ -1,22 +1,24 @@
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser } from "react-icons/hi"
+import { HiShoppingBag, HiUser } from "react-icons/hi"
 import { IoMdCreate } from "react-icons/io";
 import { FaClipboardList } from "react-icons/fa";
+import { FaPersonCane, FaUserDoctor } from "react-icons/fa6";
+import { RiAdminFill } from "react-icons/ri";
+import { CiCalendarDate } from "react-icons/ci";
 
 export const urlsDoctors = [
-    {
-      icon: HiUser,
-      name:"Doctores",
-      urls:[
-          {url:"doctors/modify",name:"Modificar datos"},
-          {url:"doctors/view",name:"Ver Doctores"},
-      ]
-    },
-    {
-      icon:HiShoppingBag,
-      name:"Citas",
-      urls:[
-          {url:"doctors/citas_pendientes",name:"Citas Pendientes"}
-      ]
+  {
+    icon:HiShoppingBag,
+    name:"Citas",
+    urls:[
+        {url:"doctor/ver_citas",name:"Citas Pendientes"}
+    ]
+  },
+  {
+    icon:HiShoppingBag,
+    name:"Resúmenes Medicos",
+    urls:[
+        {url:"doctor/ver_resumenes",name:"resúmenes"},
+    ]
   }
 ]
 
@@ -39,28 +41,28 @@ export const urlsPatients = [
 
 export const urlsAdministrator = [ 
   {
-    icon: HiUser,
+    icon: FaUserDoctor,
     name:"Doctor",
     urls:[
         {url:"administrador/ver_doctores",name:"Ver Doctores"},
     ]
   },
   {
-    icon: HiUser,
+    icon: FaPersonCane,
     name:"Paciente",
     urls:[
         {url:"administrador/ver_pacientes",name:"Ver Pacientes"},
     ]
   },
   {
-    icon: HiUser,
+    icon: RiAdminFill,
     name:"Administrador",
     urls:[
         {url:"administrador/ver_administradores",name:"Ver Pacientes"},
     ]
   },
   {
-    icon: HiUser,
+    icon: CiCalendarDate,
     name:"Citas",
     urls:[
         {url:"administrador/ver_citas",name:"Ver citas"},

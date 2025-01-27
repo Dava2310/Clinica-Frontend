@@ -13,11 +13,24 @@ interface Opciones {
   idDoctor:number
 }
 
+interface Doctor {
+  id: number,
+  especialidad: string,
+  numeroTelefono: string,
+  userId: number
+  cedula: string,
+  nombre: string,
+  apellido: string,
+  email: string,
+  tipoUsuario:string 
+}
+
 interface Cita {
   especialidad:string,
   estado:string,
   tipoServicio:string,
-  opciones:Opciones []
+  opciones:Opciones [],
+  doctor:Doctor
 }
 interface PropsButton {
   fecha:string,
@@ -162,8 +175,9 @@ const AprobarCita = () => {
             <label htmlFor="doctor" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Doctor Seleccionado:</label>
             <input 
               type="text"
-              placeholder=''    
-              className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-2/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+              placeholder=''
+              value = { `${cita?.doctor ? `${cita?.doctor.nombre} ${cita?.doctor.apellido}`  : ''}` }    
+              className="bg-gray-50 border text-center font-medium border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-2/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
             />
           </div>
 

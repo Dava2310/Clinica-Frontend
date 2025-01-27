@@ -4,6 +4,8 @@ import { Table } from "flowbite-react";
 import client from '../../../../../api/client';
 import MyModal from '../../../../common/alert/Modal';
 import { toaster } from '../../../../../utils/toaster';
+import { nameCookieSessionApp } from '../../../../../config';
+import { deleteCookie } from '../../../../../utils/cookies';
 
 type Patient = {
   id:number,
@@ -72,6 +74,7 @@ const SeePatient = () => {
     } catch (error) {
       //Redireccionamos por no estar autenticado
       if(error?.response?.data.statusCode === 401){
+        deleteCookie(nameCookieSessionApp);
         navigate('/login');
       }
     }
@@ -102,6 +105,7 @@ const SeePatient = () => {
     } catch (error) {
       //Redireccionamos por no estar autenticado
       if(error?.response?.data.statusCode === 401){
+        deleteCookie(nameCookieSessionApp);
         navigate('/login');
       }
     }
