@@ -37,6 +37,13 @@ export const urlsPatients = [
         {url:"paciente/ver_citas",name:"Ver citas"},
     ]
   },
+  {
+    icon:HiShoppingBag,
+    name:"Resúmenes Medicos",
+    urls:[
+        {url:"paciente/ver_resumenes",name:"resúmenes"},
+    ]
+  }
 ]
 
 export const urlsAdministrator = [ 

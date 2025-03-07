@@ -26,6 +26,8 @@ import FinalizarCita from "../components/modules/doctors/modules/FinalizarCita";
 import ResumenesMedicos from "../components/modules/doctors/modules/ResumenesMedicos";
 import ListadoResumenes from "../components/modules/doctors/modules/ListadoResumenes";
 import VerResumen from "../components/modules/doctors/modules/VerResumen";
+import ListadoResumenesByPaciente from "../components/modules/patients/modules/ListadoResumenesByPaciente";
+import VerResumenByPaciente from "../components/modules/patients/modules/VerResumenByPaciente";
 
 const routes = [
   {
@@ -114,6 +116,15 @@ const routes = [
           {
             path: "ver_cita/:citaId",
             element: <VerCita />,
+          },
+          {
+            path: "ver_resumenes",
+            element: <ListadoResumenesByPaciente />,
+          },
+
+          {
+            path: "ver_resumen/:resumenId",
+            element: <VerResumenByPaciente />,
           },
         ],
       },
