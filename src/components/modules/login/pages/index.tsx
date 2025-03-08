@@ -1,57 +1,10 @@
-import { useForm } from "react-hook-form";
-import client from "../../../api/client";
-import { setCookie } from "../../../utils/cookies";
-import { nameCookieSessionApp, prefixUrlsTypeUsers } from "../../../config";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import Alert from "../../common/alert/Alert";
 import Logo from "../../../assets/Logo.png";
 
-type Inputs = {
-  email: string;
-  password: string;
-};
+import Alert from "../../../common/alert/Alert";
+import { useLogin } from "../hook/useAuth";
 
 const Login = () => {
-  const [errorP, setErrorP] = useState<string | undefined>();
-  const apiClient = client();
-  const navigate = useNavigate();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
-
-  const onSubmit = handleSubmit(async (data) => {
-    console.log(data.email, data.password);
-
-    const formData = new FormData();
-    formData.append("email", data.email);
-    formData.append("password", data.password);
-
-    try {
-      const res = await apiClient.post("/api/auth/login", formData);
-      //Guardamos la cookie del usuario
-      setCookie(
-        nameCookieSessionApp,
-        JSON.stringify(res.data.body.data),
-        1000000
-      );
-
-      //Extraemos el prefijo de urls que puede acceder el usuario con su rol asignado
-      const correspondingModule = prefixUrlsTypeUsers.filter(
-        (e) => e.type == res.data.body.data.tipoUsuario
-      )[0];
-      setErrorP("");
-      navigate(`${correspondingModule.url}`);
-    } catch (error) {
-      console.log(error);
-      const message = error?.response.data.body.message;
-      setErrorP(message);
-    }
-  });
-
+  const { register, errors, onSubmit, errorP } = useLogin();
   return (
     <>
       <div className="w-full h-screen">
@@ -62,7 +15,7 @@ const Login = () => {
               className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
             >
               <img className="w-10 h-10 mr-2" src={Logo} alt="logo" />
-              Clinica Frontend
+              Clínica Frontend
             </a>
             {errorP && <Alert message={errorP} type={"error"} />}
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -155,7 +108,7 @@ const Login = () => {
                     type="submit"
                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   >
-                    Sign in
+                    Iniciar sesión
                   </button>
                 </form>
               </div>
