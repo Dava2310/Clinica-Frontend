@@ -24,8 +24,8 @@ export type EndPointApi = '/api/auth/login'
     |'/api/auth/changePassword'
     |`/api/users/tipo/${users}`
     |`/api/users/${string}`
-    |'/api/doctores/'
     |`/api/doctores/${string}`
+    |'/api/doctores/'
     |'/api/pacientes/'
     |`/api/pacientes/${string}`
     |'/api/citas/'

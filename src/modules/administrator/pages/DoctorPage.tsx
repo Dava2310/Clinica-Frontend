@@ -1,128 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
-import client from "../../../../../api/client";
-import MyModal from "../../../../common/alert/Modal";
-import { toaster } from "../../../../../utils/toaster";
-import { nameCookieSessionApp } from "../../../../../config";
-import { deleteCookie } from "../../../../../utils/cookies";
+import MyModal from "../../common/alert/Modal";
+import { ToastContainer } from "react-toastify";
+import useDoctor from "../hook/useDoctor";
 
-type Doctor = {
-  id: number;
-  userId: number;
-  nombre: string;
-  apellido: string;
-  cedula: string;
-  email: string;
-  especialidad: string;
-  numeroTelefono: string;
-};
 const SeeDoctor = () => {
-  // States
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [filteredDoctors, setFilteredDoctors] = useState<Doctor[]>([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [doctorABorrar, setDoctorABorrar] = useState<number>();
-
-  const navigate = useNavigate();
-  const apiClient = client();
-  const { ToastContainer, messageToast } = toaster();
-
-  const filterDoctors = (e) => {
-    const param = e.target.value;
-
-    let filter = doctors.filter((doctor) => {
-      const doc = `${doctor.nombre} ${doctor.apellido}`;
-      return doc
-        .toLowerCase()
-        .split(" ")
-        .join("")
-        .includes(param.toLowerCase().split(" ").join(""));
-    });
-
-    if (e.target.value === "") filter = [];
-
-    setFilteredDoctors(filter);
-  };
-
-  const redirecToCreateADoctor = () => navigate("/administrador/crear_doctor");
-
-  const modalOpen = (e) => {
-    //Seteamos el doctor a borrar
-    setDoctorABorrar(e);
-    //Abrimos el modal
-    setOpenModal(true);
-  };
-
-  const closeModal = () => {
-    //Limpiamos el estado del doctor a borrar
-    setDoctorABorrar(undefined);
-    //Cerramos el modal
-    setOpenModal(false);
-  };
-
-  const fetchDoctors = async () => {
-    try {
-      const res = await apiClient.get("/api/doctores/");
-      if (res.status === 200) {
-        setDoctors(res.data.body.data);
-      }
-    } catch (error) {
-      //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
-        deleteCookie(nameCookieSessionApp);
-        navigate("/login");
-      }
-    }
-  };
-
-  const deleteUser = async () => {
-    try {
-      const res = await apiClient.get(`/api/doctores/${doctorABorrar}`);
-      if (res?.data?.body?.data?.id != undefined) {
-        const resDelete = await apiClient.del(
-          `/api/doctores/${res?.data?.body.data.id}`
-        );
-        if (resDelete.status === 200) {
-          messageToast({
-            message: resDelete.data.body.message,
-            position: "bottom-right",
-            theme: "colored",
-            type: "success",
-          });
-
-          //Eliminamos el doctor borrado del estado
-          const d = doctors.filter((e) => e.id !== doctorABorrar);
-          setDoctors(d);
-          //Limpiamos el estado del doctor a borrar
-          setDoctorABorrar(undefined);
-          closeModal();
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      if (error?.response?.data.statusCode === 500) {
-        return messageToast({
-          message: "Error al eliminar el doctor",
-          position: "bottom-right",
-          theme: "colored",
-          type: "error",
-        });
-      }
-      //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
-        deleteCookie(nameCookieSessionApp);
-        navigate("/login");
-      }
-    }
-  };
-
-  useEffect(() => {
-    const fetch = async () => {
-      await fetchDoctors();
-    };
-    fetch();
-  }, []);
+  const {
+    doctors,
+    filteredDoctors,
+    openModal,
+    filterDoctors,
+    modalOpen,
+    closeModal,
+    deleteDoctor,
+    redirectToCreateADoctor,
+  } = useDoctor();
 
   return (
     <div className="w-full h-full flex flex-col gap-y-4 p-4">
@@ -131,7 +23,7 @@ const SeeDoctor = () => {
         {/* Button */}
         <button
           type="button"
-          onClick={redirecToCreateADoctor}
+          onClick={redirectToCreateADoctor}
           className="w-44 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
         >
           Registrar doctor
@@ -242,7 +134,7 @@ const SeeDoctor = () => {
         </Table>
         <MyModal
           closeModal={closeModal}
-          deleteUser={deleteUser}
+          deleteUser={deleteDoctor}
           openModal={openModal}
           title="¿Está seguro de eliminar el usuario?"
           textButton="Eliminar"

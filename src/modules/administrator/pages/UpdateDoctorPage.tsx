@@ -1,74 +1,12 @@
-import React, { useState } from "react";
-import client from "../../../../../api/client";
-import { useForm } from "react-hook-form";
-import { toaster } from "../../../../../utils/toaster";
-import Alert from "../../../../common/alert/Alert";
-import {
-  regexDigits,
-  regexName_lastname,
-} from "../../../../../utils/validators";
-import { arrEspecialidades, nameCookieSessionApp } from "../../../../../config";
-import { deleteCookie } from "../../../../../utils/cookies";
-import { useNavigate } from "react-router-dom";
+import { regexName_lastname } from "../../../utils/validators";
+import { arrEspecialidades } from "../../../config";
 
-type Inputs = {
-  name: string;
-  lastname: string;
-  cedula: string;
-  email: string;
-  password: string;
-  numero_telefono: string;
-  especialidad: string;
-};
+import Alert from "../../common/alert/Alert";
+import useUpdateDoctor from "../hook/useUpdateDoctor";
+import { ToastContainer } from "react-toastify";
 
-const CreateDoctor = () => {
-  const [errorP, setErrorP] = useState<string | undefined>();
-  const apiClient = client();
-  const navigate = useNavigate();
-  const { ToastContainer, messageToast } = toaster();
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<Inputs>();
-
-  const onSubmit = handleSubmit(async (data) => {
-    const formData = new FormData();
-    formData.append("nombre", data.name);
-    formData.append("apellido", data.lastname);
-    formData.append("cedula", data.cedula);
-    formData.append("password", data.password);
-    formData.append("email", data.email);
-    formData.append("especialidad", data.especialidad);
-    formData.append("numeroTelefono", data.numero_telefono);
-    formData.append("tipoUsuario", "doctor");
-
-    try {
-      const res = await apiClient.post("/api/auth/register", formData);
-      if (res.status === 201) {
-        reset();
-        messageToast({
-          message: res.data.body.message,
-          position: "bottom-right",
-          theme: "colored",
-          type: "success",
-        });
-        setErrorP("");
-      }
-    } catch (err) {
-      //Redireccionamos por no estar autenticado
-      if (err?.response?.data.statusCode === 401) {
-        deleteCookie(nameCookieSessionApp);
-        navigate("/login");
-      }
-
-      console.log(err);
-      const message = err?.response.data.body.message;
-      setErrorP(message);
-    }
-  });
+const UpdateDoctor = () => {
+  const { errorP, errors, onSubmit, register } = useUpdateDoctor();
 
   return (
     // Container
@@ -103,20 +41,20 @@ const CreateDoctor = () => {
                   type="text"
                   placeholder="Manuel"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...register("name", {
+                  {...register("nombre", {
                     required: {
                       value: true,
                       message: "El nombre es requerido",
                     },
                     pattern: {
-                      value: regexName_lastname,
+                      value: /^[A-Za-z ]+$/,
                       message: "El nombre no cumple con el formato requerido.",
                     },
                   })}
                 />
-                {errors?.name && (
+                {errors?.nombre && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.name?.message}
+                    {errors.nombre?.message}
                   </span>
                 )}
               </div>
@@ -131,22 +69,22 @@ const CreateDoctor = () => {
                 <input
                   type="text"
                   placeholder="Blanco"
-                  {...register("lastname", {
+                  {...register("apellido", {
                     required: {
                       value: true,
                       message: "El apellido es requerido",
                     },
                     pattern: {
-                      value: regexName_lastname,
+                      value: /^[A-Za-z ]+$/,
                       message:
                         "El apellido no cumple con el formato requerido.",
                     },
                   })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
-                {errors?.lastname && (
+                {errors?.apellido && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.lastname?.message}
+                    {errors.apellido?.message}
                   </span>
                 )}
               </div>
@@ -167,8 +105,12 @@ const CreateDoctor = () => {
                       message: "La cédula es requerida",
                     },
                     pattern: {
-                      value: regexDigits,
+                      value: /^\d{8}$/,
                       message: "La cédula no cumple con el formato requerido.",
+                    },
+                    min: {
+                      value: 8,
+                      message: "La cédula debe tener minimo 8 dígitos",
                     },
                   })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -205,37 +147,6 @@ const CreateDoctor = () => {
                 {errors?.email && (
                   <span className=" w-full text-red-500 text-sm">
                     {errors.email?.message}
-                  </span>
-                )}
-              </div>
-              {/* password */}
-              <div className="sm:w-full lg:w-[45%]">
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Contraseña
-                </label>
-                <input
-                  type="password"
-                  placeholder="********"
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: "La contraseña es requerida",
-                    },
-                    pattern: {
-                      value: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-                      message:
-                        "El contraseña no cumple con el formato requerido.",
-                    },
-                    min: 8,
-                  })}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                {errors?.password && (
-                  <span className=" w-full text-red-500 text-sm">
-                    {errors.password?.message}
                   </span>
                 )}
               </div>
@@ -293,7 +204,7 @@ const CreateDoctor = () => {
                 <input
                   type="text"
                   placeholder="04241234567"
-                  {...register("numero_telefono", {
+                  {...register("numeroTelefono", {
                     required: {
                       value: true,
                       message: "El número es requerido",
@@ -309,9 +220,9 @@ const CreateDoctor = () => {
                   })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
-                {errors?.numero_telefono && (
+                {errors?.numeroTelefono && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.numero_telefono?.message}
+                    {errors.numeroTelefono?.message}
                   </span>
                 )}
               </div>
@@ -334,4 +245,4 @@ const CreateDoctor = () => {
   );
 };
 
-export default CreateDoctor;
+export default UpdateDoctor;

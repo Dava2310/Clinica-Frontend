@@ -1,115 +1,11 @@
-import React, { useEffect, useState } from "react";
-import client from "../../../../../api/client";
-import { useForm } from "react-hook-form";
-import { toaster } from "../../../../../utils/toaster";
-import Alert from "../../../../common/alert/Alert";
-import {
-  regexDigits,
-  regexName_lastname,
-} from "../../../../../utils/validators";
-import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { regexDigits, regexName_lastname } from "../../../utils/validators";
+import { arrEspecialidades } from "../../../config";
+import Alert from "../../common/alert/Alert";
+import useCreateDoctor from "../hook/useCreateDoctor";
 
-type Inputs = {
-  name: string;
-  lastname: string;
-  cedula: string;
-  email: string;
-  password: string;
-  numeroTelefono: string;
-  tipoSangre: string;
-  direccion: string;
-  seguroMedico: string;
-};
-
-const ModifyAdmin = () => {
-  const [errorP, setErrorP] = useState<string | undefined>();
-  const apiClient = client();
-  const { ToastContainer, messageToast } = toaster();
-  const params = useParams();
-  const navigate = useNavigate();
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm<Inputs>();
-
-  const onSubmit = handleSubmit(async (data) => {
-    const formData = new FormData();
-    formData.append("nombre", data.name);
-    formData.append("apellido", data.lastname);
-    formData.append("cedula", data.cedula);
-    formData.append("email", data.email);
-
-    try {
-      const res = await apiClient.patch(
-        `/api/users/${params.userId}`,
-        formData
-      );
-      if (res.status === 200) {
-        reset();
-        messageToast({
-          message: res.data.body.message,
-          position: "bottom-right",
-          theme: "colored",
-          type: "success",
-        });
-        setErrorP("");
-        setTimeout(() => {
-          navigate("/administrador/ver_administradores");
-        }, 3000);
-      }
-    } catch (err) {
-      console.log(err);
-      const message = err?.response.data.body.message;
-      setErrorP(message);
-      //Redireccionamos por no estar autenticado
-      if (err?.response?.data.statusCode === 401) {
-        navigate("/login");
-      }
-    }
-  });
-
-  const fetchAdmin = async () => {
-    try {
-      const res = await apiClient.get(`/api/users/${params.userId}`);
-      if (res.status === 200) {
-        const dataAdmin = { ...res?.data.body.data };
-        console.log(dataAdmin);
-        setValue("name", dataAdmin.nombre);
-        setValue("lastname", dataAdmin.apellido);
-        setValue("cedula", dataAdmin.cedula);
-        setValue("email", dataAdmin.email);
-      }
-    } catch (error) {
-      if (error.response.data.statusCode === 404) {
-        messageToast({
-          message: error.response.data.body.message,
-          position: "bottom-right",
-          theme: "colored",
-          type: "error",
-        });
-
-        setTimeout(() => {
-          navigate("/administrador/ver_administradores");
-        }, 3000);
-      }
-
-      //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
-        navigate("/login");
-      }
-    }
-  };
-
-  useEffect(() => {
-    const fetch = async () => {
-      await fetchAdmin();
-    };
-    fetch();
-  }, []);
+const CreateDoctorPage = () => {
+  const { errorP, errors, onSubmit, register } = useCreateDoctor();
 
   return (
     // Container
@@ -144,7 +40,7 @@ const ModifyAdmin = () => {
                   type="text"
                   placeholder="Manuel"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...register("name", {
+                  {...register("nombre", {
                     required: {
                       value: true,
                       message: "El nombre es requerido",
@@ -155,9 +51,9 @@ const ModifyAdmin = () => {
                     },
                   })}
                 />
-                {errors?.name && (
+                {errors?.nombre && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.name?.message}
+                    {errors.nombre?.message}
                   </span>
                 )}
               </div>
@@ -172,7 +68,7 @@ const ModifyAdmin = () => {
                 <input
                   type="text"
                   placeholder="Blanco"
-                  {...register("lastname", {
+                  {...register("apellido", {
                     required: {
                       value: true,
                       message: "El apellido es requerido",
@@ -185,9 +81,9 @@ const ModifyAdmin = () => {
                   })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
-                {errors?.lastname && (
+                {errors?.apellido && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.lastname?.message}
+                    {errors.apellido?.message}
                   </span>
                 )}
               </div>
@@ -210,10 +106,6 @@ const ModifyAdmin = () => {
                     pattern: {
                       value: regexDigits,
                       message: "La cédula no cumple con el formato requerido.",
-                    },
-                    min: {
-                      value: 8,
-                      message: "La cédula debe tener mínimo 8 dígitos",
                     },
                   })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -253,6 +145,113 @@ const ModifyAdmin = () => {
                   </span>
                 )}
               </div>
+              {/* password */}
+              <div className="sm:w-full lg:w-[45%]">
+                <label
+                  htmlFor="password"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  placeholder="********"
+                  {...register("password", {
+                    required: {
+                      value: true,
+                      message: "La contraseña es requerida",
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+                      message:
+                        "El contraseña no cumple con el formato requerido.",
+                    },
+                    min: 8,
+                  })}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                {errors?.password && (
+                  <span className=" w-full text-red-500 text-sm">
+                    {errors.password?.message}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Container datos de doctor */}
+          <div className="w-full mt-4 flex flex-col gap-y-3">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900s">
+                Datos del Doctor:
+              </h2>
+            </div>
+            <div className="flex flex-wrap justify-center gap-x-2 gap-y-4 sm:flex-col lg:flex-row">
+              {/* especialidad */}
+              <div className="sm:w-full lg:w-[45%]">
+                <label
+                  htmlFor="especialidad"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Especialidad
+                </label>
+                <select
+                  {...register("especialidad", {
+                    required: {
+                      value: true,
+                      message: "La especialidad es requerida",
+                    },
+                    pattern: {
+                      value: regexName_lastname,
+                      message:
+                        "La especialidad no cumple con el formato requerido.",
+                    },
+                  })}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value="">Seleccione una especialidad:</option>
+                  {arrEspecialidades.map((t) => {
+                    return (
+                      <option key={t.type} value={t.type}>
+                        {t.type}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              {/* numero de telefono */}
+              <div className="sm:w-full lg:w-[45%]">
+                <label
+                  htmlFor="numero_telefono"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Número de teléfono:
+                </label>
+                <input
+                  type="text"
+                  placeholder="04241234567"
+                  {...register("numeroTelefono", {
+                    required: {
+                      value: true,
+                      message: "El número es requerido",
+                    },
+                    pattern: {
+                      value: /^\d{11}$/,
+                      message: "El número no cumple con el formato requerido.",
+                    },
+                    min: {
+                      value: 11,
+                      message: "El número debe tener minimo 11 dígitos",
+                    },
+                  })}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                {errors?.numeroTelefono && (
+                  <span className=" w-full text-red-500 text-sm">
+                    {errors.numeroTelefono?.message}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -272,4 +271,4 @@ const ModifyAdmin = () => {
   );
 };
 
-export default ModifyAdmin;
+export default CreateDoctorPage;
