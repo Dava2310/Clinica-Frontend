@@ -1,13 +1,12 @@
 import { regexName_lastname } from "../../../utils/validators";
-import { arrEspecialidades } from "../../../config";
-
+import { arrTipoSangre } from "../../../config";
 import Alert from "../../common/alert/Alert";
-import useUpdateDoctor from "../hook/useUpdateDoctor";
+
+import useUpdatePatient from "../hook/useUpdatePatient";
 import { ToastContainer } from "react-toastify";
 
-const UpdateDoctorPage = () => {
-  const { errorP, errors, onSubmit, register } = useUpdateDoctor();
-
+const UpdatePatientPage = () => {
+  const { errorP, errors, onSubmit, register } = useUpdatePatient();
   return (
     // Container
     <>
@@ -47,7 +46,7 @@ const UpdateDoctorPage = () => {
                       message: "El nombre es requerido",
                     },
                     pattern: {
-                      value: /^[A-Za-z ]+$/,
+                      value: regexName_lastname,
                       message: "El nombre no cumple con el formato requerido.",
                     },
                   })}
@@ -75,7 +74,7 @@ const UpdateDoctorPage = () => {
                       message: "El apellido es requerido",
                     },
                     pattern: {
-                      value: /^[A-Za-z ]+$/,
+                      value: regexName_lastname,
                       message:
                         "El apellido no cumple con el formato requerido.",
                     },
@@ -84,7 +83,7 @@ const UpdateDoctorPage = () => {
                 />
                 {errors?.apellido && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.apellido?.message}
+                    {errors?.apellido?.message}
                   </span>
                 )}
               </div>
@@ -157,41 +156,42 @@ const UpdateDoctorPage = () => {
           <div className="w-full mt-4 flex flex-col gap-y-3">
             <div>
               <h2 className="text-xl font-semibold text-gray-900s">
-                Datos del Doctor:
+                Datos del Paciente:
               </h2>
             </div>
             <div className="flex flex-wrap justify-center gap-x-2 gap-y-4 sm:flex-col lg:flex-row">
-              {/* especialidad */}
+              {/* tipo de sangre */}
               <div className="sm:w-full lg:w-[45%]">
                 <label
-                  htmlFor="especialidad"
+                  htmlFor="tipoSangre"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Especialidad
+                  Tipo Sangre:
                 </label>
                 <select
-                  {...register("especialidad", {
+                  {...register("tipoSangre", {
                     required: {
                       value: true,
-                      message: "La especialidad es requerida",
+                      message: "El tipo de sangre es requerida",
                     },
                     pattern: {
-                      value: regexName_lastname,
+                      value: /^[A-Z+-]+$/,
                       message:
-                        "La especialidad no cumple con el formato requerido.",
+                        "El tipo de sangre no cumple con el formato requerido.",
                     },
                   })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
-                  <option value="">Seleccione una especialidad:</option>
-                  {arrEspecialidades.map((t) => {
-                    return (
-                      <option key={t.type} value={t.type}>
-                        {t.type}
-                      </option>
-                    );
+                  <option value="">Seleccione un tipo de sangre</option>
+                  {arrTipoSangre.map((t) => {
+                    return <option value={t.type}>{t.type}</option>;
                   })}
                 </select>
+                {errors?.tipoSangre && (
+                  <span className=" w-full text-red-500 text-sm">
+                    {errors.tipoSangre?.message}
+                  </span>
+                )}
               </div>
               {/* numero de telefono */}
               <div className="sm:w-full lg:w-[45%]">
@@ -226,6 +226,66 @@ const UpdateDoctorPage = () => {
                   </span>
                 )}
               </div>
+              {/* direccion */}
+              <div className="sm:w-full lg:w-[45%]">
+                <label
+                  htmlFor="direccion"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Dirección:
+                </label>
+                <input
+                  type="text"
+                  placeholder="Otorrinolaringologo"
+                  {...register("direccion", {
+                    required: {
+                      value: true,
+                      message: "La dirección es requerida",
+                    },
+                    pattern: {
+                      value: regexName_lastname,
+                      message:
+                        "La dirección no cumple con el formato requerido.",
+                    },
+                  })}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                {errors?.direccion && (
+                  <span className=" w-full text-red-500 text-sm">
+                    {errors.direccion?.message}
+                  </span>
+                )}
+              </div>
+              {/* seguro medico */}
+              <div className="sm:w-full lg:w-[45%]">
+                <label
+                  htmlFor="seguroMedico"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Seguro Médico:
+                </label>
+                <input
+                  type="text"
+                  placeholder="Otorrinolaringologo"
+                  {...register("seguroMedico", {
+                    required: {
+                      value: true,
+                      message: "El seguro médico es requerido",
+                    },
+                    pattern: {
+                      value: /^[A-Za-z]+$/,
+                      message:
+                        "El seguro médico no cumple con el formato requerido.",
+                    },
+                  })}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                {errors?.seguroMedico && (
+                  <span className=" w-full text-red-500 text-sm">
+                    {errors.seguroMedico?.message}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -245,4 +305,4 @@ const UpdateDoctorPage = () => {
   );
 };
 
-export default UpdateDoctorPage;
+export default UpdatePatientPage;

@@ -1,80 +1,16 @@
-import React, { useState } from "react";
-import client from "../../../../../api/client";
-import { useForm } from "react-hook-form";
-import { toaster } from "../../../../../utils/toaster";
-import Alert from "../../../../common/alert/Alert";
+import { ToastContainer } from "react-toastify";
+import Alert from "../../common/alert/Alert";
 import {
   regexContrasenia,
   regexDigits,
   regexEmail,
   regexName_lastname,
-} from "../../../../../utils/validators";
-import { useNavigate } from "react-router-dom";
-import { arrTipoSangre, nameCookieSessionApp } from "../../../../../config";
-import { deleteCookie } from "../../../../../utils/cookies";
-import { AxiosError } from "axios";
+} from "../../../utils/validators";
+import { arrTipoSangre } from "../../../config";
+import useCreatePatient from "../hook/useCreatePatient";
 
-type Inputs = {
-  name: string;
-  lastname: string;
-  cedula: string;
-  email: string;
-  password: string;
-  numeroTelefono: string;
-  tipoSangre: string;
-  direccion: string;
-  seguroMedico: string;
-};
-
-const CreatePatient = () => {
-  const [errorP, setErrorP] = useState<string | undefined>();
-  const apiClient = client();
-  const { ToastContainer, messageToast } = toaster();
-  const navigate = useNavigate();
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<Inputs>();
-
-  const onSubmit = handleSubmit(async (data) => {
-    const formData = new FormData();
-    formData.append("nombre", data.name);
-    formData.append("apellido", data.lastname);
-    formData.append("cedula", data.cedula);
-    formData.append("password", data.password);
-    formData.append("email", data.email);
-    formData.append("numeroTelefono", data.numeroTelefono);
-    formData.append("tipoSangre", data.tipoSangre);
-    formData.append("direccion", data.direccion);
-    formData.append("seguroMedico", data.seguroMedico);
-    formData.append("tipoUsuario", "paciente");
-
-    try {
-      const res = await apiClient.post("/api/auth/register", formData);
-      if (res.status === 201) {
-        reset();
-        messageToast({
-          message: res.data.body.message,
-          position: "bottom-right",
-          theme: "colored",
-          type: "success",
-        });
-        setErrorP("");
-      }
-    } catch (err) {
-      const message = axiosError?.response.data.body.message;
-      setErrorP(message);
-      //Redireccionamos por no estar autenticado
-      if (err?.response?.data.statusCode === 401) {
-        deleteCookie(nameCookieSessionApp);
-        navigate("/login");
-      }
-    }
-  });
-
+const CreatePatientPage = () => {
+  const { errorP, errors, onSubmit, register } = useCreatePatient();
   return (
     // Container
     <>
@@ -108,7 +44,7 @@ const CreatePatient = () => {
                   type="text"
                   placeholder="Manuel"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...register("name", {
+                  {...register("nombre", {
                     required: {
                       value: true,
                       message: "El nombre es requerido",
@@ -119,9 +55,9 @@ const CreatePatient = () => {
                     },
                   })}
                 />
-                {errors?.name && (
+                {errors?.nombre && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.name?.message}
+                    {errors.nombre?.message}
                   </span>
                 )}
               </div>
@@ -136,7 +72,7 @@ const CreatePatient = () => {
                 <input
                   type="text"
                   placeholder="Blanco"
-                  {...register("lastname", {
+                  {...register("apellido", {
                     required: {
                       value: true,
                       message: "El apellido es requerido",
@@ -149,9 +85,9 @@ const CreatePatient = () => {
                   })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
-                {errors?.lastname && (
+                {errors?.apellido && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.lastname?.message}
+                    {errors.apellido?.message}
                   </span>
                 )}
               </div>
@@ -319,9 +255,9 @@ const CreatePatient = () => {
                   })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
-                {errors?.numero_telefono && (
+                {errors?.numeroTelefono && (
                   <span className=" w-full text-red-500 text-sm">
-                    {errors.numero_telefono?.message}
+                    {errors.numeroTelefono?.message}
                   </span>
                 )}
               </div>
@@ -404,4 +340,4 @@ const CreatePatient = () => {
   );
 };
 
-export default CreatePatient;
+export default CreatePatientPage;

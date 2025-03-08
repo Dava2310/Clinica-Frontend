@@ -3,7 +3,7 @@ import { regexDigits, regexName_lastname } from "../../../utils/validators";
 import Alert from "../../common/alert/Alert";
 import useUpdateAdmin from "../hook/useUpdateAdmin";
 
-const ModifyAdmin = () => {
+const UpdateAdminPage = () => {
   const { errorP, errors, onSubmit, register } = useUpdateAdmin();
 
   return (
@@ -167,4 +167,4 @@ const ModifyAdmin = () => {
   );
 };
 
-export default ModifyAdmin;
+export default UpdateAdminPage;

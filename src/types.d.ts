@@ -26,8 +26,8 @@ export type EndPointApi = '/api/auth/login'
     |`/api/users/${string}`
     |`/api/doctores/${string}`
     |'/api/doctores/'
-    |'/api/pacientes/'
     |`/api/pacientes/${string}`
+    |'/api/pacientes/'
     |'/api/citas/'
     |`/api/citas/cancelar/${string}`
     |'/api/citas/opciones/'

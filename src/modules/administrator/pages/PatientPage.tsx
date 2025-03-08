@@ -1,130 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
-import client from "../../../../../api/client";
-import MyModal from "../../../../common/alert/Modal";
-import { toaster } from "../../../../../utils/toaster";
-import { nameCookieSessionApp } from "../../../../../config";
-import { deleteCookie } from "../../../../../utils/cookies";
+import { ToastContainer } from "react-toastify";
 
-type Patient = {
-  id: number;
-  userId: number;
-  nombre: string;
-  apellido: string;
-  cedula: string;
-  email: string;
-  numeroTelefono: string;
-  tipoSangre: string;
-  direccion: string;
-  seguroMedico: string;
-};
-const SeePatient = () => {
-  // States
-  const [patients, setpatients] = useState<Patient[]>([]);
-  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [patientABorrar, setPatientABorrar] = useState<number>();
+import MyModal from "../../common/alert/Modal";
+import usePatient from "../hook/usePatient";
 
-  const navigate = useNavigate();
-  const apiClient = client();
-  const { ToastContainer, messageToast } = toaster();
-
-  const filterPatients = (e) => {
-    const param = e.target.value;
-
-    let filter = patients.filter((patient) => {
-      const doc = `${patient.nombre} ${patient.apellido}`;
-      return doc
-        .toLowerCase()
-        .split(" ")
-        .join("")
-        .includes(param.toLowerCase().split(" ").join(""));
-    });
-
-    if (e.target.value === "") filter = [];
-
-    setFilteredPatients(filter);
-  };
-
-  const redirecToCreateAPatient = () =>
-    navigate("/administrador/crear_paciente");
-
-  const modalOpen = (e) => {
-    //Seteamos el doctor a borrar
-    setPatientABorrar(e);
-    //Abrimos el modal
-    setOpenModal(true);
-  };
-
-  const closeModal = () => {
-    //Limpiamos el estado del doctor a borrar
-    setPatientABorrar(undefined);
-    //Cerramos el modal
-    setOpenModal(false);
-  };
-
-  const fetchPatients = async () => {
-    try {
-      const res = await apiClient.get("/api/pacientes/");
-      if (res.status === 200) {
-        setpatients(res.data.body.data);
-      }
-    } catch (error) {
-      //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
-        deleteCookie(nameCookieSessionApp);
-        navigate("/login");
-      }
-    }
-  };
-
-  const deleteUser = async () => {
-    try {
-      const res = await apiClient.get(`/api/pacientes/${patientABorrar}`);
-      if (res?.data?.body?.data?.id != undefined) {
-        const resDelete = await apiClient.del(
-          `/api/pacientes/${res?.data?.body.data.id}`
-        );
-        if (resDelete.status === 200) {
-          messageToast({
-            message: resDelete.data.body.message,
-            position: "bottom-right",
-            theme: "colored",
-            type: "success",
-          });
-
-          //Eliminamos el doctor borrado del estado
-          const d = patients.filter((e) => e.id !== patientABorrar);
-          setpatients(d);
-          //Limpiamos el estado del doctor a borrar
-          setPatientABorrar(undefined);
-          closeModal();
-        }
-      }
-    } catch (error) {
-      if (error?.response?.data.statusCode === 500) {
-        return messageToast({
-          message: "Error al eliminar el paciente",
-          position: "bottom-right",
-          theme: "colored",
-          type: "error",
-        });
-      }
-      //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
-        deleteCookie(nameCookieSessionApp);
-        navigate("/login");
-      }
-    }
-  };
-
-  useEffect(() => {
-    const fetch = async () => {
-      await fetchPatients();
-    };
-    fetch();
-  }, []);
+const PatientPage = () => {
+  const {
+    patients,
+    filteredPatients,
+    openModal,
+    modalOpen,
+    closeModal,
+    deletePatient,
+    filterPatients,
+    redirectToCreateAPatient,
+  } = usePatient();
 
   return (
     <div className="w-full h-full flex flex-col gap-y-4 p-4">
@@ -133,7 +24,7 @@ const SeePatient = () => {
         {/* Button */}
         <button
           type="button"
-          onClick={redirecToCreateAPatient}
+          onClick={redirectToCreateAPatient}
           className="w-44 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
         >
           Registrar paciente
@@ -244,7 +135,7 @@ const SeePatient = () => {
         </Table>
         <MyModal
           closeModal={closeModal}
-          deleteUser={deleteUser}
+          deleteUser={deletePatient}
           openModal={openModal}
           title="¿Está seguro de eliminar el usuario?"
           textButton="Eliminar"
@@ -255,4 +146,4 @@ const SeePatient = () => {
   );
 };
 
-export default SeePatient;
+export default PatientPage;

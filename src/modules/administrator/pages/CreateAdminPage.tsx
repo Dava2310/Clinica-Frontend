@@ -8,7 +8,7 @@ import {
 import Alert from "../../common/alert/Alert";
 import useCreateAdmin from "../hook/useCreateAdmin";
 
-const CreateAdmin = () => {
+const CreateAdminPage = () => {
   const { errorP, errors, onSubmit, register } = useCreateAdmin();
 
   return (
@@ -203,4 +203,4 @@ const CreateAdmin = () => {
   );
 };
 
-export default CreateAdmin;
+export default CreateAdminPage;

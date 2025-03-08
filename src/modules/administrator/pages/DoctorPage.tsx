@@ -4,7 +4,7 @@ import MyModal from "../../common/alert/Modal";
 import { ToastContainer } from "react-toastify";
 import useDoctor from "../hook/useDoctor";
 
-const SeeDoctor = () => {
+const DoctorPage = () => {
   const {
     doctors,
     filteredDoctors,
@@ -145,4 +145,4 @@ const SeeDoctor = () => {
   );
 };
 
-export default SeeDoctor;
+export default DoctorPage;
