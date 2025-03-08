@@ -9,6 +9,9 @@ import PatientPage from "../pages/PatientPage";
 import CreateAdminPage from "../pages/CreateAdminPage";
 import UpdateAdminPage from "../pages/UpdateAdminPage";
 import AdminPage from "../pages/AdminPage";
+import AppointmentsPage from "../pages/AppointmentsPage";
+import CreateAppointmentPage from "../pages/CreateAppointmentPage";
+import AppointmentPage from "../pages/AppointmentPage";
 
 const AdminRoutes: RouteObject = {
   path: "/administrador",
@@ -26,9 +29,9 @@ const AdminRoutes: RouteObject = {
     { path: "modificar_administrador/:userId", element: <UpdateAdminPage /> },
     { path: "ver_administradores", element: <AdminPage /> },
 
-    // { path: "ver_citas", element: <SeeCitas /> },
-    // { path: "programar_cita/:citaId", element: <ProgramarCita /> },
-    // { path: "ver_cita/:citaId", element: <VerCita /> },
+    { path: "ver_citas", element: <AppointmentsPage /> },
+    { path: "programar_cita/:citaId", element: <CreateAppointmentPage /> },
+    { path: "ver_cita/:citaId", element: <AppointmentPage /> },
   ],
 };
 

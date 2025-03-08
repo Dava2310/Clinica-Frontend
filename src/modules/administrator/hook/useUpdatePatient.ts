@@ -8,11 +8,11 @@ import { nameCookieSessionApp } from "../../../config";
 import client from "../../../api/client";
 
 import { ApiError } from "../interfaces/errorsApiInterface";
-import { PatientResponse } from "../interfaces/patientInterfaces";
+import { PatientDto, PatientResponse } from "../interfaces/patientInterfaces";
 
 const useUpdatePatient = () => {
 
-    const [errorP, setErrorP] = useState<string>('');
+  const [errorP, setErrorP] = useState<string>('');
   const apiClient = client();
   const { messageToast } = toaster();
   const params = useParams();
@@ -24,7 +24,7 @@ const useUpdatePatient = () => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<PatientResponse>();
+  } = useForm<PatientDto>();
 
   const onSubmit = handleSubmit(async (data) => {
     const formData = new FormData();

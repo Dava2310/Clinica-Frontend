@@ -1,53 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import client from "../../../../../api/client";
-import { nameCookieSessionApp } from "../../../../../config";
-import { deleteCookie } from "../../../../../utils/cookies";
-interface Opciones {
-  fecha: string;
-  id: number;
-  idCita: number;
-  idDoctor: number;
-}
 
-interface Doctor {
-  id: number;
-  especialidad: string;
-  numeroTelefono: string;
-  userId: number;
-  cedula: string;
-  nombre: string;
-  apellido: string;
-  email: string;
-  tipoUsuario: string;
-}
+import { deleteCookie } from "../../../utils/cookies";
+import client from "../../../api/client";
+import { nameCookieSessionApp } from "../../../config";
+import { AppointmentResponse } from "../interfaces/appointmentInterfaces";
+import { ApiError } from "../interfaces/errorsApiInterface";
 
-interface Usuario {
-  nombre: string;
-  apellido: string;
-  email: string;
-}
-
-interface Paciente {
-  id: number;
-  userId: number;
-  usuario: Usuario;
-  numeroTelefono: string;
-}
-
-interface Cita {
-  especialidad: string;
-  estado: string;
-  tipoServicio: string;
-  opciones: Opciones[];
-  doctor: Doctor;
-  paciente: Paciente;
-  fecha: string;
-}
-
-const VerCita = () => {
+const AppointmentPage = () => {
   //States
-  const [cita, setCita] = useState<Cita>();
+  const [cita, setCita] = useState<AppointmentResponse>();
 
   //Instances
   const params = useParams();
@@ -62,15 +24,15 @@ const VerCita = () => {
       if (res.status === 200) {
         setCita(res.data.body.data);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      const error = err as ApiError;
       //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
+      if (error?.response?.data?.statusCode === 401) {
         deleteCookie(nameCookieSessionApp);
         navigate("/login");
       }
 
-      if (error?.response?.status == 404) {
+      if (error?.response?.data?.statusCode == 404) {
         //
       }
     }
@@ -124,8 +86,8 @@ const VerCita = () => {
                 placeholder="Manuel"
                 className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={
-                  cita?.doctor.nombre
-                    ? `${cita?.doctor.nombre} ${cita?.doctor.apellido} ${cita?.doctor.especialidad}`
+                  cita?.doctor.usuario.nombre
+                    ? `${cita?.doctor.usuario.nombre} ${cita?.doctor.usuario.nombre} ${cita?.doctor.especialidad}`
                     : ""
                 }
               />
@@ -173,4 +135,4 @@ const VerCita = () => {
   );
 };
 
-export default VerCita;
+export default AppointmentPage;

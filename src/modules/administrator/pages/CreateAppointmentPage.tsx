@@ -1,13 +1,26 @@
-import React, { useEffect, useState } from "react";
-import SeleccionarDoctor from "./SeleccionarDoctor";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import client from "../../../../../api/client";
-import { nameCookieSessionApp } from "../../../../../config";
-import { deleteCookie } from "../../../../../utils/cookies";
-import { toaster } from "../../../../../utils/toaster";
-import { formatDate } from "../../../../../utils/utilidades";
 
-const ProgramarCita = () => {
+import { formatDate } from "../../../utils/utilidades";
+import { deleteCookie } from "../../../utils/cookies";
+import { toaster } from "../../../utils/toaster";
+import { nameCookieSessionApp } from "../../../config";
+
+import client from "../../../api/client";
+import SeleccionarDoctor from "../components/SelectDoctor";
+import { ApiError } from "../interfaces/errorsApiInterface";
+
+interface CustomEventTarget extends EventTarget {
+  fecha: {
+    value: string;
+  };
+}
+
+interface SeleccionarFechaEvent extends React.FormEvent<HTMLFormElement> {
+  target: CustomEventTarget;
+}
+
+const CreateAppointmentPage = () => {
   //States
   const [cantidadFecha, setCantidaFecha] = useState<number>(1);
   const [fechas, setFechas] = useState<string[]>([]);
@@ -20,14 +33,15 @@ const ProgramarCita = () => {
   const { ToastContainer, messageToast } = toaster();
 
   //Functions
-  const handleSetCantidadFechas = (e) =>
-    setCantidaFecha(Number(e.target.value));
+  const handleSetCantidadFechas = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => setCantidaFecha(Number(e.target.value));
   const setDoctor = (e: number) => setDoctorSelected(e);
 
-  const seleccionarFecha = (e) => {
+  const seleccionarFecha = (e: SeleccionarFechaEvent): void => {
     e.preventDefault();
 
-    //Verificamos que se haya seleccionado una fecha
+    // Verificamos que se haya seleccionado una fecha
     if (e.target.fecha.value === "") return;
 
     if (fechas.length >= cantidadFecha) return;
@@ -39,7 +53,11 @@ const ProgramarCita = () => {
   };
 
   const onSubmit = async () => {
-    const opciones = [];
+    const opciones: {
+      idCita: number;
+      fecha: string;
+      idDoctor: number | undefined;
+    }[] = [];
 
     fechas.forEach((f) => {
       opciones.push({
@@ -64,10 +82,10 @@ const ProgramarCita = () => {
           navigate("/administrador/ver_citas");
         }, 2000);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      const error = err as ApiError;
       //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
+      if (error?.response?.data?.statusCode === 401) {
         deleteCookie(nameCookieSessionApp);
         navigate("/login");
       }
@@ -157,4 +175,4 @@ const ProgramarCita = () => {
   );
 };
 
-export default ProgramarCita;
+export default CreateAppointmentPage;

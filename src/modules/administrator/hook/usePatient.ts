@@ -26,7 +26,7 @@ const usePatient = () => {
     const param = e.target.value;
 
     let filter = patients.filter((patient) => {
-      const doc = `${patient.nombre} ${patient.apellido}`;
+      const doc = `${patient.usuario.nombre} ${patient.usuario.apellido}`;
       return doc
         .toLowerCase()
         .split(" ")

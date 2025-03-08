@@ -8,7 +8,7 @@ import { nameCookieSessionApp } from "../../../config";
 import client from "../../../api/client";
 
 import { ApiError } from "../interfaces/errorsApiInterface";
-import { DoctorResponse } from "../interfaces/doctorsInterfaces";
+import { DoctorDto } from "../interfaces/doctorsInterfaces";
 
 const useUpdateDoctor = () => {
  const [errorP, setErrorP] = useState<string>("");
@@ -22,7 +22,7 @@ const useUpdateDoctor = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<DoctorResponse>();
+  } = useForm<DoctorDto>();
 
   const onSubmit = handleSubmit(async (data) => {
     const formData = new FormData();

@@ -1,17 +1,16 @@
-import React from "react";
 import { Table } from "flowbite-react";
-import { Citas } from "../../../patients/modules/ViewCitas";
 import { Link } from "react-router-dom";
+import { AppointmentResponse } from "../interfaces/appointmentInterfaces";
 
-type PropsCitaEnProceso = {
-  filteredCitas: Citas[];
+type PropsPendingAppointments = {
+  filteredAppointment: AppointmentResponse[];
   modalOpen: (e: number) => void;
 };
 
-const TableCitasEnProceso = ({
-  filteredCitas,
+const PendingAppointments = ({
+  filteredAppointment: filteredCitas,
   modalOpen,
-}: PropsCitaEnProceso) => {
+}: PropsPendingAppointments) => {
   return (
     <Table hoverable className="">
       <Table.Head className="w-full">
@@ -65,4 +64,4 @@ const TableCitasEnProceso = ({
   );
 };
 
-export default TableCitasEnProceso;
+export default PendingAppointments;
