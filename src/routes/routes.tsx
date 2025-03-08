@@ -1,12 +1,13 @@
 import { RouteObject } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-import Main from "../components/main/Main";
-import ErrorPage from "../components/pages/ErrorPage";
 
-import AdminRoutes from "../modules/admin/router";
-import PatientRoutes from "../modules/patients/router";
-import DoctorRoutes from "../modules/doctors/router";
-import AuthRoutes from "../modules/auth/router";
+import Main from "../modules/main";
+import ErrorPage from "../modules/common/Error";
+
+// import AdminRoutes from "../modules/administrator/router";
+// import PatientRoutes from "../modules/patients/router";
+// import DoctorRoutes from "../modules/doctors/router";
+import AuthRoutes from "../modules/login/router";
 
 const routes: RouteObject[] = [
   {
@@ -17,7 +18,7 @@ const routes: RouteObject[] = [
       </ProtectedRoute>
     ),
     errorElement: <ErrorPage />,
-    children: [AdminRoutes, PatientRoutes, DoctorRoutes],
+    children: [],
   },
   AuthRoutes, // No necesita `children`
 ];

@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
-
-import { Citas } from "../../../patients/modules/ViewCitas";
-import { mostrarFecha } from "../../../../../utils/utilidades";
+import React from "react";
+import { Citas } from "./ViewCitas";
+import { Link } from "react-router-dom";
 
 type PropsCitaSolicitas = {
   filteredCitas: Citas[];
@@ -38,12 +37,11 @@ const TableCitasProgramadas = ({
                   {`${e.paciente.usuario.nombre} ${e.paciente.usuario.apellido}`}
                 </Table.Cell>
                 <Table.Cell>{e.tipoServicio}</Table.Cell>
-
                 <Table.Cell>{e.especialidad}</Table.Cell>
                 <Table.Cell>{e.estado}</Table.Cell>
-                <Table.Cell>{mostrarFecha(e.fecha)}</Table.Cell>
+                <Table.Cell>{e.fecha}</Table.Cell>
                 <Table.Cell className="flex gap-x-2">
-                  <Link to={`/administrador/ver_cita/${e.id}`}>
+                  <Link to={`/paciente/ver_cita/${e.id}`}>
                     <button
                       type="button"
                       className="w-fit text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

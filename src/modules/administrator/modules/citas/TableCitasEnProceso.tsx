@@ -1,18 +1,17 @@
-import { Link } from "react-router-dom";
+import React from "react";
 import { Table } from "flowbite-react";
-
 import { Citas } from "../../../patients/modules/ViewCitas";
-import { mostrarFecha } from "../../../../../utils/utilidades";
+import { Link } from "react-router-dom";
 
-type PropsCitaSolicitas = {
+type PropsCitaEnProceso = {
   filteredCitas: Citas[];
   modalOpen: (e: number) => void;
 };
 
-const TableCitasProgramadas = ({
+const TableCitasEnProceso = ({
   filteredCitas,
   modalOpen,
-}: PropsCitaSolicitas) => {
+}: PropsCitaEnProceso) => {
   return (
     <Table hoverable className="">
       <Table.Head className="w-full">
@@ -20,7 +19,6 @@ const TableCitasProgramadas = ({
         <Table.HeadCell>Servicio</Table.HeadCell>
         <Table.HeadCell>Especialidad</Table.HeadCell>
         <Table.HeadCell>Status</Table.HeadCell>
-        <Table.HeadCell>Fecha</Table.HeadCell>
         <Table.HeadCell>
           <span className="sr-only">Edit</span>
         </Table.HeadCell>
@@ -38,10 +36,8 @@ const TableCitasProgramadas = ({
                   {`${e.paciente.usuario.nombre} ${e.paciente.usuario.apellido}`}
                 </Table.Cell>
                 <Table.Cell>{e.tipoServicio}</Table.Cell>
-
                 <Table.Cell>{e.especialidad}</Table.Cell>
-                <Table.Cell>{e.estado}</Table.Cell>
-                <Table.Cell>{mostrarFecha(e.fecha)}</Table.Cell>
+                <Table.Cell>En espera de aprobación</Table.Cell>
                 <Table.Cell className="flex gap-x-2">
                   <Link to={`/administrador/ver_cita/${e.id}`}>
                     <button
@@ -69,4 +65,4 @@ const TableCitasProgramadas = ({
   );
 };
 
-export default TableCitasProgramadas;
+export default TableCitasEnProceso;
