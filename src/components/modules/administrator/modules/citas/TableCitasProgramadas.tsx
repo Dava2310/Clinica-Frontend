@@ -2,6 +2,7 @@ import { Table } from "flowbite-react";
 import React from "react";
 import { Citas } from "../../../patients/modules/ViewCitas";
 import { Link } from "react-router-dom";
+import { mostrarFecha } from "../../../../../utils/utilidades";
 
 type PropsCitaSolicitas = {
   filteredCitas: Citas[];
@@ -40,7 +41,7 @@ const TableCitasProgramadas = ({
 
                 <Table.Cell>{e.especialidad}</Table.Cell>
                 <Table.Cell>{e.estado}</Table.Cell>
-                <Table.Cell>{e.fecha}</Table.Cell>
+                <Table.Cell>{mostrarFecha(e.fecha)}</Table.Cell>
                 <Table.Cell className="flex gap-x-2">
                   <Link to={`/administrador/ver_cita/${e.id}`}>
                     <button
