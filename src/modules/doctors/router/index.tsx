@@ -1,21 +1,21 @@
 import { RouteObject } from "react-router-dom";
-import TemplateDoctors from "../../components/modules/doctors";
 
-import Citas from "../../components/modules/doctors/modules/Citas";
-import FinalizarCita from "../../components/modules/doctors/modules/FinalizarCita";
-import ResumenesMedicos from "../../components/modules/doctors/modules/ResumenesMedicos";
-import ListadoResumenes from "../../components/modules/doctors/modules/ListadoResumenes";
-import VerResumen from "../../components/modules/doctors/modules/VerResumen";
+import AppointmentPage from "../pages/AppointmentPage";
+import EndAppointmentPage from "../pages/EndAppointmentPage";
+import HistoryPage from "../pages/HistoryPage";
+import MedicalSummariesPage from "../pages/MedicalSummariesPage";
+import MedicalSummaryPage from "../pages/MedicalSummaryPage";
+import TemplateDoctors from "../";
 
 const DoctorRoutes: RouteObject = {
   path: "/doctor",
   element: <TemplateDoctors />,
   children: [
-    { path: "ver_citas", element: <Citas /> },
-    { path: "finalizar_cita/:citaId", element: <FinalizarCita /> },
-    { path: "ver_resumenes", element: <ResumenesMedicos /> },
-    { path: "listado_resumenes/:resumenId", element: <ListadoResumenes /> },
-    { path: "ver_resumen/:resumenId", element: <VerResumen /> },
+    { path: "ver_citas", element: <AppointmentPage /> },
+    { path: "finalizar_cita/:citaId", element: <EndAppointmentPage /> },
+    { path: "ver_resumenes", element: <HistoryPage /> },
+    { path: "listado_resumenes/:historyId", element: <MedicalSummariesPage /> },
+    { path: "ver_resumen/:resumenId", element: <MedicalSummaryPage /> },
   ],
 };
 

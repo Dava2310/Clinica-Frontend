@@ -1,150 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Alert from "../../../common/alert/Alert";
-import client from "../../../../api/client";
-import { useNavigate, useParams } from "react-router-dom";
-import { toaster } from "../../../../utils/toaster";
-import { useForm } from "react-hook-form";
-import { regexName_lastname } from "../../../../utils/validators";
-import { deleteCookie } from "../../../../utils/cookies";
-import { nameCookieSessionApp } from "../../../../config";
-import { formatDate } from "../../../../utils/utilidades";
+import { ToastContainer } from "react-toastify";
+import { regexName_lastname } from "../../../utils/validators";
+import Alert from "../../common/alert/Alert";
+import useCreateMedicalSummary from "../hooks/useCreateMedicalSummary";
 
-interface Opciones {
-  fecha: string;
-  id: number;
-  idCita: number;
-  idDoctor: number;
-}
-
-interface Doctor {
-  id: number;
-  especialidad: string;
-  numeroTelefono: string;
-  userId: number;
-  cedula: string;
-  nombre: string;
-  apellido: string;
-  email: string;
-  tipoUsuario: string;
-}
-
-interface Usuario {
-  nombre: string;
-  apellido: string;
-  email: string;
-}
-
-interface Paciente {
-  id: number;
-  userId: number;
-  usuario: Usuario;
-  numeroTelefono: string;
-}
-
-interface Cita {
-  especialidad: string;
-  estado: string;
-  tipoServicio: string;
-  opciones: Opciones[];
-  doctor: Doctor;
-  paciente: Paciente;
-  fecha: string;
-}
-
-interface resumenMedico {
-  fecha: string;
-  diagnostico: string;
-  tratamiento: string;
-  observaciones: string;
-  tipoServicio: string;
-  doctorId: number;
-  pacienteId: number;
-  historialMedicoId: number;
-  citaId: number;
-}
-
-const FinalizarCita = () => {
-  //States
-  const [errorP, setErrorP] = useState<string | undefined>();
-  const [cita, setCita] = useState<Cita>();
-
-  //Instances
-  const apiClient = client();
-  const navigate = useNavigate();
-  const { ToastContainer, messageToast } = toaster();
-  const params = useParams();
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<resumenMedico>();
-
-  //Funciones
-  const fetchDataCita = async () => {
-    try {
-      const res = await apiClient.get(`/api/citas/opciones/${params.citaId}`);
-      console.log(res);
-      if (res.status === 200) {
-        setCita(res.data.body.data);
-      }
-    } catch (error) {
-      console.log(error);
-      //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
-        deleteCookie(nameCookieSessionApp);
-        navigate("/login");
-      }
-
-      if (error?.response?.status == 404) {
-        //
-      }
-    }
-  };
-
-  const onSubmit = handleSubmit(async (data: resumenMedico) => {
-    const formData = new FormData();
-    formData.append("diagnostico", data.diagnostico);
-    formData.append("tratamiento", data.tratamiento);
-    formData.append("observaciones", data.observaciones);
-    formData.append("tipoServicio", cita?.tipoServicio as string);
-    formData.append("citaId", `${params.citaId as string}`);
-    formData.append("fecha", formatDate(new Date()));
-
-    try {
-      const res = await apiClient.post(`/api/resumenes/`, formData);
-      console.log(res);
-      if (res.data.status == 201) {
-        messageToast({
-          message: res.data.body.message,
-          position: "bottom-right",
-          theme: "colored",
-          type: "success",
-        });
-
-        setTimeout(() => {
-          navigate("/doctor/ver_citas");
-        }, 2000);
-      }
-    } catch (error) {
-      console.log(error);
-      //Redireccionamos por no estar autenticado
-      if (error?.response?.data.statusCode === 401) {
-        deleteCookie(nameCookieSessionApp);
-        navigate("/login");
-      }
-    }
-  });
-
-  //Useeffect
-  useEffect(() => {
-    const fetch = async () => {
-      await fetchDataCita();
-    };
-
-    fetch();
-  }, []);
+const EndAppointmentPage = () => {
+  const { errorP, errors, appointment, onSubmit, register } =
+    useCreateMedicalSummary();
 
   return (
     // Container
@@ -166,7 +27,7 @@ const FinalizarCita = () => {
               disabled
               type="text"
               placeholder=""
-              value={`${cita?.paciente?.usuario.nombre} ${cita?.paciente?.usuario.apellido}`}
+              value={`${appointment?.paciente?.usuario.nombre} ${appointment?.paciente?.usuario.apellido}`}
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -183,7 +44,7 @@ const FinalizarCita = () => {
               disabled
               type="text"
               placeholder=""
-              value={cita?.fecha ? cita?.fecha : ""}
+              value={appointment?.fecha ? appointment?.fecha : ""}
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -200,7 +61,7 @@ const FinalizarCita = () => {
               disabled
               type="text"
               placeholder=""
-              value={cita?.tipoServicio}
+              value={appointment?.tipoServicio}
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -329,4 +190,4 @@ const FinalizarCita = () => {
   );
 };
 
-export default FinalizarCita;
+export default EndAppointmentPage;

@@ -1,50 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import client from "../../../../api/client";
-import { ErrorResponse } from "../../../../types";
-import { nameCookieSessionApp } from "../../../../config";
-import { deleteCookie } from "../../../../utils/cookies";
 import { Table } from "flowbite-react";
-import { Datum } from "./ResumenesMedicos";
-import { mostrarFecha } from "../../../../utils/utilidades";
+import { Link } from "react-router-dom";
+import { mostrarFecha } from "../../../utils/utilidades";
+import useHistoryPatients from "../hooks/useHistoryPatients";
 
-const ListadoResumenes = () => {
-  //States
-  const [resumenes, setResumenes] = useState<Datum>();
-
-  //Intances
-  const params = useParams();
-  const apiClient = client();
-  const navigate = useNavigate();
-
-  //Functions
-  const fetchResumenes = async () => {
-    try {
-      const res = await apiClient.get(`/api/historiales/${params.resumenId}`);
-      if (res?.data.body.data !== undefined) {
-        setResumenes(res.data.body.data);
-      }
-    } catch (error) {
-      const handleError = (error: ErrorResponse) => {
-        if (error?.response?.data?.statusCode === 401) {
-          deleteCookie(nameCookieSessionApp);
-          navigate("/login");
-        } else if (error?.response?.status === 404) {
-          console.log(error.response.data?.message);
-        }
-      };
-
-      handleError(error as ErrorResponse);
-    }
-  };
-
-  useEffect(() => {
-    const fetch = async () => {
-      await fetchResumenes();
-    };
-
-    fetch();
-  }, []);
+const HistoryPage = () => {
+  const { histories } = useHistoryPatients();
   return (
     <div className="w-full h-full flex flex-col gap-y-2 p-4">
       {/* Contenedor Button y buscador */}
@@ -63,7 +23,11 @@ const ListadoResumenes = () => {
           </label>
           <input
             type="text"
-            value={`${resumenes?.paciente?.usuario?.nombre} ${resumenes?.paciente?.usuario?.apellido}, C.I. ${resumenes?.paciente?.usuario?.cedula} `}
+            value={`${
+              histories
+                ? `${histories.paciente.usuario.nombre} ${histories.paciente.usuario.apellido} C.I. ${histories.paciente.usuario.cedula}`
+                : ""
+            }`}
             placeholder="Ingresa un nombre"
             className="bg-gray-100 border border-gray-500 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -84,8 +48,9 @@ const ListadoResumenes = () => {
           </Table.Head>
 
           <Table.Body className="divide-y">
-            {resumenes !== undefined &&
-              resumenes?.resumenesMedicos.map((e) => {
+            {histories &&
+              histories.resumenesMedicos.length > 0 &&
+              histories?.resumenesMedicos.map((e) => {
                 return (
                   <Table.Row
                     key={e.id}
@@ -117,4 +82,4 @@ const ListadoResumenes = () => {
   );
 };
 
-export default ListadoResumenes;
+export default HistoryPage;

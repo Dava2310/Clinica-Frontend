@@ -1,89 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import client from "../../../../api/client";
-import { ErrorResponse } from "../../../../types";
-import { nameCookieSessionApp } from "../../../../config";
-import { deleteCookie } from "../../../../utils/cookies";
+import useMedicalSummary from "../hooks/useMedicalSummary";
 
-export interface ResumenResponseInterface {
-  data: Data;
-}
-
-export interface Data {
-  id: number;
-  fecha: Date;
-  diagnostico: string;
-  tratamiento: string;
-  observaciones: string;
-  tipoServicio: string;
-  doctorId: number;
-  pacienteId: number;
-  historialMedicoId: number;
-  citaId: number;
-  paciente: Paciente;
-}
-
-export interface Paciente {
-  id: number;
-  tipoSangre: string;
-  direccion: string;
-  numeroTelefono: string;
-  seguroMedico: string;
-  userId: number;
-  usuario: Usuario;
-}
-
-export interface Usuario {
-  id: number;
-  cedula: string;
-  nombre: string;
-  apellido: string;
-  password: string;
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
-  tipoUsuario: string;
-}
-
-const VerResumen = () => {
-  //States
-  const [resumen, setResumen] = useState<Data>();
-
-  //Instances
-  const apiClient = client();
-  const params = useParams();
-  const navigate = useNavigate();
-
-  //Functions
-  const fetchResumen = async () => {
-    try {
-      const res = await apiClient.get(`/api/resumenes/${params.resumenId}`);
-      if (res?.data.body.data !== undefined) {
-        console.log(res.data.body.data);
-        setResumen(res.data.body.data);
-      }
-    } catch (error) {
-      const handleError = (error: ErrorResponse) => {
-        if (error?.response?.data?.statusCode === 401) {
-          deleteCookie(nameCookieSessionApp);
-          navigate("/login");
-        } else if (error?.response?.status === 404) {
-          console.log(error.response.data?.message);
-        }
-      };
-
-      handleError(error as ErrorResponse);
-    }
-  };
-
-  //Effects
-  useEffect(() => {
-    const fetch = async () => {
-      await fetchResumen();
-    };
-
-    fetch();
-  }, []);
+const MedicalSummaryPage = () => {
+  const { summary } = useMedicalSummary();
 
   return (
     <>
@@ -102,7 +20,11 @@ const VerResumen = () => {
               disabled
               type="text"
               placeholder=""
-              value={`${resumen?.paciente?.usuario?.nombre} ${resumen?.paciente?.usuario?.apellido} C.I. ${resumen?.paciente?.usuario?.cedula}`}
+              value={`${
+                summary
+                  ? `${summary.paciente.usuario.nombre} ${summary.paciente.usuario.apellido} - ${summary.paciente.usuario.cedula}`
+                  : ""
+              }`}
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -119,7 +41,7 @@ const VerResumen = () => {
               disabled
               type="text"
               placeholder=""
-              value={`${resumen?.tipoServicio}`}
+              value={`${summary?.tipoServicio}`}
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -151,7 +73,7 @@ const VerResumen = () => {
                   type="text"
                   disabled
                   placeholder=""
-                  value={`${resumen?.diagnostico}`}
+                  value={`${summary?.diagnostico}`}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
@@ -168,7 +90,7 @@ const VerResumen = () => {
                   type="text"
                   disabled
                   placeholder=""
-                  value={`${resumen?.tratamiento}`}
+                  value={`${summary?.tratamiento}`}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
@@ -183,25 +105,16 @@ const VerResumen = () => {
                 </label>
                 <textarea
                   disabled
-                  value={resumen?.observaciones}
+                  value={summary?.observaciones}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-32"
                 ></textarea>
               </div>
             </div>
           </div>
-
-          {/* <div className="w-full flex justify-center mt-2">
-            <button
-              type="submit"
-              className="w-fit text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-8 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            >
-              Finalizar cita
-            </button>
-          </div> */}
         </form>
       </div>
     </>
   );
 };
 
-export default VerResumen;
+export default MedicalSummaryPage;

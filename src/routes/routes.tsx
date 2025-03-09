@@ -6,7 +6,7 @@ import ErrorPage from "../modules/common/Error";
 
 import AdminRoutes from "../modules/administrator/router";
 // import PatientRoutes from "../modules/patients/router";
-// import DoctorRoutes from "../modules/doctors/router";
+import DoctorRoutes from "../modules/doctors/router";
 import AuthRoutes from "../modules/login/router";
 
 const routes: RouteObject[] = [
@@ -18,7 +18,7 @@ const routes: RouteObject[] = [
       </ProtectedRoute>
     ),
     errorElement: <ErrorPage />,
-    children: [AdminRoutes],
+    children: [AdminRoutes, DoctorRoutes],
   },
   AuthRoutes, // No necesita `children`
 ];

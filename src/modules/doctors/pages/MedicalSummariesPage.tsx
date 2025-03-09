@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
-import { mostrarFecha } from "../../../utils/utilidades";
-import useAppointment from "../hooks/useAppointment";
+import useMedicalSummaries from "../hooks/useMedicalSummaries";
 
-const AppointmentPage = () => {
-  const { filteredAppointment, onHandleChange } = useAppointment();
+const MedicalSummariesPage = () => {
+  const { historiesFilter, onHandleChange } = useMedicalSummaries();
+
   return (
-    <div className="w-full h-full flex flex-col gap-y-4 p-4">
+    <div className="w-full h-full flex flex-col gap-y-2 px-4 py-2">
+      <h1 className="p-0 font-medium text-lg">Historiales Medicos:</h1>
       {/* Contenedor Button y buscador */}
       <div className="w-full flex justify-end items-center gap-x-4 border-2 border-gray-300 rounded-md p-2 bg-gray-50">
         {/* Button */}
@@ -30,23 +31,20 @@ const AppointmentPage = () => {
       </div>
 
       {/* Contenedor table */}
-      <div className="overflow-x-auto w-full max-h-full flex flex-grow justify-center border-2 bg-gray-50 border-gray-300 rounded-md py-2">
+      <div className="overflow-x-auto w-full max-h-full border-2 bg-gray-50 border-gray-300 rounded-md py-2">
         <Table hoverable className="">
           <Table.Head className="w-full">
-            <Table.HeadCell>Nombre</Table.HeadCell>
-            <Table.HeadCell>Tipo de servicio</Table.HeadCell>
-            <Table.HeadCell>Status</Table.HeadCell>
-            <Table.HeadCell>Fecha</Table.HeadCell>
+            <Table.HeadCell>Paciente</Table.HeadCell>
+            <Table.HeadCell>Cédula</Table.HeadCell>
             <Table.HeadCell>Teléfono</Table.HeadCell>
-            <Table.HeadCell>Correo Electrónico</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
           </Table.Head>
 
           <Table.Body className="divide-y">
-            {filteredAppointment.length > 0 &&
-              filteredAppointment.map((e) => {
+            {historiesFilter.length > 0 &&
+              historiesFilter.map((e) => {
                 return (
                   <Table.Row
                     key={e.id}
@@ -55,18 +53,15 @@ const AppointmentPage = () => {
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {e.paciente.usuario.nombre} {e.paciente.usuario.apellido}
                     </Table.Cell>
-                    <Table.Cell>{e.tipoServicio}</Table.Cell>
-                    <Table.Cell>{e.estado}</Table.Cell>
-                    <Table.Cell>{mostrarFecha(e.fecha)}</Table.Cell>
+                    <Table.Cell>{e.paciente.usuario.cedula}</Table.Cell>
                     <Table.Cell>{e.paciente.numeroTelefono}</Table.Cell>
-                    <Table.Cell>{e.paciente.usuario.email}</Table.Cell>
                     <Table.Cell className="flex gap-x-2">
-                      <Link to={`/doctor/finalizar_cita/${e.id}`}>
+                      <Link to={`/doctor/listado_resumenes/${e.id}`}>
                         <button
                           type="button"
                           className="w-fit  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                         >
-                          Atender
+                          Ver resúmenes
                         </button>
                       </Link>
                     </Table.Cell>
@@ -80,4 +75,4 @@ const AppointmentPage = () => {
   );
 };
 
-export default AppointmentPage;
+export default MedicalSummariesPage;
