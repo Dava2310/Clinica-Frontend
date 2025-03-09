@@ -75,6 +75,8 @@ const useCreateMedicalSummary = () => {
       }
     } catch (err) {
       const error = err as ApiError;
+      const message = error?.response?.data?.body?.message as string;
+      setErrorP(message);
 
       //Redireccionar por no estar autenticado
       if (error?.response?.data?.statusCode === 401) {

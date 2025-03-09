@@ -4,7 +4,7 @@ import Alert from "../../common/components/Alert";
 import { useLogin } from "../hook/useAuth";
 
 const Login = () => {
-  const { register, errors, onSubmit, errorP } = useLogin();
+  const { errors, errorP, onSubmit, register } = useLogin();
   return (
     <>
       <div className="w-full h-screen">

@@ -47,5 +47,5 @@ export const useLogin = () => {
     }
   });
 
-  return { register, errors, onSubmit, errorP };
+  return { errors, errorP, register, onSubmit };
 };
