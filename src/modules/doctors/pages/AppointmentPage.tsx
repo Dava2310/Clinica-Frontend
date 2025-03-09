@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
 import { mostrarFecha } from "../../../utils/utilidades";
 import useAppointment from "../hooks/useAppointment";
+import document from "../../../assets/document.png";
 
 const AppointmentPage = () => {
   const { filteredAppointment, onHandleChange } = useAppointment();
   return (
-    <div className="w-full h-full flex flex-col gap-y-4 p-4">
+    <div className="w-full h-full flex flex-col gap-y-2 p-4">
       {/* Contenedor Button y buscador */}
+      <h1 className="p-0 font-medium text-lg">Citas Medicas</h1>
       <div className="w-full flex justify-end items-center gap-x-4 border-2 border-gray-300 rounded-md p-2 bg-gray-50">
         {/* Button */}
         {/* <button type="button"  className="w-44 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Registrar paciente</button> */}
@@ -18,7 +20,7 @@ const AppointmentPage = () => {
             htmlFor="name"
             className="block mb-0.5 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Filtrar por paciente:
+            Paciente:
           </label>
           <input
             type="text"
@@ -30,23 +32,23 @@ const AppointmentPage = () => {
       </div>
 
       {/* Contenedor table */}
-      <div className="overflow-x-auto w-full max-h-full flex flex-grow justify-center border-2 bg-gray-50 border-gray-300 rounded-md py-2">
-        <Table hoverable className="">
-          <Table.Head className="w-full">
-            <Table.HeadCell>Nombre</Table.HeadCell>
-            <Table.HeadCell>Tipo de servicio</Table.HeadCell>
-            <Table.HeadCell>Status</Table.HeadCell>
-            <Table.HeadCell>Fecha</Table.HeadCell>
-            <Table.HeadCell>Teléfono</Table.HeadCell>
-            <Table.HeadCell>Correo Electrónico</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
-          </Table.Head>
+      {filteredAppointment.length > 0 ? (
+        <div className="overflow-x-auto w-full max-h-full flex flex-grow justify-center border-2 bg-gray-50 border-gray-300 rounded-md py-2">
+          <Table hoverable className="">
+            <Table.Head className="w-full">
+              <Table.HeadCell>Nombre</Table.HeadCell>
+              <Table.HeadCell>Tipo de servicio</Table.HeadCell>
+              <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell>Fecha</Table.HeadCell>
+              <Table.HeadCell>Teléfono</Table.HeadCell>
+              <Table.HeadCell>Correo Electrónico</Table.HeadCell>
+              <Table.HeadCell>
+                <span className="sr-only">Edit</span>
+              </Table.HeadCell>
+            </Table.Head>
 
-          <Table.Body className="divide-y">
-            {filteredAppointment.length > 0 &&
-              filteredAppointment.map((e) => {
+            <Table.Body className="divide-y">
+              {filteredAppointment.map((e) => {
                 return (
                   <Table.Row
                     key={e.id}
@@ -73,9 +75,21 @@ const AppointmentPage = () => {
                   </Table.Row>
                 );
               })}
-          </Table.Body>
-        </Table>
-      </div>
+            </Table.Body>
+          </Table>
+        </div>
+      ) : (
+        <div className="flex justify-center items-end rounded-md">
+          <div className="grid justify-center items-center">
+            <div className="flex justify-center">
+              <img src={document} alt="citas" />
+            </div>
+            <p className="text-md text-center font-medium">
+              No hay registros de citas medicas
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

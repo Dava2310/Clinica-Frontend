@@ -2,6 +2,7 @@ import { Table } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { mostrarFecha } from "../../../utils/utilidades";
 import useHistoryPatients from "../hooks/useHistoryPatients";
+import document from "../../../assets/document.png";
 
 const HistoryPage = () => {
   const { histories } = useHistoryPatients();
@@ -35,22 +36,22 @@ const HistoryPage = () => {
       </div>
 
       {/* Contendor table */}
-      <div className="overflow-x-auto w-full max-h-full border-2 bg-gray-50 border-gray-300 rounded-md py-2">
-        <Table hoverable align="center" className="">
-          <Table.Head className="w-full">
-            <Table.HeadCell>Doctor</Table.HeadCell>
-            <Table.HeadCell>Especialidad</Table.HeadCell>
-            <Table.HeadCell>Tipo de servicio</Table.HeadCell>
-            <Table.HeadCell>Fecha</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
-          </Table.Head>
 
-          <Table.Body className="divide-y">
-            {histories &&
-              histories.resumenesMedicos.length > 0 &&
-              histories?.resumenesMedicos.map((e) => {
+      {histories && histories.resumenesMedicos.length ? (
+        <div className="overflow-x-auto w-full max-h-full border-2 bg-gray-50 border-gray-300 rounded-md py-2">
+          <Table hoverable align="center" className="">
+            <Table.Head className="w-full">
+              <Table.HeadCell>Doctor</Table.HeadCell>
+              <Table.HeadCell>Especialidad</Table.HeadCell>
+              <Table.HeadCell>Tipo de servicio</Table.HeadCell>
+              <Table.HeadCell>Fecha</Table.HeadCell>
+              <Table.HeadCell>
+                <span className="sr-only">Edit</span>
+              </Table.HeadCell>
+            </Table.Head>
+
+            <Table.Body className="divide-y">
+              {histories?.resumenesMedicos.map((e) => {
                 return (
                   <Table.Row
                     key={e.id}
@@ -75,9 +76,21 @@ const HistoryPage = () => {
                   </Table.Row>
                 );
               })}
-          </Table.Body>
-        </Table>
-      </div>
+            </Table.Body>
+          </Table>
+        </div>
+      ) : (
+        <div className="flex justify-center items-end rounded-md">
+          <div className="grid justify-center items-center">
+            <div className="flex justify-center">
+              <img src={document} alt="citas" />
+            </div>
+            <p className="text-md text-center font-medium">
+              No hay registros de resúmenes medicos
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

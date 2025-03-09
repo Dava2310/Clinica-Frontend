@@ -11,8 +11,8 @@ const CreateDoctorPage = () => {
     // Container
     <>
       {errorP && <Alert message={errorP} type={"error"} />}
-
       <div className="w-full h-full p-4">
+        <h1 className="p-0 font-medium text-xl mb-2">Registrar doctor</h1>
         {/* Formulario */}
         <form
           action=""
@@ -22,7 +22,7 @@ const CreateDoctorPage = () => {
           {/* Container datos personales */}
           <div className="w-full flex flex-col gap-y-3 ">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900s">
+              <h2 className="text-md font-semibold text-gray-900s">
                 Datos Personales:
               </h2>
             </div>
@@ -182,7 +182,7 @@ const CreateDoctorPage = () => {
           {/* Container datos de doctor */}
           <div className="w-full mt-4 flex flex-col gap-y-3">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900s">
+              <h2 className="text-md font-semibold text-gray-900s">
                 Datos del Doctor:
               </h2>
             </div>

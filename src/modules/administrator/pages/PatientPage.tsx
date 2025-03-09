@@ -18,8 +18,9 @@ const PatientPage = () => {
   } = usePatient();
 
   return (
-    <div className="w-full h-full flex flex-col gap-y-4 p-4">
+    <div className="w-full h-full flex flex-col gap-y-2 p-4">
       {/* Contenedor Button y buscador */}
+      <h1 className="p-0 font-medium text-lg">Pacientes</h1>
       <div className="w-full flex justify-between items-center gap-x-4 border-2 border-gray-300 rounded-md p-2 bg-gray-50">
         {/* Button */}
         <button

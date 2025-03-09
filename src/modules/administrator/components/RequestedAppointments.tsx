@@ -1,31 +1,29 @@
 import { Table } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { AppointmentResponse } from "../interfaces/appointmentInterfaces";
-
 type PropsRequestedAppointment = {
   filteredAppointment: AppointmentResponse[];
   modalOpen: (e: number) => void;
 };
 
 const RequestedAppointments = ({
-  filteredAppointment: filteredCitas,
+  filteredAppointment,
   modalOpen,
 }: PropsRequestedAppointment) => {
   return (
-    <Table hoverable className="">
-      <Table.Head className="w-full">
-        <Table.HeadCell>Paciente</Table.HeadCell>
-        <Table.HeadCell>Servicio</Table.HeadCell>
-        <Table.HeadCell>Especialidad</Table.HeadCell>
-        <Table.HeadCell>Status</Table.HeadCell>
-        <Table.HeadCell>
-          <span className="sr-only">Edit</span>
-        </Table.HeadCell>
-      </Table.Head>
-
-      <Table.Body className="divide-y">
-        {filteredCitas.length > 0 &&
-          filteredCitas.map((e) => {
+    <>
+      <Table hoverable={true} className="">
+        <Table.Head className="w-full">
+          <Table.HeadCell>Paciente</Table.HeadCell>
+          <Table.HeadCell>Servicio</Table.HeadCell>
+          <Table.HeadCell>Especialidad</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
+          <Table.HeadCell>
+            <span className="sr-only">Edit</span>
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
+          {filteredAppointment.map((e) => {
             return (
               <Table.Row
                 key={e.id}
@@ -59,8 +57,9 @@ const RequestedAppointments = ({
               </Table.Row>
             );
           })}
-      </Table.Body>
-    </Table>
+        </Table.Body>
+      </Table>
+    </>
   );
 };
 

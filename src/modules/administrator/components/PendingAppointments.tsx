@@ -1,6 +1,7 @@
 import { Table } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { AppointmentResponse } from "../interfaces/appointmentInterfaces";
+import document from "../../../assets/document.png";
 
 type PropsPendingAppointments = {
   filteredAppointment: AppointmentResponse[];
@@ -8,7 +9,7 @@ type PropsPendingAppointments = {
 };
 
 const PendingAppointments = ({
-  filteredAppointment: filteredCitas,
+  filteredAppointment,
   modalOpen,
 }: PropsPendingAppointments) => {
   return (
@@ -24,8 +25,8 @@ const PendingAppointments = ({
       </Table.Head>
 
       <Table.Body className="divide-y">
-        {filteredCitas.length > 0 &&
-          filteredCitas.map((e) => {
+        {filteredAppointment.length > 0 ? (
+          filteredAppointment.map((e) => {
             return (
               <Table.Row
                 key={e.id}
@@ -58,7 +59,15 @@ const PendingAppointments = ({
                 </Table.Cell>
               </Table.Row>
             );
-          })}
+          })
+        ) : (
+          <div className="flex flex-col">
+            <div>
+              <img src={document} alt="citas" />
+            </div>
+            <p>No hay citas pendientes</p>
+          </div>
+        )}
       </Table.Body>
     </Table>
   );

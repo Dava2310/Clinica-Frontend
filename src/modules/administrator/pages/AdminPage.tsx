@@ -13,7 +13,8 @@ const AdminPage = () => {
   const { ToastContainer } = toaster();
 
   return (
-    <div className="w-full h-full flex flex-col gap-y-4 p-4">
+    <div className="w-full h-full flex flex-col gap-y-2 p-4">
+      <h1 className="p-0 font-medium text-lg">Administradores</h1>
       <div className="w-full flex justify-between items-center gap-x-4 border-2 border-gray-300 rounded-md p-2 bg-gray-50">
         <button
           type="button"

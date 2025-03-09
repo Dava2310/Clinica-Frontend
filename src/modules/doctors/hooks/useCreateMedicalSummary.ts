@@ -16,11 +16,14 @@ const useCreateMedicalSummary = () => {
   //States
   const [appointment, setAppointment] = useState<AppointmentResponse>();
   const [errorP, setErrorP] = useState<string>('');
+
    //Instances
   const apiClient = client();
   const navigate = useNavigate();
   const { messageToast } = toaster();
   const params = useParams();
+
+  console.log(params.citaId)
  
   const {
     register,
@@ -32,10 +35,6 @@ const useCreateMedicalSummary = () => {
 
   //Funciones
   const fetchAppointments = async () => {
-    const apiClient = client();
-    const params = useParams();
-    const navigate = useNavigate();
-    
     try {
       const res = await apiClient.get(`/api/citas/opciones/${params.citaId}`);
       if (res.status === 200) setAppointment(res.data.body.data);

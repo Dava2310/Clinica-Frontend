@@ -15,6 +15,7 @@ const UpdateDoctorPage = () => {
 
       <div className="w-full h-full p-4">
         {/* Formulario */}
+        <h1 className="p-0 font-medium text-xl mb-2">Actualizar doctor</h1>
         <form
           action=""
           onSubmit={onSubmit}
@@ -23,7 +24,7 @@ const UpdateDoctorPage = () => {
           {/* Container datos personales */}
           <div className="w-full flex flex-col gap-y-3 ">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900s">
+              <h2 className="text-md font-semibold text-gray-900s">
                 Datos Personales:
               </h2>
             </div>
@@ -156,7 +157,7 @@ const UpdateDoctorPage = () => {
           {/* Container datos de doctor */}
           <div className="w-full mt-4 flex flex-col gap-y-3">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900s">
+              <h2 className="text-md font-semibold text-gray-900s">
                 Datos del Doctor:
               </h2>
             </div>

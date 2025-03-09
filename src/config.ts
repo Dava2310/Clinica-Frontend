@@ -1,20 +1,21 @@
-import { HiShoppingBag, HiUser } from "react-icons/hi"
+import { HiShoppingBag } from "react-icons/hi"
 import { IoMdCreate } from "react-icons/io";
-import { FaClipboardList } from "react-icons/fa";
+import { FaClipboardList, FaFileMedicalAlt } from "react-icons/fa";
 import { FaPersonCane, FaUserDoctor } from "react-icons/fa6";
 import { RiAdminFill } from "react-icons/ri";
 import { CiCalendarDate } from "react-icons/ci";
+import { TbReportMedical } from "react-icons/tb";
 
 export const urlsDoctors = [
   {
-    icon:HiShoppingBag,
+    icon:FaFileMedicalAlt,
     name:"Citas",
     urls:[
         {url:"doctor/ver_citas",name:"Citas Pendientes"}
     ]
   },
   {
-    icon:HiShoppingBag,
+    icon:TbReportMedical,
     name:"Resúmenes Medicos",
     urls:[
         {url:"doctor/ver_resumenes",name:"resúmenes"},
