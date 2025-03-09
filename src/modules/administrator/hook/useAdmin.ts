@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import client from "../../../api/client";
 import { toaster } from "../../../utils/toaster";
 import { AdminResponse } from "../interfaces/adminInterfaces";
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 
 const useAdmins = () => {
   const [admins, setAdmins] = useState<AdminResponse[]>([]);

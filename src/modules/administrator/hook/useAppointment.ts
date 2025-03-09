@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AppointmentResponse } from "../interfaces/appointmentInterfaces";
 import { useNavigate, useParams } from "react-router-dom";
 import client from "../../../api/client";
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 import { nameCookieSessionApp } from "../../../config";
 import { deleteCookie } from "../../../utils/cookies";
 

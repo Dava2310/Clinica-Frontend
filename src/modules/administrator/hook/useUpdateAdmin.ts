@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import client from "../../../api/client";
 import { toaster } from "../../../utils/toaster";
 import { AdminResponse } from "../interfaces/adminInterfaces";
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 
 const useUpdateAdmin = () => {
   const [errorP, setErrorP] = useState<string>('');

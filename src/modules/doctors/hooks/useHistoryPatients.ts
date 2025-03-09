@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { deleteCookie } from "../../../utils/cookies";
 import { nameCookieSessionApp } from "../../../config";
 
-import { ApiError } from "../../administrator/interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 import { HistoryPatientResponse } from "../interfaces/historyPatientsInterfaces";
 
 import client from "../../../api/client";

@@ -8,7 +8,7 @@ import { deleteCookie } from "../../../utils/cookies";
 import { arrEspecialidades, nameCookieSessionApp } from "../../../config";
 import client from "../../../api/client";
 import { DoctorResponse } from "../interfaces/doctorsInterfaces";
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 
 type PropsSelectDoctor = {
   setDoctor: (e: number) => void;

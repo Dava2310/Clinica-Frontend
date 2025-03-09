@@ -6,7 +6,7 @@ import { nameCookieSessionApp } from "../../../config";
 import { PropsToken } from "../../../types";
 
 import client from "../../../api/client";
-import { ApiError } from "../../administrator/interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 import { AppointmentResponse } from "../../administrator/interfaces/appointmentInterfaces";
 
 const useAppointment = () => {

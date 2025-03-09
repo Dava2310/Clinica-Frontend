@@ -7,7 +7,7 @@ import { deleteCookie } from "../../../utils/cookies";
 import { nameCookieSessionApp } from "../../../config";
 
 import { AppointmentResponse, PanelEnum } from "../interfaces/appointmentInterfaces";
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 
 const useAppointments = () => {
     //States

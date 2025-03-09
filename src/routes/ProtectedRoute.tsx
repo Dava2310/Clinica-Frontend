@@ -1,11 +1,7 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { getCookie } from "../utils/cookies";
-import {
-  nameCookieSessionApp,
-  prefixUrlsTypeUsers,
-  typeUsers,
-} from "../config";
+import { nameCookieSessionApp, prefixUrlsTypeUsers } from "../config";
 import { PropsToken } from "../types";
 
 type PropsProtectedRoute = { children: ReactNode };

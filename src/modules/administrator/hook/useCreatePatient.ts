@@ -4,7 +4,7 @@ import client from "../../../api/client";
 import { toaster } from "../../../utils/toaster";
 import { PatientDto } from "../interfaces/patientInterfaces";
 import { useForm } from "react-hook-form";
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 import { nameCookieSessionApp } from "../../../config";
 import { deleteCookie } from "../../../utils/cookies";
 

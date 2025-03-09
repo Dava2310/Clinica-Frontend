@@ -7,7 +7,7 @@ import { toaster } from "../../../utils/toaster";
 import { nameCookieSessionApp } from "../../../config";
 import client from "../../../api/client";
 
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 import { DoctorDto } from "../interfaces/doctorsInterfaces";
 
 const useUpdateDoctor = () => {

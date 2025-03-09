@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toaster } from "../../../utils/toaster";
 import { DoctorDto } from "../interfaces/doctorsInterfaces";
 import { useForm } from "react-hook-form";
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 import { nameCookieSessionApp } from "../../../config";
 import { deleteCookie } from "../../../utils/cookies";
 

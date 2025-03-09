@@ -1,6 +1,6 @@
 import Logo from "../../../assets/Logo.png";
 
-import Alert from "../../common/alert/Alert";
+import Alert from "../../common/components/Alert";
 import { useLogin } from "../hook/useAuth";
 
 const Login = () => {

@@ -7,7 +7,7 @@ import { deleteCookie } from "../../../utils/cookies";
 import { nameCookieSessionApp } from "../../../config";
 import client from "../../../api/client";
 
-import { ApiError } from "../interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 import { PatientDto, PatientResponse } from "../interfaces/patientInterfaces";
 
 const useUpdatePatient = () => {

@@ -5,7 +5,7 @@ import {
   regexName_lastname,
 } from "../../../utils/validators";
 
-import Alert from "../../common/alert/Alert";
+import Alert from "../../common/components/Alert";
 import useCreateAdmin from "../hook/useCreateAdmin";
 
 const CreateAdminPage = () => {

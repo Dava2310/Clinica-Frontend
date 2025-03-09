@@ -1,6 +1,6 @@
 import { regexName_lastname } from "../../../utils/validators";
 import { arrTipoSangre } from "../../../config";
-import Alert from "../../common/alert/Alert";
+import Alert from "../../common/components/Alert";
 
 import useUpdatePatient from "../hook/useUpdatePatient";
 import { ToastContainer } from "react-toastify";

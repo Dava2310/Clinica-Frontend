@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
-import Tabs from "../../common/tabs";
-import MyModal from "../../common/alert/Modal";
+import Tabs from "../../common/components/Tabs";
+import MyModal from "../../common/components/Modal";
 import RequestedAppointments from "../components/RequestedAppointments";
 import PendingAppointments from "../components/PendingAppointments";
 import ScheduledAppointments from "../components/ScheduledAppointments";

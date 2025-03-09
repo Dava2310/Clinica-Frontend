@@ -1,4 +1,4 @@
-interface ErrorResponse {
+export interface ApiError {
     response?: {
         data?: {
             statusCode?: number;
@@ -6,38 +6,6 @@ interface ErrorResponse {
         };
         status?: number;
     };
-}
-export type RoutesApp = '/'
-    | '/login'
-    | '/signup'
-    | '/profile';
-
-    export type idUser = number;
-    export type users = 'administrador' | 'doctor' | 'paciente' | idUser
-
-export type EndPointApi = '/api/auth/login'
-    |'/api/auth/register'
-    |'/api/auth/login'
-    |'/api/auth/verify-token'
-    |'/api/auth/refresh-token'
-    |'/api/auth/logout'
-    |'/api/auth/changePassword'
-    |`/api/users/tipo/${users}`
-    |`/api/users/${string}`
-    |`/api/doctores/${string}`
-    |'/api/doctores/'
-    |`/api/pacientes/${string}`
-    |'/api/pacientes/'
-    |'/api/citas/'
-    |`/api/citas/cancelar/${string}`
-    |'/api/citas/opciones/'
-    |`/api/historiales/`
-    |`/api/historiales/${string}`
-    |`/api/resumenes/${string}`
-
-export type ErrForActions = {
-    status:number,
-    statusText:string
 }
 
 export type PropsToken = {
@@ -49,8 +17,6 @@ export type PropsToken = {
     email:string,
     id:number
 }
-
-export type Panel = 1 | 2;
 
 export type PropsToaster = {
     theme: 'colored' | 'dark' | 'light',

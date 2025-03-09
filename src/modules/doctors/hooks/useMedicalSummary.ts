@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import client from '../../../api/client';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ApiError } from '../../administrator/interfaces/errorsApiInterface';
+import { ApiError } from '../../common/interfaces/errorsApiInterface';
 import { nameCookieSessionApp } from '../../../config';
 import { deleteCookie } from '../../../utils/cookies';
 import { MedicalSummaryResponse } from '../interfaces/summaryInterfaces';

@@ -9,7 +9,7 @@ import { nameCookieSessionApp } from "../../../config";
 import client from "../../../api/client";
 
 import { AppointmentResponse } from "../../administrator/interfaces/appointmentInterfaces";
-import { ApiError } from "../../administrator/interfaces/errorsApiInterface";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 import { MedicalSummaryDto } from "../interfaces/summaryInterfaces";
 
 const useCreateMedicalSummary = () => {

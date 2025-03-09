@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
-import MyModal from "../../common/alert/Modal";
+import MyModal from "../../common/components/Modal";
 import { ToastContainer } from "react-toastify";
 import useDoctor from "../hook/useDoctor";
 

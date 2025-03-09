@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Table } from "flowbite-react";
 import { toaster } from "../../../utils/toaster";
-import MyModal from "../../common/alert/Modal";
+import MyModal from "../../common/components/Modal";
 import useAdmins from "../hook/useAdmin";
 import useModal from "../hook/useModal";
 

@@ -78,8 +78,6 @@ export const urlsAdministrator = [
   },
 ]
 
-export const nameCookieSessionApp = 'cookie_clinica_backend'
-
 export const prefixUrlsTypeUsers = [
   {
     type: "doctor",
@@ -94,12 +92,6 @@ export const prefixUrlsTypeUsers = [
     url:"/administrador/",
   },
 ]
-
-export const typeUsers = { 
-  doctor: "doctor", 
-  paciente: "paciente",
-  administrador: "administrador" 
-}
 
 export const arrTipoSangre = [
   {
@@ -155,47 +147,11 @@ export const arrEspecialidades = [
   }
 ]
 
-const extractedRoutes = [
-  {
-    path: "/",
-    children: [
-      {
-        path: "/administrador/",
-        children: [
-          { path: "crear_doctor" },
-          { path: "modificar_doctor/:userId" },
-          { path: "ver_doctores" },
-          { path: "crear_paciente" },
-          { path: "modificar_paciente/:userId" },
-          { path: "ver_pacientes" },
-          { path: "crear_administrador" },
-          { path: "modificar_administrador/:userId" },
-          { path: "ver_administradores" },
-          { path: "ver_citas" },
-          { path: "programar_cita/:citaId" },
-          { path: "ver_cita/:citaId" },
-        ],
-      },
-      {
-        path: "/paciente/",
-        children: [
-          { path: "solicitar_cita" },
-          { path: "ver_citas" },
-          { path: "aprobar_cita/:citaId" },
-          { path: "ver_cita/:citaId" },
-        ],
-      },
-      {
-        path: "/doctor/",
-        children: [
-          { path: "ver_citas" },
-          { path: "finalizar_cita/:citaId" },
-          { path: "ver_resumenes" },
-          { path: "listado_resumenes/:resumenId" },
-          { path: "ver_resumen/:resumenId" },
-        ],
-      },
-    ],
-  },
-  { path: "/login" },
-];
+export const typeUsers = { 
+  doctor: "doctor", 
+  paciente: "paciente",
+  administrador: "administrador" 
+}
+
+export const nameCookieSessionApp = 'cookie_clinica_backend'
+

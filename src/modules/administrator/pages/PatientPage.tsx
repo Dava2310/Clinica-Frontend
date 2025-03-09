@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
 import { ToastContainer } from "react-toastify";
 
-import MyModal from "../../common/alert/Modal";
+import MyModal from "../../common/components/Modal";
 import usePatient from "../hook/usePatient";
 
 const PatientPage = () => {

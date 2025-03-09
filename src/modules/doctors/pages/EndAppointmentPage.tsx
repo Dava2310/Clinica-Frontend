@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import { regexName_lastname } from "../../../utils/validators";
-import Alert from "../../common/alert/Alert";
+import Alert from "../../common/components/Alert";
 import useCreateMedicalSummary from "../hooks/useCreateMedicalSummary";
 import { mostrarFecha } from "../../../utils/utilidades";
 
