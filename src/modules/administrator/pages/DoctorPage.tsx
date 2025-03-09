@@ -67,10 +67,10 @@ const DoctorPage = () => {
                       className="bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {e.nombre} {e.apellido}
+                        {e.usuario.nombre} {e.usuario.apellido}
                       </Table.Cell>
-                      <Table.Cell>{e.cedula}</Table.Cell>
-                      <Table.Cell>{e.email}</Table.Cell>
+                      <Table.Cell>{e.usuario.cedula}</Table.Cell>
+                      <Table.Cell>{e.usuario.email}</Table.Cell>
                       <Table.Cell>{e.especialidad}</Table.Cell>
                       <Table.Cell>{e.numeroTelefono}</Table.Cell>
                       <Table.Cell className="flex gap-x-2">
@@ -102,10 +102,10 @@ const DoctorPage = () => {
                       className="bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {e.nombre} {e.apellido}
+                        {e.usuario.nombre} {e.usuario.apellido}
                       </Table.Cell>
-                      <Table.Cell>{e.cedula}</Table.Cell>
-                      <Table.Cell>{e.email}</Table.Cell>
+                      <Table.Cell>{e.usuario.cedula}</Table.Cell>
+                      <Table.Cell>{e.usuario.email}</Table.Cell>
                       <Table.Cell>{e.especialidad}</Table.Cell>
                       <Table.Cell>{e.numeroTelefono}</Table.Cell>
                       <Table.Cell className="flex gap-x-2">

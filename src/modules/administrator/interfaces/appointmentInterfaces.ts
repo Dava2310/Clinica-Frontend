@@ -21,3 +21,9 @@ interface Opciones {
   idDoctor: number;
 }
 
+export enum PanelEnum {
+  Solicitadas = 1,
+  EnProceso = 2,
+  Programadas = 3,
+}
+

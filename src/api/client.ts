@@ -2,7 +2,7 @@ import axiosInstance from '../interceptors/axiosInstance';
 import { EndPointApi } from '../types';
 
 const client = () => {
-    const get = async (endPoint: EndPointApi, signal?: AbortSignal) => {
+    const get = async (endPoint: string, signal?: AbortSignal) => {
         return axiosInstance.get(endPoint, { signal, timeout: 10000 });
     };
 
