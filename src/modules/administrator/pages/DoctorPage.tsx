@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
-import MyModal from "../../common/components/Modal";
 import { ToastContainer } from "react-toastify";
-import useDoctor from "../hook/useDoctor";
+
+import MyModal from "../../common/components/Modal";
+import useDoctor from "../hooks/useDoctor";
 
 const DoctorPage = () => {
   const {

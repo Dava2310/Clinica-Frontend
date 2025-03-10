@@ -1,9 +1,9 @@
+import { ToastContainer } from "react-toastify";
 import { regexName_lastname } from "../../../utils/validators";
 import { arrTipoSangre } from "../../../config";
 import Alert from "../../common/components/Alert";
 
-import useUpdatePatient from "../hook/useUpdatePatient";
-import { ToastContainer } from "react-toastify";
+import useUpdatePatient from "../hooks/useUpdatePatient";
 
 const UpdatePatientPage = () => {
   const { errorP, errors, onSubmit, register } = useUpdatePatient();

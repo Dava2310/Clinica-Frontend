@@ -7,7 +7,7 @@ import {
   regexName_lastname,
 } from "../../../utils/validators";
 import { arrTipoSangre } from "../../../config";
-import useCreatePatient from "../hook/useCreatePatient";
+import useCreatePatient from "../hooks/useCreatePatient";
 
 const CreatePatientPage = () => {
   const { errorP, errors, onSubmit, register } = useCreatePatient();

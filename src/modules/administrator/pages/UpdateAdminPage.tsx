@@ -1,7 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import { regexDigits, regexName_lastname } from "../../../utils/validators";
 import Alert from "../../common/components/Alert";
-import useUpdateAdmin from "../hook/useUpdateAdmin";
+import useUpdateAdmin from "../hooks/useUpdateAdmin";
 
 const UpdateAdminPage = () => {
   const { errorP, errors, onSubmit, register } = useUpdateAdmin();

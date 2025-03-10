@@ -2,7 +2,7 @@ import { ToastContainer } from "react-toastify";
 import { regexDigits, regexName_lastname } from "../../../utils/validators";
 import { arrEspecialidades } from "../../../config";
 import Alert from "../../common/components/Alert";
-import useCreateDoctor from "../hook/useCreateDoctor";
+import useCreateDoctor from "../hooks/useCreateDoctor";
 
 const CreateDoctorPage = () => {
   const { errorP, errors, onSubmit, register } = useCreateDoctor();

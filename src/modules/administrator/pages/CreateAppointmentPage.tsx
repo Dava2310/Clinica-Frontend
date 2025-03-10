@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import SeleccionarDoctor from "../components/SelectDoctor";
-import useCreateAppointment from "../hook/useCreateAppointment";
+import useCreateAppointment from "../hooks/useCreateAppointment";
 
 const CreateAppointmentPage = () => {
   const {

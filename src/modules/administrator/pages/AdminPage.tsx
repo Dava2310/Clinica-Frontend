@@ -2,8 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Table } from "flowbite-react";
 import { toaster } from "../../../utils/toaster";
 import MyModal from "../../common/components/Modal";
-import useAdmins from "../hook/useAdmin";
-import useModal from "../hook/useModal";
+import useAdmins from "../hooks/useAdmin";
+import useModal from "../hooks/useModal";
 
 const AdminPage = () => {
   const { admins, filteredAdmins, filterAdmin, deleteUser, setAdminABorrar } =

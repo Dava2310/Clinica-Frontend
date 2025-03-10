@@ -6,7 +6,7 @@ import {
 } from "../../../utils/validators";
 
 import Alert from "../../common/components/Alert";
-import useCreateAdmin from "../hook/useCreateAdmin";
+import useCreateAdmin from "../hooks/useCreateAdmin";
 
 const CreateAdminPage = () => {
   const { errorP, errors, onSubmit, register } = useCreateAdmin();

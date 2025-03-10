@@ -1,4 +1,4 @@
-import useAppointment from "../hook/useAppointment";
+import useAppointment from "../hooks/useAppointment";
 
 const AppointmentPage = () => {
   const { appointment } = useAppointment();

@@ -3,7 +3,7 @@ import { Table } from "flowbite-react";
 import { ToastContainer } from "react-toastify";
 
 import MyModal from "../../common/components/Modal";
-import usePatient from "../hook/usePatient";
+import usePatient from "../hooks/usePatient";
 
 const PatientPage = () => {
   const {
