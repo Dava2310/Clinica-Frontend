@@ -147,5 +147,11 @@ export const arrEspecialidades = [
   }
 ]
 
+export const typeUsers = { 
+  doctor: "doctor", 
+  paciente: "paciente",
+  administrador: "administrador" 
+}
+
 export const nameCookieSessionApp = 'cookie_clinica_backend'
 

@@ -1,11 +1,14 @@
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
-import { nameCookieSessionApp } from "../../../config";
-import { getCookie, deleteCookie } from "../../../utils/cookies";
-import { PropsToken } from "../../../types";
-import { useNavigate } from "react-router-dom";
-import client from "../../../api/client";
 import { useEffect, useState } from "react";
+import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
+
+import { getCookie, deleteCookie } from "../../../utils/cookies";
+import { nameCookieSessionApp } from "../../../config";
+import { PropsToken } from "../../../types";
+import client from "../../../api/client";
+
 import Logo from "../../../assets/Logo.png";
+import { ApiError } from "../interfaces/errorsApiInterface";
 
 function Header() {
   //States
@@ -14,25 +17,19 @@ function Header() {
   const apiClient = client();
 
   const logout = async () => {
-    console.log("logoutt");
     try {
       const res = await apiClient.get("/api/auth/logout");
-      console.log(res);
       if (res.status === 204) {
-        console.log("logoutt");
-
         //Eliminamos la cookie
-        if (token !== undefined) deleteCookie(nameCookieSessionApp);
-
-        const t = getCookie(nameCookieSessionApp);
-
+        if (token) deleteCookie(nameCookieSessionApp);
         //Redireccionamos al login
-        if (t === undefined) navigate("/login");
+        if (!getCookie(nameCookieSessionApp)) navigate("/login");
       }
     } catch (err) {
-      console.log(err);
+      const error = err as ApiError;
+
       //Redireccionamos por no estar autenticado
-      if (err?.response?.data.statusCode === 401) {
+      if (error?.response?.data?.statusCode === 401) {
         deleteCookie(nameCookieSessionApp);
         navigate("/login");
       }
@@ -41,10 +38,7 @@ function Header() {
 
   //Effects
   useEffect(() => {
-    const t: PropsToken = getCookie(nameCookieSessionApp);
-    if (t !== undefined) {
-      setToken(t);
-    }
+    setToken(getCookie(nameCookieSessionApp) as PropsToken);
   }, []);
 
   return (
@@ -81,17 +75,7 @@ function Header() {
           <Dropdown.Divider />
           <Dropdown.Item onClick={logout}>Cerrar Sesión</Dropdown.Item>
         </Dropdown>
-        {/* <Navbar.Toggle /> */}
       </div>
-      {/* <Navbar.Collapse>
-        <Navbar.Link href="#" active>
-          Home
-        </Navbar.Link>
-        <Navbar.Link href="#">About</Navbar.Link>
-        <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link>
-      </Navbar.Collapse> */}
     </Navbar>
   );
 }

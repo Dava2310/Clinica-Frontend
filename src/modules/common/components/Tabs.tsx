@@ -1,5 +1,3 @@
-import React from "react";
-
 type PropsTabs = {
   panel: number;
   setPanel: (panel: number) => void;
