@@ -2,7 +2,7 @@
 import axios from "axios";
 import { getCookie } from "../utils/cookies";
 import { nameCookieSessionApp } from "../config";
-// import { readError } from "../utils/readErrors";
+import { PropsToken } from "../types";
 
 const instance = axios.create({
     baseURL: 'http://127.0.0.1:4000',
@@ -11,7 +11,7 @@ const instance = axios.create({
 instance.interceptors.request.use((request) => {
     if (request.url?.includes('login') || request.url?.includes('signUp')) return request;
 
-    const token = getCookie(nameCookieSessionApp);
+    const token = getCookie(nameCookieSessionApp) as PropsToken;
     request.headers.Authorization = `Bearer ${token?.accessToken}`;
     return request;
 });
