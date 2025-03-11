@@ -1,22 +1,25 @@
 import { RouteObject } from "react-router-dom";
-import TemplatePatients from "../../components/modules/patients";
+import TemplatePatients from "../index";
 
-import ViewCitas from "../../components/modules/patients/modules/ViewCitas";
-import CreateCitas from "../../components/modules/patients/modules/CreateCitas";
-import AprobarCita from "../../components/modules/patients/modules/AprobarCita";
+import CreateAppointmentPage from "../pages/CreateAppointmentPage";
+import ApproveAppointmentPage from "../pages/ApproveAppointmentPage";
+import AppointmentsPage from "../pages/AppointmentPage";
+import AppointmentPage from "../../administrator/pages/AppointmentPage";
 
-import ListadoResumenesByPaciente from "../../components/modules/patients/modules/ListadoResumenesByPaciente";
-import VerResumenByPaciente from "../../components/modules/patients/modules/VerResumenByPaciente";
+// import ListadoResumenesByPaciente from "../../components/modules/patients/modules/ListadoResumenesByPaciente";
+// import VerResumenByPaciente from "../../components/modules/patients/modules/VerResumenByPaciente";
 
 const PatientRoutes: RouteObject = {
   path: "/paciente",
   element: <TemplatePatients />,
   children: [
-    { path: "solicitar_cita", element: <CreateCitas /> },
-    { path: "ver_citas", element: <ViewCitas /> },
-    { path: "aprobar_cita/:citaId", element: <AprobarCita /> },
-    { path: "ver_resumenes", element: <ListadoResumenesByPaciente /> },
-    { path: "ver_resumen/:resumenId", element: <VerResumenByPaciente /> },
+    { path: "solicitar_cita", element: <CreateAppointmentPage /> },
+    { path: "ver_citas", element: <AppointmentsPage /> },
+    { path: "aprobar_cita/:citaId", element: <ApproveAppointmentPage /> },
+    { path: "ver_cita/:citaId", element: <AppointmentPage /> },
+
+    // { path: "ver_resumenes", element: <ListadoResumenesByPaciente /> },
+    // { path: "ver_resumen/:resumenId", element: <VerResumenByPaciente /> },
   ],
 };
 

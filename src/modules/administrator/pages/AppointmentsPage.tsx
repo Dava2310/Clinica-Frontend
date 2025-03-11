@@ -21,9 +21,9 @@ const AppointmentsPage = () => {
     togglePanel,
     deleteAppointment,
   } = useAppointments({
-    fetchEndpoint: "/api/citas/",
+    fetchEndpoint: () => "/api/citas/",
     statusMap: estadoMap,
-    deleteEndpoint: (id: number) => `/api/citas/${id}`,
+    deleteEndpoint: (id: number) => `api/citas/cancelar/${id}`,
   });
   return (
     <>
@@ -35,6 +35,10 @@ const AppointmentsPage = () => {
             <>
               {panel === PanelEnum.Solicitadas && (
                 <AppointmentTable
+                  isDisplayed={true}
+                  labelOk="Programar"
+                  labelCancel="Cancelar"
+                  cancelable={true}
                   rows={filteredAppointments}
                   modalOpen={openModal}
                   viewPath="administrador/programar_cita"
@@ -49,9 +53,13 @@ const AppointmentsPage = () => {
 
               {panel === PanelEnum.EnProceso && (
                 <AppointmentTable
+                  isDisplayed={true}
+                  labelOk="Ver cita"
+                  labelCancel="Cancelar cita"
+                  cancelable={true}
                   rows={filteredAppointments}
                   modalOpen={openModal}
-                  viewPath="/administrador/ver_cita"
+                  viewPath="administrador/ver_cita"
                   columns={[
                     { title: "Paciente", accessor: "paciente.usuario.nombre" },
                     { title: "Servicio", accessor: "tipoServicio" },
@@ -63,9 +71,13 @@ const AppointmentsPage = () => {
 
               {panel === PanelEnum.Programadas && (
                 <AppointmentTable
+                  isDisplayed={true}
+                  labelOk="Ver cita"
+                  labelCancel="Cancelar cita"
+                  cancelable={true}
                   rows={filteredAppointments}
                   modalOpen={openModal}
-                  viewPath="/administrador/ver_cita/"
+                  viewPath="administrador/ver_cita/"
                   columns={[
                     { title: "Paciente", accessor: "paciente.usuario.nombre" },
                     { title: "Servicio", accessor: "tipoServicio" },
@@ -81,7 +93,7 @@ const AppointmentsPage = () => {
                 deleteUser={deleteAppointment}
                 openModal={isModalOpen}
                 title="¿Está seguro de cancelar la cita?"
-                textButton="Cancelar"
+                textButton="Aceptar"
               />
             </>
           ) : (

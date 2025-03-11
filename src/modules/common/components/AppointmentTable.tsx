@@ -13,9 +13,22 @@ interface Props {
   rows: AppointmentResponse[];
   modalOpen: (id: number) => void;
   viewPath: string;
+  labelOk: string;
+  isDisplayed: boolean;
+  labelCancel: string;
+  cancelable: boolean;
 }
 
-const AppointmentTable = ({ columns, rows, viewPath, modalOpen }: Props) => {
+const AppointmentTable = ({
+  columns,
+  rows,
+  viewPath,
+  labelOk,
+  isDisplayed,
+  labelCancel,
+  cancelable,
+  modalOpen,
+}: Props) => {
   const getNestedValue = (obj: any, path: string) => {
     return path.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
@@ -57,6 +70,10 @@ const AppointmentTable = ({ columns, rows, viewPath, modalOpen }: Props) => {
                 id={row.id}
                 onCancel={modalOpen}
                 viewPath={viewPath}
+                labelOk={labelOk}
+                isDisplayed={isDisplayed}
+                labelCancel={labelCancel}
+                cancelable={cancelable}
               />
             </Table.Cell>
           </Table.Row>

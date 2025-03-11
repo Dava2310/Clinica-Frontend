@@ -11,10 +11,10 @@ export interface AppointmentResponse {
   tipoServicio: string;
   paciente: PatientResponse;
   doctor: DoctorResponse
-  opciones:Opciones
+  opciones:Options[]
 }
 
-interface Opciones {
+export interface Options {
   fecha: string;
   id: number;
   idCita: number;
@@ -25,5 +25,10 @@ export enum PanelEnum {
   Solicitadas = 1,
   EnProceso = 2,
   Programadas = 3,
+}
+
+export interface AppointmentDto {
+  tipoServicio: string;
+  especialidad: string;
 }
 

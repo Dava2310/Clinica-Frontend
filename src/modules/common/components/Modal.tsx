@@ -2,15 +2,20 @@ import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 type PropsModal = {
-  title:string,
-  textButton:string,
-  openModal:boolean,
-  closeModal: () => void,
-  deleteUser: () => void
-}
+  title: string;
+  textButton: string;
+  openModal: boolean;
+  closeModal: () => void;
+  deleteUser: () => void;
+};
 
-function MyModal({title, textButton, openModal, closeModal, deleteUser}:PropsModal) {
-  
+function MyModal({
+  title,
+  textButton,
+  openModal,
+  closeModal,
+  deleteUser,
+}: PropsModal) {
   return (
     <>
       <Modal show={openModal} size="md" onClose={closeModal} popup>
@@ -22,11 +27,11 @@ function MyModal({title, textButton, openModal, closeModal, deleteUser}:PropsMod
               {title}
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={deleteUser}>
+              <Button color="blue" onClick={deleteUser}>
                 {textButton}
               </Button>
-              <Button color="gray" onClick={closeModal}>
-                No
+              <Button color="failure" onClick={closeModal}>
+                Cancelar
               </Button>
             </div>
           </div>
@@ -36,4 +41,4 @@ function MyModal({title, textButton, openModal, closeModal, deleteUser}:PropsMod
   );
 }
 
-export default MyModal
+export default MyModal;

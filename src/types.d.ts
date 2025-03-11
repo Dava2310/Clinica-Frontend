@@ -26,3 +26,5 @@ export type PropsToaster = {
     position: 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-center' | 'top-left' | 'top-right' 
 };
 
+export type Panel = 1 | 2
+

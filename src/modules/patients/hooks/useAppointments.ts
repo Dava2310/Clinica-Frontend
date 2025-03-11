@@ -10,12 +10,13 @@ import { AppointmentResponse } from "../../administrator/interfaces/appointmentI
 import { ApiError } from "../../common/interfaces/errorsApiInterface";
 
 type UseAppointmentsProps = {
-  fetchEndpoint: string;
+  id?:number;
+  fetchEndpoint: (id?:number) => string;
   deleteEndpoint: (id: number) => string;
   statusMap: Record<number, string>;
 };
 
-const useAppointments = ({ fetchEndpoint, deleteEndpoint, statusMap }: UseAppointmentsProps) => {
+const useAppointments = ({ fetchEndpoint, deleteEndpoint, statusMap, id }: UseAppointmentsProps) => {
   // States
   const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
   const [filteredAppointments, setFilteredAppointments] = useState<AppointmentResponse[]>([]);
@@ -73,8 +74,10 @@ const useAppointments = ({ fetchEndpoint, deleteEndpoint, statusMap }: UseAppoin
   };
 
   const fetchAppointments = async () => {
+    const endPoint = id ? fetchEndpoint(id) : fetchEndpoint();
+
     try {
-      const res = await apiClient.get(fetchEndpoint);
+      const res = await apiClient.get(endPoint);
       if (res.status === 200) {
         setAppointments(res.data.body.data);
       }
