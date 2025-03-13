@@ -1,25 +1,24 @@
 import axiosInstance from '../interceptors/axiosInstance';
-import { EndPointApi } from '../types';
 
 const client = () => {
-    const get = async (endPoint: string, signal?: AbortSignal) => {
-        return axiosInstance.get(endPoint, { signal, timeout: 10000 });
+    const get = async (endPoint: string,) => {
+        return axiosInstance.get(endPoint, { timeout: 10000 });
     };
 
-    const post = async (endPoint: EndPointApi, body?: FormData, signal?: AbortSignal) => {
-        return axiosInstance.post(endPoint, body, { signal });
+    const post = async (endPoint: string, body?: FormData, ) => {
+        return axiosInstance.post(endPoint, body, );
     };
 
-    const put = async (endPoint: EndPointApi, body?: FormData, signal?: AbortSignal) => {
-        return axiosInstance.put(endPoint, body, { signal });
+    const put = async (endPoint: string, body?: FormData, ) => {
+        return axiosInstance.put(endPoint, body,);
     };
 
-    const patch = async (endPoint: EndPointApi, body?: FormData, signal?: AbortSignal) => {
-        return axiosInstance.patch(endPoint, body, { signal });
+    const patch = async (endPoint: string, body?: FormData) => {
+        return axiosInstance.patch(endPoint, body);
     };
 
-    const del = async (endPoint: EndPointApi, signal?: AbortSignal) => {
-        return axiosInstance.delete(endPoint, { signal });
+    const del = async (endPoint: string) => {
+        return axiosInstance.delete(endPoint);
     };
 
     return { get, post, put, del, patch };
