@@ -1,48 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import client from "../../../../api/client";
-import { ErrorResponse, PropsToken } from "../../../../types";
-import { nameCookieSessionApp } from "../../../../config";
-import { deleteCookie, getCookie } from "../../../../utils/cookies";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Table } from "flowbite-react";
-import { ResumenesMedico } from "./ResumenesMedicos";
-import { mostrarFecha } from "../../../../utils/utilidades";
 
-const ListadoResumenesByPaciente = () => {
+import client from "../../../api/client";
+import { PropsToken } from "../../../types";
+import { nameCookieSessionApp } from "../../../config";
+import { deleteCookie, getCookie } from "../../../utils/cookies";
+import { showDate } from "../../../utils/utilidades";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
+import { MedicalSummaryResponse } from "../../doctors/interfaces/summaryInterfaces";
+
+const SummaryListPage = () => {
   //States
-  const [resumenes, setResumenes] = useState<ResumenesMedico[]>([]);
+  const [summaries, setSummaries] = useState<MedicalSummaryResponse[]>([]);
+  const token = getCookie(nameCookieSessionApp) as PropsToken;
 
   //Intances
-  const params = useParams();
   const apiClient = client();
   const navigate = useNavigate();
 
   //Functions
-  const fetchResumenes = async () => {
-    const token = getCookie(nameCookieSessionApp) as PropsToken;
+  const fetchSummaries = async () => {
     try {
       const res = await apiClient.get(`/api/resumenes/paciente/${token.id}`);
-      console.log(res);
-      if (res?.data.body.data !== undefined) {
-        setResumenes(res.data.body.data);
-      }
+      if (res.data.body.data) setSummaries(res.data.body.data);
     } catch (error) {
-      const handleError = (error: ErrorResponse) => {
+      const handleError = (error: ApiError) => {
         if (error?.response?.data?.statusCode === 401) {
           deleteCookie(nameCookieSessionApp);
           navigate("/login");
-        } else if (error?.response?.status === 404) {
-          console.log(error.response.data?.message);
         }
       };
 
-      handleError(error as ErrorResponse);
+      handleError(error as ApiError);
     }
   };
 
   useEffect(() => {
     const fetch = async () => {
-      await fetchResumenes();
+      await fetchSummaries();
     };
 
     fetch();
@@ -65,7 +61,11 @@ const ListadoResumenesByPaciente = () => {
           </label>
           <input
             type="text"
-            value={`${resumenes[0]?.paciente?.usuario?.nombre} ${resumenes[0]?.paciente?.usuario?.apellido}, C.I. ${resumenes[0]?.paciente?.usuario?.cedula} `}
+            value={`${
+              summaries.length
+                ? `${summaries[0]?.paciente?.usuario?.nombre} ${summaries[0]?.paciente?.usuario?.apellido} ${summaries[0]?.paciente?.usuario?.cedula}`
+                : ""
+            }`}
             placeholder="Ingresa un nombre"
             className="bg-gray-100 border border-gray-500 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -86,8 +86,8 @@ const ListadoResumenesByPaciente = () => {
           </Table.Head>
 
           <Table.Body className="divide-y">
-            {resumenes.length > 0 &&
-              resumenes?.map((e) => {
+            {summaries.length > 0 &&
+              summaries?.map((e) => {
                 return (
                   <Table.Row
                     key={e.id}
@@ -98,7 +98,7 @@ const ListadoResumenesByPaciente = () => {
                     </Table.Cell>
                     <Table.Cell>{e.doctor.especialidad}</Table.Cell>
                     <Table.Cell>{e.tipoServicio}</Table.Cell>
-                    <Table.Cell>{mostrarFecha(`${e.fecha}`)}</Table.Cell>
+                    <Table.Cell>{showDate(`${e.fecha}`)}</Table.Cell>
                     <Table.Cell className="flex gap-x-2">
                       <Link to={`/paciente/ver_resumen/${e.id}`}>
                         <button
@@ -119,4 +119,4 @@ const ListadoResumenesByPaciente = () => {
   );
 };
 
-export default ListadoResumenesByPaciente;
+export default SummaryListPage;

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import client from "../../../../api/client";
-import { ErrorResponse } from "../../../../types";
-import { nameCookieSessionApp } from "../../../../config";
-import { deleteCookie } from "../../../../utils/cookies";
+import client from "../../../api/client";
+import { nameCookieSessionApp } from "../../../config";
+import { deleteCookie } from "../../../utils/cookies";
+import { ApiError } from "../../common/interfaces/errorsApiInterface";
 
 export interface ResumenResponseInterface {
   data: Data;
@@ -45,7 +45,7 @@ export interface Usuario {
   tipoUsuario: string;
 }
 
-const VerResumenByPaciente = () => {
+const SummaryPage = () => {
   //States
   const [resumen, setResumen] = useState<Data>();
 
@@ -58,21 +58,16 @@ const VerResumenByPaciente = () => {
   const fetchResumen = async () => {
     try {
       const res = await apiClient.get(`/api/resumenes/${params.resumenId}`);
-      if (res?.data.body.data !== undefined) {
-        console.log(res.data.body.data);
-        setResumen(res.data.body.data);
-      }
+      if (res?.data.body.data) setResumen(res.data.body.data);
     } catch (error) {
-      const handleError = (error: ErrorResponse) => {
+      const handleError = (error: ApiError) => {
         if (error?.response?.data?.statusCode === 401) {
           deleteCookie(nameCookieSessionApp);
           navigate("/login");
-        } else if (error?.response?.status === 404) {
-          console.log(error.response.data?.message);
         }
       };
 
-      handleError(error as ErrorResponse);
+      handleError(error as ApiError);
     }
   };
 
@@ -102,7 +97,11 @@ const VerResumenByPaciente = () => {
               disabled
               type="text"
               placeholder=""
-              value={`${resumen?.paciente?.usuario?.nombre} ${resumen?.paciente?.usuario?.apellido} C.I. ${resumen?.paciente?.usuario?.cedula}`}
+              value={
+                resumen
+                  ? `${resumen?.paciente?.usuario?.nombre} ${resumen?.paciente?.usuario?.apellido} C.I. ${resumen?.paciente?.usuario?.cedula}`
+                  : ""
+              }
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -119,7 +118,7 @@ const VerResumenByPaciente = () => {
               disabled
               type="text"
               placeholder=""
-              value={`${resumen?.tipoServicio}`}
+              value={resumen ? resumen.tipoServicio : ""}
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -151,7 +150,7 @@ const VerResumenByPaciente = () => {
                   type="text"
                   disabled
                   placeholder=""
-                  value={`${resumen?.diagnostico}`}
+                  value={resumen ? resumen?.diagnostico : ""}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
@@ -168,7 +167,7 @@ const VerResumenByPaciente = () => {
                   type="text"
                   disabled
                   placeholder=""
-                  value={`${resumen?.tratamiento}`}
+                  value={resumen ? resumen.tratamiento : ""}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
@@ -183,25 +182,16 @@ const VerResumenByPaciente = () => {
                 </label>
                 <textarea
                   disabled
-                  value={resumen?.observaciones}
+                  value={resumen ? resumen.observaciones : ""}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-32"
                 ></textarea>
               </div>
             </div>
           </div>
-
-          {/* <div className="w-full flex justify-center mt-2">
-            <button
-              type="submit"
-              className="w-fit text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-8 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            >
-              Finalizar cita
-            </button>
-          </div> */}
         </form>
       </div>
     </>
   );
 };
 
-export default VerResumenByPaciente;
+export default SummaryPage;

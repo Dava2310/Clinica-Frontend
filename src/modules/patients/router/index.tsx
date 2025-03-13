@@ -5,9 +5,8 @@ import CreateAppointmentPage from "../pages/CreateAppointmentPage";
 import ApproveAppointmentPage from "../pages/ApproveAppointmentPage";
 import AppointmentsPage from "../pages/AppointmentPage";
 import AppointmentPage from "../../administrator/pages/AppointmentPage";
-
-// import ListadoResumenesByPaciente from "../../components/modules/patients/modules/ListadoResumenesByPaciente";
-// import VerResumenByPaciente from "../../components/modules/patients/modules/VerResumenByPaciente";
+import SummaryListPage from "../pages/SummaryListPage";
+import SummaryPage from "../pages/SummaryPage";
 
 const PatientRoutes: RouteObject = {
   path: "/paciente",
@@ -17,9 +16,8 @@ const PatientRoutes: RouteObject = {
     { path: "ver_citas", element: <AppointmentsPage /> },
     { path: "aprobar_cita/:citaId", element: <ApproveAppointmentPage /> },
     { path: "ver_cita/:citaId", element: <AppointmentPage /> },
-
-    // { path: "ver_resumenes", element: <ListadoResumenesByPaciente /> },
-    // { path: "ver_resumen/:resumenId", element: <VerResumenByPaciente /> },
+    { path: "ver_resumenes", element: <SummaryListPage /> },
+    { path: "ver_resumen/:resumenId", element: <SummaryPage /> },
   ],
 };
 

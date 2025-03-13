@@ -11,7 +11,7 @@ export const formatDate = (date: Date) => {
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
 };
 
-export const mostrarFecha = (date:string) => {
+export const showDate = (date:string) => {
 
   // Convertir la cadena a un objeto Date
   const fecha = new Date(date);

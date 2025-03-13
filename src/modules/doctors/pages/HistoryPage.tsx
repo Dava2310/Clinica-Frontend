@@ -1,6 +1,6 @@
 import { Table } from "flowbite-react";
 import { Link } from "react-router-dom";
-import { mostrarFecha } from "../../../utils/utilidades";
+import { showDate } from "../../../utils/utilidades";
 import useHistoryPatients from "../hooks/useHistoryPatients";
 import document from "../../../assets/document.png";
 
@@ -62,7 +62,7 @@ const HistoryPage = () => {
                     </Table.Cell>
                     <Table.Cell>{e.doctor.especialidad}</Table.Cell>
                     <Table.Cell>{e.tipoServicio}</Table.Cell>
-                    <Table.Cell>{mostrarFecha(`${e.fecha}`)}</Table.Cell>
+                    <Table.Cell>{showDate(`${e.fecha}`)}</Table.Cell>
                     <Table.Cell className="flex gap-x-2">
                       <Link to={`/doctor/ver_resumen/${e.id}`}>
                         <button

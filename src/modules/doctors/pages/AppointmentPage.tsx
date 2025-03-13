@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Table } from "flowbite-react";
-import { mostrarFecha } from "../../../utils/utilidades";
+import { showDate } from "../../../utils/utilidades";
 import useAppointment from "../hooks/useAppointment";
 import document from "../../../assets/document.png";
 
@@ -59,7 +59,7 @@ const AppointmentPage = () => {
                     </Table.Cell>
                     <Table.Cell>{e.tipoServicio}</Table.Cell>
                     <Table.Cell>{e.estado}</Table.Cell>
-                    <Table.Cell>{mostrarFecha(e.fecha)}</Table.Cell>
+                    <Table.Cell>{showDate(e.fecha)}</Table.Cell>
                     <Table.Cell>{e.paciente.numeroTelefono}</Table.Cell>
                     <Table.Cell>{e.paciente.usuario.email}</Table.Cell>
                     <Table.Cell className="flex gap-x-2">

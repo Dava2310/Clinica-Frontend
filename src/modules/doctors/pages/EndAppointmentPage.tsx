@@ -2,7 +2,7 @@ import { ToastContainer } from "react-toastify";
 import { regexName_lastname } from "../../../utils/validators";
 import Alert from "../../common/components/Alert";
 import useCreateMedicalSummary from "../hooks/useCreateMedicalSummary";
-import { mostrarFecha } from "../../../utils/utilidades";
+import { showDate } from "../../../utils/utilidades";
 
 const EndAppointmentPage = () => {
   const { errorP, errors, appointment, onSubmit, register } =
@@ -50,7 +50,7 @@ const EndAppointmentPage = () => {
               disabled
               type="text"
               placeholder=""
-              value={appointment?.fecha ? mostrarFecha(appointment?.fecha) : ""}
+              value={appointment?.fecha ? showDate(appointment?.fecha) : ""}
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
