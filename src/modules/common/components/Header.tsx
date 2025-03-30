@@ -8,6 +8,7 @@ import { PropsToken } from "../../../types";
 import client from "../../../api/client";
 
 import Logo from "../../../assets/Logo.png";
+import Cuenta from "../../../assets/cuenta.png";
 import { ApiError } from "../interfaces/errorsApiInterface";
 
 function Header() {
@@ -53,13 +54,7 @@ function Header() {
         <Dropdown
           arrowIcon={false}
           inline
-          label={
-            <Avatar
-              alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              rounded
-            />
-          }
+          label={<Avatar alt="User settings" img={Cuenta} rounded />}
         >
           <Dropdown.Header>
             <span className="block text-sm">
@@ -69,10 +64,7 @@ function Header() {
               {token?.email}
             </span>
           </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
-          <Dropdown.Item>Settings</Dropdown.Item>
-          <Dropdown.Item>Earnings</Dropdown.Item>
-          <Dropdown.Divider />
+
           <Dropdown.Item onClick={logout}>Cerrar Sesión</Dropdown.Item>
         </Dropdown>
       </div>
