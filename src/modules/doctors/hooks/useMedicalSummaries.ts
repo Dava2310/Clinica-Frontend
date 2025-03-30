@@ -1,59 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { deleteCookie, getCookie } from '../../../utils/cookies';
-import { nameCookieSessionApp } from '../../../config';
-import { PropsToken } from '../../../types';
+import { deleteCookie } from '../../../utils/cookies';
+import { nameCookieSessionApp } from '../../../config';;
 
 import client from '../../../api/client';
 import { ApiError } from '../../common/interfaces/errorsApiInterface';
-import { HistoryPatientResponse } from '../interfaces/historyPatientsInterfaces';
+import { MedicalSummaryResponse } from '../interfaces/summaryInterfaces';
 
 const useMedicalSummaries = () => {
   //States
-  const [histories, setHistories] = useState<HistoryPatientResponse[]>([]);
-  const [namePatient, setNamePatient] = useState<string>("");
-  const [historiesFilter, setHistoriesFilter] = useState<
-    HistoryPatientResponse[]
-  >([]);
+  const [summaries, setSummaries] = useState<MedicalSummaryResponse[]>([]);
 
   //Instances
   const apiClient = client();
   const navigate = useNavigate();
+  const params = useParams();
 
   //Functions
-  const onHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNamePatient(e.target.value);
-  };
 
-  const filterToPatient = () => {
-    if (namePatient === "") return setHistoriesFilter(histories);
-
-    const filter = histories.filter((h) =>
-      h.paciente.usuario.nombre
-        .toLowerCase()
-        .includes(namePatient.toLowerCase())
-    );
-
-    setHistoriesFilter(filter);
-  };
-
-  const filterHistoriesWithMedicalSummary = (arr: HistoryPatientResponse[]) => {
-    const token = getCookie(nameCookieSessionApp) as PropsToken;
-    return arr
-      .filter((h) => h.resumenesMedicos.length > 0)
-      .filter((h) =>
-        h.resumenesMedicos.filter(
-          (r) => Number(r.doctor.userId) === Number(token.id)
-        )
-      );
-  };
-
-  const fetchHistories = async () => {
+  const fetchSummaries = async () => {
     try {
-      const res = await apiClient.get(`/api/historiales/`);
+      const res = await apiClient.get(`/api/resumenes/paciente/${params.pacienteId}`);
       if (res?.data.body.data !== undefined) {
-        setHistories(filterHistoriesWithMedicalSummary(res.data.body.data));
+        setSummaries(res.data.body.data);
       }
     } catch (error) {
       const handleError = (error: ApiError) => {
@@ -70,23 +40,15 @@ const useMedicalSummaries = () => {
   //Effects
   useEffect(() => {
     const fetch = async () => {
-      await fetchHistories();
+      await fetchSummaries();
     };
 
     fetch();
   }, []);
 
-  useEffect(() => {
-    if (histories.length > 0) {
-      filterToPatient();
-    }
-  }, [histories, namePatient]);
-
   return {
-    histories,
-    namePatient,
-    historiesFilter,
-    onHandleChange,
+   summaries,
+   params
   }
 }
 
